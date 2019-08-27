@@ -36,16 +36,16 @@ export class Slack {
     const context = github.context;
     const { sha, eventName, workflow, ref } = context;
     const { owner, repo } = context.repo;
-    const url: string = `https://github.com/${owner}/${repo}`;
+    const repo_url: string = `https://github.com/${owner}/${repo}`;
+    const action_url: string = `${repo_url}/commit/${sha}/checks`;
 
     const blocks: SectionBlock = {
       type: 'section',
       fields: [
-        { type: 'mrkdwn', text: `*repo*\n<${url}|${owner}/${repo}>` },
+        { type: 'mrkdwn', text: `*repository*\n<${repo_url}|${owner}/${repo}>` },
         { type: 'mrkdwn', text: `*ref*\n${ref}` },
-        { type: 'mrkdwn', text: `*sha*\n${sha}` },
         { type: 'mrkdwn', text: `*eventName*\n${eventName}` },
-        { type: 'mrkdwn', text: `*workflow*\n${workflow}` },
+        { type: 'mrkdwn', text: `*workflow*\n<${action_url}|${workflow}>` },
       ]
     }
 
