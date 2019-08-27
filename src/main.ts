@@ -23,8 +23,8 @@ async function run() {
 
     core.debug(`Response from Slack: ${result}`);
 
-  } catch (error) {
-    core.setFailed(error.message);
+  } catch (err) {
+    core.setFailed(err);
   }
 }
 
