@@ -12,7 +12,7 @@ async function run() {
 
     core.debug(`Input variables:\n`);
     core.debug(`\tmessage: ${type}`);
-    core.debug(`\ttext: ${message}`);
+    core.debug(`\tmessage: ${message}`);
     core.debug(`\tchannel: ${channel}`);
     core.debug(`\ticon_emoji: ${icon_emoji}`);
     core.debug(`\tusername: ${username}`);

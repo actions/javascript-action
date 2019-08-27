@@ -55,7 +55,7 @@ export class Slack {
   /**
    * Generate slack payload
    */
-  protected generatePayload(status: Status, text: MrkdwnElement): IncomingWebhookSendArguments {
+  protected generatePayload(status: number, text: MrkdwnElement): IncomingWebhookSendArguments {
     const blocks: SectionBlock = { ...this.blocks, text };
     const attachments: MessageAttachment = {
       color: this.color[status],
