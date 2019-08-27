@@ -24,4 +24,3 @@ inputs:
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  env: 'SLACK_WEBHOOK'
