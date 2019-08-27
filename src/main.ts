@@ -5,21 +5,21 @@ import { getStatus } from './utils';
 async function run() {
   try {
     const type: string = core.getInput('type', { required: true });
-    const text: string = core.getInput('text') || '*The Result of Github Actions*';
+    const message: string = core.getInput('message') || '*The Result of Github Actions*';
     const channel: string = core.getInput('channel') || '#general';
     const icon_emoji: string = core.getInput('icon_emoji') || 'github';
     const username: string = core.getInput('username') || 'Github Actions';
 
     core.debug(`Input variables:\n`);
-    core.debug(`\ttype: ${type}`);
-    core.debug(`\ttext: ${text}`);
+    core.debug(`\tmessage: ${type}`);
+    core.debug(`\ttext: ${message}`);
     core.debug(`\tchannel: ${channel}`);
     core.debug(`\ticon_emoji: ${icon_emoji}`);
     core.debug(`\tusername: ${username}`);
 
     const slack = new Slack(icon_emoji, username, channel);
     const status: number = getStatus(type);
-    const result = await slack.notify(status, text);
+    const result = await slack.notify(status, message);
 
     core.debug(`Response from Slack: ${result}`);
 

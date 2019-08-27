@@ -1,4 +1,3 @@
-import { Status } from './utils';
 import * as github from '@actions/github';
 import * as core from '@actions/core';
 import { SectionBlock, MessageAttachment, MrkdwnElement } from '@slack/types';
@@ -56,10 +55,10 @@ export class Slack {
   /**
    * Generate slack payload
    */
-  protected generatePayload(type: Status, text: MrkdwnElement): IncomingWebhookSendArguments {
+  protected generatePayload(status: Status, text: MrkdwnElement): IncomingWebhookSendArguments {
     const blocks: SectionBlock = { ...this.blocks, text };
     const attachments: MessageAttachment = {
-      color: this.color[type],
+      color: this.color[status],
       blocks: [blocks]
     }
     const payload: IncomingWebhookSendArguments = {
@@ -72,9 +71,9 @@ export class Slack {
   /**
    * Notify information about github actions to Slack
    */
-  public async notify(type: Status, text: string): Promise<IncomingWebhookResult> {
+  public async notify(status: number, text: string): Promise<IncomingWebhookResult> {
     const slack_text: MrkdwnElement = { type: 'mrkdwn', text };
-    let payload: IncomingWebhookSendArguments = this.generatePayload(type, slack_text);
+    let payload: IncomingWebhookSendArguments = this.generatePayload(status, slack_text);
 
     try {
       const result = await this.client.send(payload);
