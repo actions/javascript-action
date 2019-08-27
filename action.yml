@@ -5,10 +5,9 @@ inputs:
   type:
     description: 'job status (success or failure)'
     required: true
-  message:
-    description: 'message for slack (format is markdown)'
-    required: false
-    default: '*The Result of Github Actions*'
+  job_name:
+    description: 'job name of workflow (format: markdown)'
+    required: true
   icon_emoji:
     description: 'slack icon emoji'
     required: false

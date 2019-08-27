@@ -1,5 +1,4 @@
 import * as github from '@actions/github';
-import * as core from '@actions/core';
 import { getStatus } from './utils';
 import { SectionBlock, MessageAttachment, MrkdwnElement } from '@slack/types';
 import {
@@ -42,14 +41,11 @@ export class Slack {
     const blocks: SectionBlock = {
       type: 'section',
       fields: [
-        { type: 'mrkdwn', text: `*repo*\n${repo}` },
+        { type: 'mrkdwn', text: `*repo*\n[${owner}/${repo}](${url})` },
         { type: 'mrkdwn', text: `*sha*\n${sha}` },
         { type: 'mrkdwn', text: `*eventName*\n${eventName}` },
         { type: 'mrkdwn', text: `*workflow*\n${workflow}` },
         { type: 'mrkdwn', text: `*ref*\n${ref}` },
-        { type: 'mrkdwn', text: `*action*\n${action}` },
-        { type: 'mrkdwn', text: `*owner*\n${owner}` },
-        { type: 'mrkdwn', text: `*url*\n${url}` }
       ]
     }
 
@@ -69,7 +65,7 @@ export class Slack {
       attachments: [attachments]
     }
 
-    core.debug(`payload: ${payload}`);
+    console.log(`payload: ${payload}`);
 
     return payload;
   }
@@ -77,14 +73,14 @@ export class Slack {
   /**
    * Notify information about github actions to Slack
    */
-  public async notify(type: string, message: string): Promise<IncomingWebhookResult> {
+  public async notify(type: string, job_name: string): Promise<IncomingWebhookResult> {
     const status: number = getStatus(type);
-    const slack_text: MrkdwnElement = { type: 'mrkdwn', text: message };
+    const slack_text: MrkdwnElement = { type: 'mrkdwn', text: job_name };
     let payload: IncomingWebhookSendArguments = this.generatePayload(status, slack_text);
 
     try {
       const result = await this.client.send(payload);
-      core.debug('Sent message to Slack');
+      console.log('Sent message to Slack');
       return result;
     } catch (err) {
       throw err;
