@@ -10,7 +10,7 @@ async function run() {
     const icon_emoji: string = core.getInput('icon_emoji') || 'github';
     const username: string = core.getInput('username') || 'Github Actions';
 
-    core.debug(`Input variables:\n`);
+    core.debug('Input variables:\n');
     core.debug(`\tmessage: ${type}`);
     core.debug(`\tmessage: ${message}`);
     core.debug(`\tchannel: ${channel}`);
