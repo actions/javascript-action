@@ -1,10 +1,9 @@
-name: 'Container Action Template'
-description: 'Get started with Container actions'
+name: 'Slatify'
+description: 'Slack Notification'
 author: 'homoluctus'
-name: 'Slack Notification'
 inputs:
   type:
-    description: 'job status (success or failure or ${{ job.status }})'
+    description: 'job status (success or failure)'
     required: true
   text:
     description: 'text message for slack (format is markdown)'
@@ -25,5 +24,4 @@ inputs:
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  env:
-    SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+  env: 'SLACK_WEBHOOK'
