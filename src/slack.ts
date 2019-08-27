@@ -33,8 +33,10 @@ export class Slack {
    * Get slack blocks UI
    */
   protected get blocks(): SectionBlock {
-    const { sha, eventName, workflow, ref, action } = github.context;
-    const { owner, repo } = github.context.repo;
+    const context = github.context;
+    const { sha, eventName, workflow, ref, action } = context;
+    const { owner, repo } = context.repo;
+    const url: string = `https://github.com/${owner}/${repo}`;
 
     const blocks: SectionBlock = {
       type: 'section',
@@ -45,7 +47,8 @@ export class Slack {
         { type: 'mrkdwn', text: `*workflow*\n${workflow}` },
         { type: 'mrkdwn', text: `*ref*\n${ref}` },
         { type: 'mrkdwn', text: `*action*\n${action}` },
-        { type: 'mrkdwn', text: `*owner*\n${owner}` }
+        { type: 'mrkdwn', text: `*owner*\n${owner}` },
+        { type: 'mrkdwn', text: `*url*\n${url}` }
       ]
     }
 
@@ -65,7 +68,7 @@ export class Slack {
       attachments: [attachments]
     }
 
-    core.debug(`payload: ${JSON.stringify(payload)}`);
+    core.debug(`payload: ${payload}`);
 
     return payload;
   }
