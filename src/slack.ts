@@ -13,7 +13,7 @@ if (SLACK_WEBHOOK === '') {
 
 export class Slack {
   client: IncomingWebhook;
-  protected color: string[] = ['danger', 'good'];
+  protected color: string[] = ['#cb2431', '#2cbe4e'];
 
   constructor(
     icon_emoji: string,
