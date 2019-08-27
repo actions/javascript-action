@@ -65,7 +65,7 @@ export class Slack {
       attachments: [attachments]
     }
 
-    console.log(`payload: ${JSON.stringify(payload)}`);
+    console.log(`Genetate payload for slack: ${JSON.stringify(payload)}`);
 
     return payload;
   }
