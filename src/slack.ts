@@ -34,7 +34,7 @@ export class Slack {
    */
   protected get blocks(): SectionBlock {
     const context = github.context;
-    const { sha, eventName, workflow, ref, action } = context;
+    const { sha, eventName, workflow, ref } = context;
     const { owner, repo } = context.repo;
     const url: string = `https://github.com/${owner}/${repo}`;
 
