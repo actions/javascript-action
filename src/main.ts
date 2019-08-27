@@ -18,7 +18,7 @@ async function run() {
     core.debug(`\tusername: ${username}`);
 
     const slack = new Slack(icon_emoji, username, channel);
-    const status = getStatus(type);
+    const status: number = getStatus(type);
     const result = await slack.notify(status, text);
 
     core.debug(`Response from Slack: ${result}`);

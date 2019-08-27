@@ -45,7 +45,8 @@ export class Slack {
         { type: 'mrkdwn', text: `*eventName*\n${eventName}` },
         { type: 'mrkdwn', text: `*workflow*\n${workflow}` },
         { type: 'mrkdwn', text: `*ref*\n${ref}` },
-        { type: 'mrkdwn', text: `*action*\n${action}` }
+        { type: 'mrkdwn', text: `*action*\n${action}` },
+        { type: 'mrkdwn', text: `*owner*\n${owner}` }
       ]
     }
 

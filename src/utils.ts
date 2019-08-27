@@ -1,6 +1,6 @@
 export enum Status {
-  Failure,
-  Success
+  Failure = 0,
+  Success = 1
 }
 
 export function getStatus(type: string): Status {
