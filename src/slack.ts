@@ -71,8 +71,8 @@ export class Slack {
   /**
    * Notify information about github actions to Slack
    */
-  public async notify(status: number, text: string): Promise<IncomingWebhookResult> {
-    const slack_text: MrkdwnElement = { type: 'mrkdwn', text };
+  public async notify(status: number, message: string): Promise<IncomingWebhookResult> {
+    const slack_text: MrkdwnElement = { type: 'mrkdwn', text: message };
     let payload: IncomingWebhookSendArguments = this.generatePayload(status, slack_text);
 
     try {
