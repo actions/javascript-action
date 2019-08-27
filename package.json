@@ -26,10 +26,11 @@
   "homepage": "https://github.com/actions/container-toolkit-template#readme",
   "dependencies": {
     "@actions/core": "^1.0.0",
-    "@actions/io": "^1.0.0",
     "@actions/exec": "^1.0.0",
     "@actions/github": "^1.0.0",
-    "@actions/tool-cache": "^1.0.0"
+    "@actions/io": "^1.0.0",
+    "@actions/tool-cache": "^1.0.0",
+    "@slack/webhook": "^5.0.1"
   },
   "devDependencies": {
     "@types/jest": "^24.0.13",

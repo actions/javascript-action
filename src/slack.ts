@@ -1,0 +1,84 @@
+import { Status } from './utils';
+import * as github from '@actions/github';
+import { SectionBlock, MessageAttachment, MrkdwnElement } from '@slack/types';
+import {
+  IncomingWebhook, IncomingWebhookDefaultArguments,
+  IncomingWebhookSendArguments, IncomingWebhookResult
+} from '@slack/webhook';
+
+const SLACK_WEBHOOK: string = process.env.SLACK_WEBHOOK || '';
+if (SLACK_WEBHOOK === '') {
+  throw new Error('ERROR: Missing "SLACK_WEBHOOK"\nPlease configure "SLACK_WEBHOOK" as environment variable');
+}
+
+export class Slack {
+  client: IncomingWebhook;
+  readonly color: string[] = ['danger', 'good'];
+
+  constructor(
+    icon_emoji: string,
+    username: string,
+    channel: string
+  ) {
+    const params: IncomingWebhookDefaultArguments = {
+      username,
+      icon_emoji,
+      channel
+    };
+
+    this.client = new IncomingWebhook(SLACK_WEBHOOK, params);
+  }
+
+  /**
+   * Get slack blocks UI
+   */
+  protected get blocks(): SectionBlock {
+    const { sha, eventName, workflow, ref, action } = github.context;
+    const { owner, repo } = github.context.repo;
+
+    const blocks: SectionBlock = {
+      type: 'section',
+      fields: [
+        { type: 'mrkdwn', text: `*repo*\n${repo}` },
+        { type: 'mrkdwn', text: `*sha*\n${sha}` },
+        { type: 'mrkdwn', text: `*eventName*\n${eventName}` },
+        { type: 'mrkdwn', text: `*workflow*\n${workflow}` },
+        { type: 'mrkdwn', text: `*ref*\n${ref}` },
+        { type: 'mrkdwn', text: `*action*\n${action}` }
+      ]
+    }
+
+    return blocks;
+  }
+
+  /**
+   * Generate slack payload
+   */
+  protected generatePayload(type: Status, text: MrkdwnElement): IncomingWebhookSendArguments {
+    const blocks: SectionBlock = { ...this.blocks, text };
+    const attachments: MessageAttachment = {
+      color: this.color[type],
+      blocks: [blocks]
+    }
+    const payload: IncomingWebhookSendArguments = {
+      attachments: [attachments]
+    }
+
+    return payload;
+  }
+
+  /**
+   * Notify information about github actions to Slack
+   */
+  public async notify(type: Status, text: string): Promise<IncomingWebhookResult> {
+    const slack_text: MrkdwnElement = { type: 'mrkdwn', text };
+    let payload: IncomingWebhookSendArguments = this.generatePayload(type, slack_text);
+
+    try {
+      const result = await this.client.send(payload);
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  }
+}

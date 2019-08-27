@@ -1,2 +1,6 @@
 package-lock.json
 node_modules
+docker-compose.yml
+.node_repl_history
+.config/
+.npm/
