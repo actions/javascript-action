@@ -1,6 +1,5 @@
 import * as core from '@actions/core';
 import { Slack } from './slack';
-import { getStatus } from './utils';
 
 async function run() {
   try {
@@ -18,8 +17,7 @@ async function run() {
     core.debug(`\tusername: ${username}`);
 
     const slack = new Slack(icon_emoji, username, channel);
-    const status: number = getStatus(type);
-    const result = await slack.notify(status, message);
+    const result = await slack.notify(type, message);
 
     core.debug(`Response from Slack: ${result}`);
 

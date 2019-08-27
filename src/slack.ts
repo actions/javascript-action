@@ -1,5 +1,6 @@
 import * as github from '@actions/github';
 import * as core from '@actions/core';
+import { getStatus } from './utils';
 import { SectionBlock, MessageAttachment, MrkdwnElement } from '@slack/types';
 import {
   IncomingWebhook, IncomingWebhookDefaultArguments,
@@ -76,7 +77,8 @@ export class Slack {
   /**
    * Notify information about github actions to Slack
    */
-  public async notify(status: number, message: string): Promise<IncomingWebhookResult> {
+  public async notify(type: string, message: string): Promise<IncomingWebhookResult> {
+    const status: number = getStatus(type);
     const slack_text: MrkdwnElement = { type: 'mrkdwn', text: message };
     let payload: IncomingWebhookSendArguments = this.generatePayload(status, slack_text);
 
