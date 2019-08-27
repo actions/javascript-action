@@ -41,11 +41,11 @@ export class Slack {
     const blocks: SectionBlock = {
       type: 'section',
       fields: [
-        { type: 'mrkdwn', text: `*repo*\n[${owner}/${repo}](${url})` },
+        { type: 'mrkdwn', text: `*repo*\n<${url}|${owner}/${repo}>` },
+        { type: 'mrkdwn', text: `*ref*\n${ref}` },
         { type: 'mrkdwn', text: `*sha*\n${sha}` },
         { type: 'mrkdwn', text: `*eventName*\n${eventName}` },
         { type: 'mrkdwn', text: `*workflow*\n${workflow}` },
-        { type: 'mrkdwn', text: `*ref*\n${ref}` },
       ]
     }
 
@@ -65,7 +65,7 @@ export class Slack {
       attachments: [attachments]
     }
 
-    console.log(`payload: ${payload}`);
+    console.log(`payload: ${JSON.stringify(payload)}`);
 
     return payload;
   }

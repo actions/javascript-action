@@ -12,7 +12,7 @@ async function run() {
     const slack = new Slack(icon_emoji, username, channel);
     const result = await slack.notify(type, job_name);
 
-    console.log(`Response from Slack: ${result}`);
+    console.log(`Response from Slack: ${JSON.stringify(result)}`);
 
   } catch (err) {
     console.log(err);
