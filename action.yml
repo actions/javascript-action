@@ -22,5 +22,5 @@ inputs:
     required: false
     default: 'Github Actions'
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: 'node12'
+  main: 'lib/main.js'
