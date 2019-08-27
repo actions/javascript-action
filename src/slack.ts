@@ -65,6 +65,8 @@ export class Slack {
       attachments: [attachments]
     }
 
+    core.debug(`payload: ${JSON.stringify(payload)}}`);
+
     return payload;
   }
 
