@@ -1,5 +1,6 @@
 import { Status } from './utils';
 import * as github from '@actions/github';
+import * as core from '@actions/core';
 import { SectionBlock, MessageAttachment, MrkdwnElement } from '@slack/types';
 import {
   IncomingWebhook, IncomingWebhookDefaultArguments,
@@ -76,6 +77,7 @@ export class Slack {
 
     try {
       const result = await this.client.send(payload);
+      core.debug('Sent message to Slack');
       return result;
     } catch (err) {
       throw err;
