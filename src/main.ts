@@ -17,7 +17,7 @@ async function run() {
     }
 
     const status: Status = getStatus(type);
-    const slack = new Slack(username, icon_emoji, channel);
+    const slack = new Slack(SLACK_WEBHOOK, username, icon_emoji, channel);
     const result = await slack.notify(status, job_name);
 
     core.debug(`Response from Slack: ${JSON.stringify(result)}`);
