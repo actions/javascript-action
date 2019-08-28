@@ -14,6 +14,8 @@ jobs:
       - name: Setup TS
         run: npm install tslint typescript -g
 
+      - run: exit 1
+
       - name: Lint check with tslint
         run: tslint './src/*.ts'
 
