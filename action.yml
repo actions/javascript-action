@@ -1,5 +1,5 @@
 name: 'Slatify'
-description: 'Slack Notification'
+description: 'Slack Notification for Github Actions'
 author: 'homoluctus'
 inputs:
   type:
@@ -8,6 +8,10 @@ inputs:
   job_name:
     description: 'job name of workflow (format: markdown)'
     required: true
+  username:
+    description: 'slack username'
+    required: false
+    default: 'Github Actions'
   icon_emoji:
     description: 'slack icon emoji'
     required: false
@@ -16,10 +20,9 @@ inputs:
     description: 'slack channel'
     required: false
     default: '#general'
-  username:
-    description: 'slack username'
-    required: false
-    default: 'Github Actions'
 runs:
   using: 'node12'
   main: 'lib/main.js'
+branding:
+  icon: 'slack'
+  color: 'white'

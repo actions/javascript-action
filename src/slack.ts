@@ -1,34 +1,23 @@
 import * as github from '@actions/github';
-import { getStatus } from './utils';
+import * as core from '@actions/core';
+import { Status } from './utils';
 import { SectionBlock, MessageAttachment, MrkdwnElement } from '@slack/types';
 import {
-  IncomingWebhook, IncomingWebhookDefaultArguments,
-  IncomingWebhookSendArguments, IncomingWebhookResult
+  IncomingWebhook, IncomingWebhookSendArguments,
+  IncomingWebhookResult
 } from '@slack/webhook';
 
-const SLACK_WEBHOOK: string = process.env.SLACK_WEBHOOK || '';
-if (SLACK_WEBHOOK === '') {
-  throw new Error('ERROR: Missing "SLACK_WEBHOOK"\nPlease configure "SLACK_WEBHOOK" as environment variable');
-}
-
-export class Slack {
-  client: IncomingWebhook;
-  // index 0: failure 1: success
-  protected color: string[] = ['#cb2431', '#2cbe4e'];
-  // protected status_emoji: string[] = [':x:', ':white_check_mark:']
+export class Slack extends IncomingWebhook {
+  // 0: failure, 1: success
+  static readonly color: string[] = ['#cb2431', '#2cbe4e'];
 
   constructor(
-    icon_emoji: string,
-    username: string,
-    channel: string
+    url: string,
+    username: string = 'Github Actions',
+    icon_emoji: string = 'github',
+    channel: string = '#general'
   ) {
-    const params: IncomingWebhookDefaultArguments = {
-      username,
-      icon_emoji,
-      channel
-    };
-
-    this.client = new IncomingWebhook(SLACK_WEBHOOK, params);
+    super(url, {username, icon_emoji, channel});
   }
 
   /**
@@ -46,7 +35,7 @@ export class Slack {
       fields: [
         { type: 'mrkdwn', text: `*repository*\n<${repo_url}|${owner}/${repo}>` },
         { type: 'mrkdwn', text: `*ref*\n${ref}` },
-        { type: 'mrkdwn', text: `*eventName*\n${eventName}` },
+        { type: 'mrkdwn', text: `*event name*\n${eventName}` },
         { type: 'mrkdwn', text: `*workflow*\n<${action_url}|${workflow}>` },
       ]
     }
@@ -57,17 +46,18 @@ export class Slack {
   /**
    * Generate slack payload
    */
-  protected generatePayload(status: number, text: MrkdwnElement): IncomingWebhookSendArguments {
-    const blocks: SectionBlock = { ...this.blocks, text };
+  protected generatePayload(status: Status, text: string): IncomingWebhookSendArguments {
+    const text_for_slack: MrkdwnElement = { type: 'mrkdwn', text };
+    const blocks: SectionBlock = { ...this.blocks, text: text_for_slack };
     const attachments: MessageAttachment = {
-      color: this.color[status - 1],
+      color: Slack.color[status],
       blocks: [blocks]
     }
     const payload: IncomingWebhookSendArguments = {
       attachments: [attachments]
     }
 
-    console.log(`Genetate payload for slack: ${JSON.stringify(payload)}`);
+    core.debug(`Generated payload for slack: ${JSON.stringify(payload)}`);
 
     return payload;
   }
@@ -75,14 +65,13 @@ export class Slack {
   /**
    * Notify information about github actions to Slack
    */
-  public async notify(type: string, job_name: string): Promise<IncomingWebhookResult> {
-    const status: number = getStatus(type);
-    const slack_text: MrkdwnElement = { type: 'mrkdwn', text: job_name };
-    let payload: IncomingWebhookSendArguments = this.generatePayload(status, slack_text);
-
+  public async notify(status: Status, text: string): Promise<IncomingWebhookResult> {
     try {
-      const result = await this.client.send(payload);
-      console.log('Sent message to Slack');
+      const payload: IncomingWebhookSendArguments = this.generatePayload(status, text);
+      const result = await this.send(payload);
+
+      core.debug('Sent message to Slack');
+
       return result;
     } catch (err) {
       throw err;
