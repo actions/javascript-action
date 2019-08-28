@@ -23,6 +23,7 @@ async function run() {
     core.debug(`Response from Slack: ${JSON.stringify(result)}`);
 
   } catch (err) {
+    console.log(err)
     core.setFailed(err.message);
   }
 }
