@@ -1,4 +1,4 @@
-on: [pull, pull_request]
+on: [push, pull_request]
 name: TS Lint Check
 jobs:
   lint:
