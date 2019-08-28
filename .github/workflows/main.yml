@@ -1,0 +1,28 @@
+on: [pull, pull_request]
+name: TS Lint Check
+jobs:
+  lint:
+    name: Lint Check
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Setup TS
+        uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+        run: npm install tslint typescript -g
+
+      - name: Lint check with tslint
+        run: |
+          tslint './src/*.ts'
+
+      - name: Slack Notification
+        uses: homoluctus/slatify@master
+        if: always()
+        with:
+          type: ${{ job.status }}
+          job_name: '*Lint Check*'
+          channel: '#random'
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
