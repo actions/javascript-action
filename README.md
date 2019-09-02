@@ -1,12 +1,12 @@
 # Slatify
-This is Slack Notification for Github Actions.<br>
+This is Slack Notification for GitHub Actions.<br>
 Generated from [actions/container-toolkit-template](https://github.com/actions/container-toolkit-template).
 
 # Feature
-- Notify the result of Github Actions
+- Notify the result of GitHub Actions
 
 # How to use
-First of all, you need to set Github secrets for SLACK_WEBHOOK that is Incoming Webhook URL.<br>
+First of all, you need to set GitHub secrets for SLACK_WEBHOOK that is Incoming Webhook URL.<br>
 You can customize the following parameters:
 - type (required)
 - job_name (required)
