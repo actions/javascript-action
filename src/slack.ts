@@ -64,7 +64,8 @@ export class Slack extends IncomingWebhook {
     }
     const payload: IncomingWebhookSendArguments = {
       blocks: [first_blocks],
-      attachments: [attachments]
+      attachments: [attachments],
+      unfurl_links: true
     }
 
     core.debug(`Generated payload for slack: ${JSON.stringify(payload)}`);
