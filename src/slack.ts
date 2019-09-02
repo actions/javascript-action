@@ -10,6 +10,8 @@ import {
 export class Slack extends IncomingWebhook {
   // 0: failure, 1: success
   static readonly color: string[] = ['#cb2431', '#2cbe4e'];
+  static readonly mark: string[] = [':x:', ':white_check_mark:']
+  static readonly msg: string[] = ['Failure', 'Success']
 
   constructor(
     url: string,
@@ -48,12 +50,20 @@ export class Slack extends IncomingWebhook {
    */
   protected generatePayload(status: Status, text: string): IncomingWebhookSendArguments {
     const text_for_slack: MrkdwnElement = { type: 'mrkdwn', text };
-    const blocks: SectionBlock = { ...this.blocks, text: text_for_slack };
+    const first_blocks: SectionBlock = {
+      type: 'section',
+      text: {
+        type: 'mrkdwn',
+        text: `${Slack.mark[status]} GitHub Actions ${Slack.msg[status]}`
+      }
+    }
+    const secondary_blocks: SectionBlock = { ...this.blocks, text: text_for_slack };
     const attachments: MessageAttachment = {
       color: Slack.color[status],
-      blocks: [blocks]
+      blocks: [secondary_blocks]
     }
     const payload: IncomingWebhookSendArguments = {
+      blocks: [first_blocks],
       attachments: [attachments]
     }
 
