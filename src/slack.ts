@@ -48,22 +48,16 @@ export class Slack extends IncomingWebhook {
   /**
    * Generate slack payload
    */
-  protected generatePayload(status: Status, text: string): IncomingWebhookSendArguments {
-    const text_for_slack: MrkdwnElement = { type: 'mrkdwn', text };
-    const first_blocks: SectionBlock = {
-      type: 'section',
-      text: {
-        type: 'mrkdwn',
-        text: `${Slack.mark[status]} GitHub Actions ${Slack.msg[status]}`
-      }
-    }
-    const secondary_blocks: SectionBlock = { ...this.blocks, text: text_for_slack };
+  protected generatePayload(status: Status, msg: string): IncomingWebhookSendArguments {
+    const blocks_text: MrkdwnElement = { type: 'mrkdwn', text: msg };
+    const text: string = `${Slack.mark[status]} GitHub Actions ${Slack.msg[status]}`;
+    const blocks: SectionBlock = { ...this.blocks, text: blocks_text };
     const attachments: MessageAttachment = {
       color: Slack.color[status],
-      blocks: [secondary_blocks]
+      blocks: [blocks]
     }
     const payload: IncomingWebhookSendArguments = {
-      blocks: [first_blocks],
+      text,
       attachments: [attachments],
       unfurl_links: true
     }
@@ -76,9 +70,9 @@ export class Slack extends IncomingWebhook {
   /**
    * Notify information about github actions to Slack
    */
-  public async notify(status: Status, text: string): Promise<IncomingWebhookResult> {
+  public async notify(status: Status, msg: string): Promise<IncomingWebhookResult> {
     try {
-      const payload: IncomingWebhookSendArguments = this.generatePayload(status, text);
+      const payload: IncomingWebhookSendArguments = this.generatePayload(status, msg);
       const result = await this.send(payload);
 
       core.debug('Sent message to Slack');
