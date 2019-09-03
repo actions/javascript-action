@@ -1,6 +1,11 @@
-on: [push, pull_request]
-  paths:
-    - src/*
+on:
+  push:
+    paths:
+      - src/*
+
+  pull_request:
+    paths:
+      - src/*
 
 name: TS Lint Check
 
