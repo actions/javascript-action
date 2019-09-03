@@ -1,5 +1,9 @@
 on: [push, pull_request]
+  paths:
+    - src/*
+
 name: TS Lint Check
+
 jobs:
   lint:
     name: Lint Check
@@ -23,6 +27,6 @@ jobs:
         with:
           type: ${{ job.status }}
           job_name: '*Lint Check*'
-          channel: '#random'
+          channel: '#develop'
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
