@@ -8,11 +8,14 @@ Generated from [actions/container-toolkit-template](https://github.com/actions/c
 # How to use
 First of all, you need to set GitHub secrets for SLACK_WEBHOOK that is Incoming Webhook URL.<br>
 You can customize the following parameters:
-- type (required)
-- job_name (required)
-- icon_emoji (optional)
-- username (optional)
-- channel (optional)
+
+|with parameter|required/optional|description|
+|:--:|:--:|:--|
+|type|required|GitHub Actions job is success or failure<br>This parameter value must contain 'success' or 'fail'<br>We recommend using ${{ job.status }}|
+|job_name|required|Means slack notification title|
+|icon_emoji|optional|Slack icon<br>default: github|
+|username|optional|Slack username<br>default: Github Actions|
+|channel|optional|Slack channel name<br>default: #general|
 
 Please refer `action.yml` for more details.
 
