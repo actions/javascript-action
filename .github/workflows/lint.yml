@@ -25,12 +25,3 @@ jobs:
 
       - name: Lint check with tslint
         run: tslint './src/*.ts'
-
-      - name: Slack Notification
-        uses: homoluctus/slatify@master
-        if: always()
-        with:
-          type: ${{ job.status }}
-          job_name: '*Lint Check*'
-          channel: '#develop'
-          url: ${{ secrets.SLACK_WEBHOOK }}
