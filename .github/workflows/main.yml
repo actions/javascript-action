@@ -33,5 +33,4 @@ jobs:
           type: ${{ job.status }}
           job_name: '*Lint Check*'
           channel: '#develop'
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          url: ${{ secrets.SLACK_WEBHOOK }}
