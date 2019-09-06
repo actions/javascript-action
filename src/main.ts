@@ -9,15 +9,18 @@ async function run() {
     const username: string = core.getInput('username') || 'Github Actions';
     const icon_emoji: string = core.getInput('icon_emoji') || 'github';
     const channel: string = core.getInput('channel') || '#general';
+    const url: string = core.getInput('url') || process.env.SLACK_WEBHOOK || '';
 
-    const SLACK_WEBHOOK: string = process.env.SLACK_WEBHOOK || '';
-
-    if (SLACK_WEBHOOK === '') {
-      throw new Error('ERROR: Missing "SLACK_WEBHOOK"\nPlease configure "SLACK_WEBHOOK" as environment variable');
+    if (url === '') {
+      throw new Error(`
+        ERROR: Missing Slack Incoming Webhooks URL.
+        Please configure "SLACK_WEBHOOK" as environment variable or
+        specify the key called "url" in "with" section.
+      `);
     }
 
     const status: Status = getStatus(type);
-    const slack = new Slack(SLACK_WEBHOOK, username, icon_emoji, channel);
+    const slack = new Slack(url, username, icon_emoji, channel);
     const result = await slack.notify(status, job_name);
 
     core.debug(`Response from Slack: ${JSON.stringify(result)}`);
