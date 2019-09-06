@@ -16,6 +16,7 @@ You can customize the following parameters:
 |icon_emoji|optional|Slack icon<br>default: github|
 |username|optional|Slack username<br>default: Github Actions|
 |channel|optional|Slack channel name<br>default: #general|
+|url|optional|Slack Incoming Webhooks URL<br>Please specify this key or SLACK_WEBHOOK environment variable<br>※SLACK_WEBHOOK will be deprecated|
 
 Please refer `action.yml` for more details.
 
