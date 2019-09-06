@@ -1,0 +1,15 @@
+on: push
+name: Check if GitHub Actions works properly
+jobs:
+  check:
+    name: Check action
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Slack Notification
+        uses: homoluctus/slatify@v1
+        if: always()
+        with:
+          type: ${{ job.status }}
+          job_name: '*Lint Check*'
+          channel: '#develop'
+          url: ${{ secrets.SLACK_WEBHOOK }}
