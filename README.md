@@ -1,6 +1,6 @@
 # Slatify
 This is Slack Notification for GitHub Actions.<br>
-Generated from [actions/container-toolkit-template](https://github.com/actions/container-toolkit-template).
+Generated from [actions/javascript-template](https://github.com/actions/javascript-template).
 
 # Feature
 - Notify the result of GitHub Actions
