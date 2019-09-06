@@ -25,4 +25,4 @@ runs:
   main: 'lib/main.js'
 branding:
   icon: 'bell'
-  color: 'white'
+  color: 'green'
