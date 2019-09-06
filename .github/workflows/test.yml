@@ -1,0 +1,22 @@
+on:
+  push:
+    branches:
+      - releases/v1
+
+name: Check if GitHub Actions works properly
+
+jobs:
+  check:
+    name: Check action
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Slack Notification
+        uses: homoluctus/slatify@releases/v1
+        if: always()
+        with:
+          type: ${{ job.status }}
+          job_name: ':robot_face: *Check action*'
+          channel: '#develop'
+          url: ${{ secrets.SLACK_WEBHOOK }}

@@ -20,6 +20,9 @@ inputs:
     description: 'slack channel'
     required: false
     default: '#general'
+  url:
+    description: 'slack incoming webhook url'
+    required: false
 runs:
   using: 'node12'
   main: 'lib/main.js'
