@@ -29,8 +29,7 @@ Please refer `action.yml` for more details.
     type: ${{ job.status }}
     job_name: '*Lint Check*'
     channel: '#random'
-  env:
-    SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+    url: ${{ secrets.SLACK_WEBHOOK }}
 ```
 
 # Slack UI Example
@@ -45,3 +44,7 @@ Please refer `action.yml` for more details.
 ## Preview
 
 <img src="./preview.png" alt="Notification Preview">
+
+# LICENSE
+
+[The MIT License (MIT)](https://github.com/homoluctus/slatify/blob/master/LICENSE)
