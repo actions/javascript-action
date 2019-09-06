@@ -32,12 +32,12 @@ Please refer `action.yml` for more details.
     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 ```
 
-# Slack UI
-## success
+# Slack UI Example
+## Success Case
 
 <img src="./github_actions_success.png" alt="github actions success pattern">
 
-## failure
+## Failure Case
 
 <img src="./github_actions_failure.png" alt="github actions failure pattern">
 
