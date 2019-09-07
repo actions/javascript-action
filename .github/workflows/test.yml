@@ -1,7 +1,4 @@
-on:
-  push:
-    branches:
-      - releases/v1
+on: pull_request
 
 name: Check if GitHub Actions works properly
 
