@@ -15,5 +15,5 @@ jobs:
         with:
           type: ${{ job.status }}
           job_name: ':robot_face: *Check action*'
-          channel: '#develop'
+          #channel: '#develop'
           url: ${{ secrets.SLACK_WEBHOOK }}
