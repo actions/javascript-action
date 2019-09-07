@@ -1,9 +1,11 @@
 on:
   pull_request:
-    - master
+    branches:
+      - master
 
   push:
-    - test
+    branches:
+      - test
 
 name: Check if GitHub Actions works properly
 
