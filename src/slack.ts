@@ -15,9 +15,9 @@ export class Slack extends IncomingWebhook {
 
   constructor(
     url: string,
-    username: string = 'Github Actions',
-    icon_emoji: string = 'github',
-    channel: string = '#general'
+    username: string,
+    icon_emoji: string,
+    channel: string
   ) {
     super(url, {username, icon_emoji, channel});
   }

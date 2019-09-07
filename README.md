@@ -20,7 +20,7 @@ You can customize the following parameters:
 |job_name|required|Means slack notification title|
 |icon_emoji|optional|Slack icon<br>default: github|
 |username|optional|Slack username<br>default: Github Actions|
-|channel|optional|Slack channel name<br>default: #general|
+|channel|optional|Slack channel name<br>When you does not specify, we use the channel that is set in Slack Incoming Webhook|
 |url|optional|Slack Incoming Webhooks URL<br>Please specify this key or SLACK_WEBHOOK environment variable<br>※SLACK_WEBHOOK will be deprecated|
 
 Please refer `action.yml` for more details.

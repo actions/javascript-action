@@ -8,7 +8,7 @@ async function run() {
     const job_name: string = core.getInput('job_name', { required: true });
     const username: string = core.getInput('username') || 'Github Actions';
     const icon_emoji: string = core.getInput('icon_emoji') || 'github';
-    const channel: string = core.getInput('channel') || '#general';
+    const channel: string = core.getInput('channel');
     const url: string = core.getInput('url') || process.env.SLACK_WEBHOOK || '';
 
     if (url === '') {
