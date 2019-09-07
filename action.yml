@@ -19,7 +19,6 @@ inputs:
   channel:
     description: 'slack channel'
     required: false
-    default: '#general'
   url:
     description: 'slack incoming webhook url'
     required: false
