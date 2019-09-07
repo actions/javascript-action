@@ -1,4 +1,9 @@
 # Slatify
+
+![build](https://action-badges.now.sh/homoluctus/slatify?color=brightgreen)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/homoluctus/slatify?color=brightgreen)
+![GitHub](https://img.shields.io/github/license/homoluctus/slatify?color=brightgreen)
+
 This is Slack Notification for GitHub Actions.<br>
 Generated from [actions/javascript-template](https://github.com/actions/javascript-template).
 
