@@ -40,15 +40,19 @@ Please refer `action.yml` for more details.
 # Slack UI Example
 ## Success Case
 
-<img src="./github_actions_success.png" alt="github actions success pattern">
+<img src="./images/github_actions_success.png" alt="github actions success pattern">
 
 ## Failure Case
 
-<img src="./github_actions_failure.png" alt="github actions failure pattern">
+<img src="./images/github_actions_failure.png" alt="github actions failure pattern">
+
+## Cancel Case
+
+<img src="./images/github_actions_cancel.png" alt="github actions cancel pattern">
 
 ## Preview
 
-<img src="./preview.png" alt="Notification Preview">
+<img src="./images/preview.png" alt="Notification Preview">
 
 # LICENSE
 
