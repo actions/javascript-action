@@ -16,7 +16,7 @@ You can customize the following parameters:
 
 |with parameter|required/optional|description|
 |:--:|:--:|:--|
-|type|required|GitHub Actions job is success or failure<br>This parameter value must contain 'success' or 'fail'<br>We recommend using ${{ job.status }}|
+|type|required|The result of GitHub Actions job<br>This parameter value must contain `success`, `fail` or `cancel`<br>We recommend using ${{ job.status }}|
 |job_name|required|Means slack notification title|
 |icon_emoji|optional|Slack icon<br>default: github|
 |username|optional|Slack username<br>default: Github Actions|
