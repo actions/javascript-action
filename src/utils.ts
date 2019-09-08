@@ -14,7 +14,7 @@ export function getStatus(status: string): Status {
   } else if (lowercase_status.includes('cancel')) {
     return Status.Cancel;
   } else {
-    throw new Error('Allow words that contain "success" or "fail"');
+    throw new Error('Allow words that contain "success", "fail" or "cancel"');
   }
 }
 
