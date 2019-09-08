@@ -8,10 +8,10 @@ import {
 } from '@slack/webhook';
 
 export class Slack extends IncomingWebhook {
-  // 0: failure, 1: success
-  static readonly color: string[] = ['#cb2431', '#2cbe4e'];
-  static readonly mark: string[] = [':x:', ':white_check_mark:']
-  static readonly msg: string[] = ['Failure', 'Success']
+  // 0: failure, 1: success, 2: cancel
+  static readonly color: string[] = ['#cb2431', '#2cbe4e', '#ffc107'];
+  static readonly mark: string[] = [':x:', ':white_check_mark:', ':warning:']
+  static readonly msg: string[] = ['Failure', 'Success', 'Cancel']
 
   constructor(
     url: string,
