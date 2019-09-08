@@ -11,12 +11,18 @@ export function getStatus(status: string): Status {
     return Status.Success;
   } else if (lowercase_status.includes('fail')) {
     return Status.Failure;
+  } else if (lowercase_status.includes('cancel')) {
+    return Status.Cancel;
   } else {
     throw new Error('Allow words that contain "success" or "fail"');
   }
 }
 
+/**
+ * Job status
+ */
 export enum Status {
   Failure = 0,
-  Success = 1
+  Success = 1,
+  Cancel = 2
 }
