@@ -1,3 +1,5 @@
+name: TS Lint Check
+
 on:
   pull_request:
     paths:
@@ -6,8 +8,6 @@ on:
   push:
     branches:
       - master
-
-name: TS Lint Check
 
 jobs:
   lint:
