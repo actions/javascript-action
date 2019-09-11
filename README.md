@@ -53,6 +53,22 @@ run()
 
 See the [toolkit documentation](https://github.com/actions/toolkit/blob/master/README.md#packages) for the various packages.
 
+## Publish to a distribution branch
+
+Comment out node_modules in .gitignore
+```bash
+# Dependency directories
+# node_modules/
+```
+
+```bash
+$ git checkout -b releases/v1
+```
+
+```bash
+$ npm prune --production
+```
+
 ## Usage:
 
 The uses path will be the org and repo where you create your action
