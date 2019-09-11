@@ -1,6 +1,6 @@
-# JavaScript Action Template
+# Create a JavaScript Action
 
-A template to bootstrap the creation of a JavaScript action with tests, linting, a validation workflow and publishing scripts.
+:rocket: Use this template to bootstrap the creation of a JavaScript action with tests, linting, a validation workflow and publishing.
 
 ## Create an action from this template
 
