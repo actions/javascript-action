@@ -74,7 +74,7 @@ $ git commit -a -m "prod dependencies"
 
 ```bash
 $ npm prune --production
-$ git add node_modules/
+$ git add node_modules
 $ git commit -a -m "prod dependencies"
 $ git push origin releases/v1
 ```
