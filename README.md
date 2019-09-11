@@ -1,6 +1,6 @@
 # Create a JavaScript Action
 
-:rocket: Use this template to bootstrap the creation of a JavaScript action with tests, linting, a validation workflow and publishing.
+Use this template to bootstrap the creation of a JavaScript action with tests, linting, a validation workflow and publishing. :rocket: 
 
 This walk through takes you through creation, testing and publishing the action.
 
@@ -14,6 +14,7 @@ Click the `Use this Template` and provide the new repo details for your action
 $ npm install
 ```
 
+Run the tests :heavy_check_mark:  
 ```bash
 $ npm test
 
@@ -76,6 +77,8 @@ $ git add node_modules/
 $ git commit -a -m "prod dependencies"
 $ git push origin releases/v1
 ```
+
+Your action is now published! :rocket: 
 
 See the [versioning documentation](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
 
