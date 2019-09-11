@@ -12,6 +12,6 @@ jobs:
 
     - run: npm ci
     - run: npm test
-    - uses: actions/javascript-action@v1
+    - uses: actions/javascript-action@releases/v1
       with: 
         milliseconds: 1000
