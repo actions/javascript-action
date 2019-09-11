@@ -1,5 +1,8 @@
 name: "Run JavaScript Action"
-on: [pull_request, push]
+on:
+  push:
+    branches:    
+      - 'releases/*'   # only run in release distribution branches
 
 jobs:
   test:
