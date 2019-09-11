@@ -3,6 +3,10 @@ on:
     paths:
       - src/*
 
+  push:
+    branches:
+      - master
+
 name: TS Lint Check
 
 jobs:
