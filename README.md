@@ -16,14 +16,14 @@ Generated from [actions/javascript-template](https://github.com/actions/javascri
 First of all, you need to set GitHub secrets for SLACK_WEBHOOK that is Incoming Webhook URL.<br>
 You can customize the following parameters:
 
-|with parameter|required/optional|description|
-|:--:|:--:|:--|
-|type|required|The result of GitHub Actions job<br>This parameter value must contain `success`, `fail` or `cancel`<br>We recommend using ${{ job.status }}|
-|job_name|required|Means slack notification title|
-|icon_emoji|optional|Slack icon<br>default: github|
-|username|optional|Slack username<br>default: Github Actions|
-|channel|optional|Slack channel name<br>When you does not specify, we use the channel that is set in Slack Incoming Webhook|
-|url|optional|Slack Incoming Webhooks URL<br>Please specify this key or SLACK_WEBHOOK environment variable<br>※SLACK_WEBHOOK will be deprecated|
+|with parameter|required/optional|default|description|
+|:--:|:--:|:--|:--|
+|type|required|N/A|The result of GitHub Actions job<br>This parameter value must contain `success`, `fail` or `cancel`<br>We recommend using ${{ job.status }}|
+|job_name|required|N/A|Means slack notification title|
+|icon_emoji|optional|github|Slack icon|
+|username|optional|Github Actions|Slack username|
+|channel|optional|Use Slack Incoming Webhook configuration|Slack channel name|
+|url|optional|N/A|Slack Incoming Webhooks URL<br>Please specify this key or SLACK_WEBHOOK environment variable<br>※SLACK_WEBHOOK will be deprecated|
 
 Please refer `action.yml` for more details.
 
@@ -55,6 +55,15 @@ Please refer `action.yml` for more details.
 ## Preview
 
 <img src="./images/preview.png" alt="Notification Preview">
+
+# Contribute
+1. Fork this repository
+2. Pull your repository in local machine
+3. Update original repository
+4. Checkout "develop" branch based "remotes/origin/develop" branch
+5. Work on "develop" branch
+6. Push you changes to your repository
+7. Create a new Pull Request
 
 # LICENSE
 
