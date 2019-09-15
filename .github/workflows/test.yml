@@ -3,7 +3,6 @@ name: Actions works properly
 on:
   push:
     branches:
-      - 'releases/*'
       - master
 
 jobs:
