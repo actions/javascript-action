@@ -5,6 +5,10 @@ on:
     paths:
       - src/*
 
+  push:
+    branches:
+      - develop
+
 jobs:
   lint:
     name: Lint Check
