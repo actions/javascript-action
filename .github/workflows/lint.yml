@@ -2,12 +2,10 @@ name: TS Lint Check
 
 on:
   pull_request:
+    branches:
+      - '!master'
     paths:
       - src/*
-
-  push:
-    branches:
-      - develop
 
 jobs:
   lint:
