@@ -14,14 +14,12 @@ jobs:
         ref: releases/v1
 
     - name: Setup Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: '10.x'
+      uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
 
     - name: Install dependencies
-      run: |
-        rm -rf node_modules
-        npm install
+      run: npm install
 
     - name: NPM build
       run: npm run build
@@ -51,10 +49,10 @@ jobs:
       run: git push origin HEAD
 
     - name: Slack Notification
-        uses: homoluctus/slatify@master
-        if: always()
-        with:
-          type: ${{ job.status }}
-          job_name: ':truck: *Prepare for release*'
-          channel: '#develop'
-          url: ${{ secrets.SLACK_WEBHOOK }}
+      uses: homoluctus/slatify@master
+      if: always()
+      with:
+        type: ${{ job.status }}
+        job_name: ':truck: *Prepare for release*'
+        channel: '#develop'
+        url: ${{ secrets.SLACK_WEBHOOK }}
