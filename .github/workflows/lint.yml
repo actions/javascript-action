@@ -7,7 +7,7 @@ on:
 
   push:
     branches:
-      - master
+      - develop
 
 jobs:
   lint:
@@ -20,6 +20,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '10.x'
+
       - name: Setup TS
         run: npm install tslint typescript -g
 
