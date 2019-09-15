@@ -6,53 +6,54 @@ on:
       - 'releases/*'
 
 jobs:
-  name: Build production
-  runs-on: ubuntu-18.04
-  steps:
-    - uses: actions/checkout@v1
-      with:
-        ref: releases/v1
+  release:
+    name: Build production
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          ref: releases/v1
 
-    - name: Setup Node
-      uses: actions/setup-node@v1
-      with:
-        node-version: '10.x'
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: NPM build
-      run: npm run build
+      - name: NPM build
+        run: npm run build
 
-    - name: Install dependencies for production
-      run: |
-        rm -rf node_modules
-        npm install --production
+      - name: Install dependencies for production
+        run: |
+          rm -rf node_modules
+          npm install --production
 
-    - name: Not ignore node_modules
-      run: sed -e '/node_modules*/d' .gitignore
+      - name: Not ignore node_modules
+        run: sed -e '/node_modules*/d' .gitignore
 
-    - name: Setup git
-      env:
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-      run: |
-        git config --local user.name homoluctus
-        git config --local user.email w.slife18sy@gmail.com
-        git remote set-url origin https://homoluctus:${ACCESS_TOKEN}@github.com/homoluctus/slatify.git
+      - name: Setup git
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        run: |
+          git config --local user.name homoluctus
+          git config --local user.email w.slife18sy@gmail.com
+          git remote set-url origin https://homoluctus:${ACCESS_TOKEN}@github.com/homoluctus/slatify.git
 
-    - name: Git commit
-      run: |
-        git add -A
-        git commit -am '[UPDATE] prepare for release'
+      - name: Git commit
+        run: |
+          git add -A
+          git commit -am '[UPDATE] prepare for release'
 
-    - name: Git push
-      run: git push origin HEAD
+      - name: Git push
+        run: git push origin HEAD
 
-    - name: Slack Notification
-      uses: homoluctus/slatify@master
-      if: always()
-      with:
-        type: ${{ job.status }}
-        job_name: ':truck: *Prepare for release*'
-        channel: '#develop'
-        url: ${{ secrets.SLACK_WEBHOOK }}
+      - name: Slack Notification
+        uses: homoluctus/slatify@master
+        if: always()
+        with:
+          type: ${{ job.status }}
+          job_name: ':truck: *Prepare for release*'
+          channel: '#develop'
+          url: ${{ secrets.SLACK_WEBHOOK }}
