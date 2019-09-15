@@ -3,6 +3,7 @@ name: TS Lint Check
 on:
   pull_request:
     branches:
+      - '*'
       - '!master'
     paths:
       - src/*
