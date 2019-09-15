@@ -20,7 +20,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        rm -rf .node_modules
+        rm -rf node_modules
         npm install
 
     - name: NPM build
@@ -28,11 +28,11 @@ jobs:
 
     - name: Install dependencies for production
       run: |
-        rm -rf .node_modules
+        rm -rf node_modules
         npm install --production
 
     - name: Not ignore node_modules
-      run: sed -e '/\.node_modules*/d' .gitignore
+      run: sed -e '/node_modules*/d' .gitignore
 
     - name: Setup git
       env:
