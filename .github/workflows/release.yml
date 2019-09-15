@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
         with:
-          ref: remotes/origin/develop
+          ref: remotes/origin/releases/v1
 
       - name: Git checkout
         run: git checkout -b releases/v1
@@ -28,13 +28,13 @@ jobs:
       - name: NPM build
         run: npm run build
 
+      - name: Not ignore node_modules
+        run: sed -e '/node_modules*/d' .gitignore
+
       - name: Install dependencies for production
         run: |
           rm -rf node_modules
           npm install --production
-
-      - name: Not ignore node_modules
-        run: sed -e '/node_modules*/d' .gitignore
 
       - name: Setup git
         env:
