@@ -29,7 +29,7 @@ jobs:
         run: npm run build
 
       - name: Not ignore node_modules
-        run: sed -e '/node_modules*/d' .gitignore
+        run: sed -i '/node_modules*/d' .gitignore
 
       - name: Install dependencies for production
         run: |
@@ -46,6 +46,7 @@ jobs:
 
       - name: Git commit
         run: |
+          git status
           git add -A
           git commit -am '[UPDATE] prepare for release'
 
