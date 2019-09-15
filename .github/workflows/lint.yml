@@ -2,12 +2,11 @@ name: TS Lint Check
 
 on:
   pull_request:
-    paths:
-      - src/*
-
-  push:
     branches:
       - develop
+      - releases/*
+    paths:
+      - src/*
 
 jobs:
   lint:
