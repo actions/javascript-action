@@ -3,7 +3,10 @@ name: Prepare for release
 on:
   push:
     branches:
-      - 'releases/*'
+      - releases/*
+
+    paths:
+      - src/*
 
 jobs:
   release:
