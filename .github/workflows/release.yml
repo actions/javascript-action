@@ -12,7 +12,10 @@ jobs:
     steps:
       - uses: actions/checkout@v1
         with:
-          ref: releases/v1
+          ref: remotes/origin/develop
+
+      - name: Git checkout
+        run: git checkout -b releases/v1
 
       - name: Setup Node
         uses: actions/setup-node@v1
@@ -55,5 +58,21 @@ jobs:
         with:
           type: ${{ job.status }}
           job_name: ':truck: *Prepare for release*'
+          channel: '#develop'
+          url: ${{ secrets.SLACK_WEBHOOK }}
+
+  check:
+    name: Check action
+    runs-on: ubuntu-18.04
+    needs: release
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Slack Notification
+        uses: homoluctus/slatify@releases/v1
+        if: always()
+        with:
+          type: ${{ job.status }}
+          job_name: ':robot_face: *Check action*'
           channel: '#develop'
           url: ${{ secrets.SLACK_WEBHOOK }}
