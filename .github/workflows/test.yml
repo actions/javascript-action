@@ -1,14 +1,9 @@
-name: Check if GitHub Actions works properly
+name: Actions works properly
 
 on:
-  pull_request:
-    paths:
-      - src/*
-      - .github/*
-
   push:
     branches:
-      - test
+      - 'releases/*'
       - master
 
 jobs:
