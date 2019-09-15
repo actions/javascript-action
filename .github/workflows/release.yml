@@ -49,8 +49,13 @@ jobs:
 
       - name: Git commit
         run: |
-          git status
           git add -A
+
+          DIFF=`git diff --cached --numstat | wc -l`
+          if [ $DIFF -eq 0 ]; then
+            exit 0
+          fi
+
           git commit -am '[UPDATE] prepare for release'
 
       - name: Git push
