@@ -36,11 +36,11 @@ jobs:
 
     - name: Setup git
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       run: |
         git config --local user.name homoluctus
         git config --local user.email w.slife18sy@gmail.com
-        git remote set-url origin https://homoluctus:${GITHUB_TOKEN}@github.com/homoluctus/slatify.git
+        git remote set-url origin https://homoluctus:${ACCESS_TOKEN}@github.com/homoluctus/slatify.git
 
     - name: Git commit
       run: |
