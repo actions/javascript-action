@@ -11,11 +11,9 @@ inputs:
   username:
     description: 'slack username'
     required: false
-    default: 'Github Actions'
   icon_emoji:
     description: 'slack icon emoji'
     required: false
-    default: 'github'
   channel:
     description: 'slack channel'
     required: false
