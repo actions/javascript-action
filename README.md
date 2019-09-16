@@ -21,8 +21,8 @@ You can customize the following parameters:
 |type|required|N/A|The result of GitHub Actions job<br>This parameter value must contain `success`, `fail` or `cancel`<br>We recommend using ${{ job.status }}|
 |job_name|required|N/A|Means slack notification title|
 |url|required|N/A|Slack Incoming Webhooks URL<br>Please specify this key or SLACK_WEBHOOK environment variable<br>※SLACK_WEBHOOK will be deprecated|
-|icon_emoji|optional|github|Slack icon|
-|username|optional|Github Actions|Slack username|
+|icon_emoji|optional|Use Slack Incoming Webhook configuration|Slack icon|
+|username|optional|Use Slack Incoming Webhook configuration|Slack username|
 |channel|optional|Use Slack Incoming Webhook configuration|Slack channel name|
 
 Please refer `action.yml` for more details.
@@ -42,19 +42,19 @@ Please refer `action.yml` for more details.
 # Slack UI Example
 ## Success Case
 
-<img src="./images/github_actions_success.png" alt="github actions success pattern">
+<img src="./images/github_actions_success.png" alt="github actions success pattern" width="70%">
 
 ## Failure Case
 
-<img src="./images/github_actions_failure.png" alt="github actions failure pattern">
+<img src="./images/github_actions_failure.png" alt="github actions failure pattern" width="70%">
 
 ## Cancel Case
 
-<img src="./images/github_actions_cancel.png" alt="github actions cancel pattern">
+<img src="./images/github_actions_cancel.png" alt="github actions cancel pattern" width="70%">
 
 ## Preview
 
-<img src="./images/preview.png" alt="Notification Preview">
+<img src="./images/preview.png" alt="Notification Preview" width="70%">
 
 # Contribute
 1. Fork this repository
