@@ -65,7 +65,7 @@ Actions are run from GitHub repos.  We will create a releases branch and only ch
 
 Comment out node_modules in .gitignore and create a releases/v1 branch
 ```bash
-# Dependency directories
+# comment this out distribution branches
 # node_modules/
 ```
 
