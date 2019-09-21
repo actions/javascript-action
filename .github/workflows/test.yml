@@ -47,6 +47,9 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
+      - name: Wait
+        run: sleep 60
+
       - name: Slack Notification
         uses: homoluctus/slatify@releases/v1
         if: always()
