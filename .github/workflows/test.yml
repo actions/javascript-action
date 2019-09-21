@@ -43,6 +43,7 @@ jobs:
     # You have to cancel this job
     name: Works canceled
     runs-on: ubuntu-18.04
+    needs: success
     steps:
       - uses: actions/checkout@master
 
