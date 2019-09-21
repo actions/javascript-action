@@ -56,7 +56,7 @@ export class Slack extends IncomingWebhook {
    * Generate slack payload
    */
   protected generatePayload(status: Status, job_name: string): IncomingWebhookSendArguments {
-    const text: string = `${job_name} ${Slack.result[status]} ${Slack.mark[status]}`;
+    const text: string = `${Slack.mark[status]} ${job_name} ${Slack.result[status]}`;
 
     const attachments: MessageAttachment = {
       color: Slack.color[status],
