@@ -11,7 +11,7 @@ export class Slack extends IncomingWebhook {
   // 0: failure, 1: success, 2: cancel
   static readonly color: string[] = ['#cb2431', '#2cbe4e', '#ffc107'];
   static readonly mark: string[] = [':x:', ':white_check_mark:', ':warning:']
-  static readonly msg: string[] = ['Failure', 'Success', 'Cancel']
+  static readonly result: string[] = ['Failed', 'Succeeded', 'Canceled']
 
   constructor(
     url: string,
@@ -55,14 +55,14 @@ export class Slack extends IncomingWebhook {
   /**
    * Generate slack payload
    */
-  protected generatePayload(status: Status, msg: string): IncomingWebhookSendArguments {
-    const text: string = `${Slack.mark[status]} GitHub Actions ${Slack.msg[status]}`;
-    const text_for_blocks: MrkdwnElement = { type: 'mrkdwn', text: msg };
-    const blocks: SectionBlock = { ...this.blocks, text: text_for_blocks };
+  protected generatePayload(status: Status, job_name: string): IncomingWebhookSendArguments {
+    const text: string = `${job_name} ${Slack.result[status]} ${Slack.mark[status]}`;
+
     const attachments: MessageAttachment = {
       color: Slack.color[status],
-      blocks: [blocks]
+      blocks: [this.blocks]
     }
+
     const payload: IncomingWebhookSendArguments = {
       text,
       attachments: [attachments],
@@ -77,9 +77,9 @@ export class Slack extends IncomingWebhook {
   /**
    * Notify information about github actions to Slack
    */
-  public async notify(status: Status, msg: string): Promise<IncomingWebhookResult> {
+  public async notify(status: Status, job_name: string): Promise<IncomingWebhookResult> {
     try {
-      const payload: IncomingWebhookSendArguments = this.generatePayload(status, msg);
+      const payload: IncomingWebhookSendArguments = this.generatePayload(status, job_name);
       const result = await this.send(payload);
 
       core.debug('Sent message to Slack');
