@@ -1,4 +1,4 @@
-name: Actions works properly
+name: Check notification
 
 on:
   pull_request:
@@ -6,11 +6,49 @@ on:
       - master
 
 jobs:
-  check:
-    name: Check action
+  success:
+    name: Works properly
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@master
+
+      - name: Slack Notification
+        uses: homoluctus/slatify@releases/v1
+        if: always()
+        with:
+          type: ${{ job.status }}
+          job_name: ':robot_face: *Check action*'
+          channel: '#develop'
+          url: ${{ secrets.SLACK_WEBHOOK }}
+
+  failure:
+    name: Works failed
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Exit 1
+        run: exit 1
+
+      - name: Slack Notification
+        uses: homoluctus/slatify@releases/v1
+        if: always()
+        with:
+          type: ${{ job.status }}
+          job_name: ':robot_face: *Check action*'
+          channel: '#develop'
+          url: ${{ secrets.SLACK_WEBHOOK }}
+
+  cancel:
+    # You have to cancel this job
+    name: Works canceled
+    runs-on: ubuntu-18.04
+    needs: success
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Wait
+        run: sleep 60
 
       - name: Slack Notification
         uses: homoluctus/slatify@releases/v1
