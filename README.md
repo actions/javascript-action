@@ -11,6 +11,10 @@ Generated from [actions/javascript-template](https://github.com/actions/javascri
 
 # Feature
 - Notify the result of GitHub Actions
+- Support three job status (reference: [job-context](https://help.github.com/en/articles/contexts-and-expression-syntax-for-github-actions#job-context))
+  - success
+  - failure
+  - cancelled
 
 # How to use
 First of all, you need to set GitHub secrets for SLACK_WEBHOOK that is Incoming Webhook URL.<br>
@@ -40,17 +44,8 @@ Please refer `action.yml` for more details.
 ```
 
 # Slack UI Example
-## Success Case
 
-<img src="./images/github_actions_success.png" alt="github actions success pattern" width="70%">
-
-## Failure Case
-
-<img src="./images/github_actions_failure.png" alt="github actions failure pattern" width="70%">
-
-## Cancel Case
-
-<img src="./images/github_actions_cancel.png" alt="github actions cancel pattern" width="70%">
+<img src="./images/slack.png" alt="Notification Preview" width="70%">
 
 ## Preview
 
