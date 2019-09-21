@@ -1,8 +1,8 @@
 # Slatify
 
 ![](https://github.com/homoluctus/slatify/workflows/TS%20Lint%20Check/badge.svg)
-![](https://github.com/homoluctus/slatify/workflows/Actions%20works%20properly/badge.svg)
-![](https://github.com/homoluctus/slatify/workflows/Prepare%20for%20release/badge.svg)
+![](https://github.com/homoluctus/slatify/workflows/Works%20properly/badge.svg)
+
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/homoluctus/slatify?color=brightgreen)
 ![GitHub](https://img.shields.io/github/license/homoluctus/slatify?color=brightgreen)
 
