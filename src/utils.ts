@@ -13,8 +13,14 @@ export function getStatus(status: string): Status {
     return Status.Failure;
   } else if (lowercase_status.includes('cancel')) {
     return Status.Cancel;
+  } else if (lowercase_status === 'always') {
+    return Status.Always;
   } else {
-    throw new Error('Allow words that contain "success", "fail" or "cancel"');
+    throw new Error(`
+      The argument includes an unacceptable word.
+      "type" parameter allows to include "success", "fail" or "cancel".
+      "mention_if" parameter can include "always" in addition to the above.
+    `);
   }
 }
 
@@ -24,5 +30,6 @@ export function getStatus(status: string): Status {
 export enum Status {
   Failure = 0,
   Success = 1,
-  Cancel = 2
+  Cancel = 2,
+  Always = 3
 }
