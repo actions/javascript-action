@@ -18,6 +18,8 @@ jobs:
         with:
           type: ${{ job.status }}
           job_name: ':robot_face: *Check action*'
+          mention: 'here'
+          mention_if: 'failure'
           channel: '#develop'
           url: ${{ secrets.SLACK_WEBHOOK }}
 
@@ -36,6 +38,8 @@ jobs:
         with:
           type: ${{ job.status }}
           job_name: ':robot_face: *Check action*'
+          mention: 'here'
+          mention_if: 'failure'
           channel: '#develop'
           url: ${{ secrets.SLACK_WEBHOOK }}
 
@@ -56,5 +60,7 @@ jobs:
         with:
           type: ${{ job.status }}
           job_name: ':robot_face: *Check action*'
+          mention: 'here'
+          mention_if: 'always'
           channel: '#develop'
           url: ${{ secrets.SLACK_WEBHOOK }}
