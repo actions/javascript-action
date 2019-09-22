@@ -1,7 +1,9 @@
 name: "Run JavaScript Action"
 on:
+  pull_request:
   push:
-    branches:    
+    branches:
+      - master
       - 'releases/*'   # only run in release distribution branches
 
 jobs:
@@ -13,5 +15,5 @@ jobs:
     - run: npm ci
     - run: npm test
     - uses: ./
-      with: 
+      with:
         milliseconds: 1000
