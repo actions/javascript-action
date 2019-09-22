@@ -43,6 +43,8 @@ Please refer `action.yml` for more details.
   with:
     type: ${{ job.status }}
     job_name: '*Lint Check*'
+    mention: 'here'
+    mention_if: 'failure'
     channel: '#random'
     url: ${{ secrets.SLACK_WEBHOOK }}
 ```
