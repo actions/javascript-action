@@ -1,17 +1,33 @@
 import * as github from '@actions/github';
 import * as core from '@actions/core';
 import { Status } from './utils';
-import { SectionBlock, MessageAttachment, MrkdwnElement } from '@slack/types';
+import { SectionBlock, MessageAttachment } from '@slack/types';
 import {
   IncomingWebhook, IncomingWebhookSendArguments,
   IncomingWebhookResult
 } from '@slack/webhook';
 
 export class Slack extends IncomingWebhook {
-  // 0: failure, 1: success, 2: cancel
-  static readonly color: string[] = ['#cb2431', '#2cbe4e', '#ffc107'];
-  static readonly mark: string[] = [':x:', ':white_check_mark:', ':warning:']
-  static readonly result: string[] = ['Failed', 'Succeeded', 'Canceled']
+  static readonly accessory: object[] = [
+    {
+      // failure
+      color: '#cb2431',
+      mark: ':x:',
+      result: 'Failed',
+    },
+    {
+      // success
+      color: '#2cbe4e',
+      mark: ':white_check_mark:',
+      result: 'Succeeded',
+    },
+    {
+      // cancel
+      color: '#ffc107',
+      mark: ':warning:',
+      result: 'Canceled',
+    }
+  ];
 
   constructor(
     url: string,
@@ -53,13 +69,42 @@ export class Slack extends IncomingWebhook {
   }
 
   /**
+   * Create mention for slack message
+   */
+  protected createMention(mention: string, mention_if: Status, status: Status): string {
+    if (mention_if === Status.Always || mention_if === status) {
+      return mention;
+    } else {
+      return '';
+    }
+  }
+
+  /**
    * Generate slack payload
    */
-  protected generatePayload(status: Status, job_name: string): IncomingWebhookSendArguments {
-    const text: string = `${Slack.mark[status]} ${job_name} ${Slack.result[status]}`;
+  public generatePayload(
+    job_name: string,
+    mention: string,
+    mention_if: Status,
+    status: Status
+  ): IncomingWebhookSendArguments {
+
+    if (status === Status.Always) {
+      throw new Error('"always" cannot be specified with "type" parameter')
+    }
+
+    const color: string = Slack.accessory[status]['color'];
+    const mark: string = Slack.accessory[status]['mark'];
+    const result: string = Slack.accessory[status]['result'];
+    const mention_text: string = this.createMention(mention, mention_if, status);
+    let text: string = `${mark} ${job_name} ${result}`;
+
+    if (mention_text !== '') {
+      text += ` <!${mention_text}>`;
+    }
 
     const attachments: MessageAttachment = {
-      color: Slack.color[status],
+      color,
       blocks: [this.blocks]
     }
 
@@ -77,9 +122,8 @@ export class Slack extends IncomingWebhook {
   /**
    * Notify information about github actions to Slack
    */
-  public async notify(status: Status, job_name: string): Promise<IncomingWebhookResult> {
+  public async notify(payload: IncomingWebhookSendArguments): Promise<IncomingWebhookResult> {
     try {
-      const payload: IncomingWebhookSendArguments = this.generatePayload(status, job_name);
       const result = await this.send(payload);
 
       core.debug('Sent message to Slack');

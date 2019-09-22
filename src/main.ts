@@ -4,8 +4,10 @@ import { Status, getStatus } from './utils';
 
 async function run() {
   try {
-    const type: string = core.getInput('type', { required: true });
+    const status: Status = getStatus(core.getInput('type', { required: true }));
     const job_name: string = core.getInput('job_name', { required: true });
+    const mention: string = core.getInput('mention');
+    const tmp_mention_if: string = core.getInput('mention_if');
     const username: string = core.getInput('username');
     const icon_emoji: string = core.getInput('icon_emoji');
     const channel: string = core.getInput('channel');
@@ -19,9 +21,16 @@ async function run() {
       `);
     }
 
-    const status: Status = getStatus(type);
+    let mention_if: Status;
+    if (tmp_mention_if === '') {
+      mention_if = Status.None;
+    } else {
+      mention_if = getStatus(tmp_mention_if);
+    }
+
     const slack = new Slack(url, username, icon_emoji, channel);
-    const result = await slack.notify(status, job_name);
+    const payload = slack.generatePayload(job_name, mention, mention_if, status);
+    const result = await slack.notify(payload);
 
     core.debug(`Response from Slack: ${JSON.stringify(result)}`);
 
