@@ -8,6 +8,12 @@ inputs:
   job_name:
     description: 'job name of workflow (format: markdown)'
     required: true
+  mention:
+    description: 'slack mention'
+    required: false
+  mention_if:
+    description: 'the condition to mention'
+    required: false
   username:
     description: 'slack username'
     required: false
