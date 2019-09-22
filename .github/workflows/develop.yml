@@ -17,6 +17,6 @@ jobs:
         if: always()
         with:
           type: ${{ job.status }}
-          job_name: '@here :robot_face: *Check action*'
+          job_name: '<!here> :robot_face: *Check action*'
           channel: '#develop'
           url: ${{ secrets.SLACK_WEBHOOK }}
