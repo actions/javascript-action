@@ -1,0 +1,22 @@
+name: Check works
+
+on:
+  push:
+    branches:
+      - test
+
+jobs:
+  success:
+    name: Check works
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Slack Notification
+        uses: homoluctus/slatify@master
+        if: always()
+        with:
+          type: ${{ job.status }}
+          job_name: ':robot_face: *Check action* @here'
+          channel: '#develop'
+          url: ${{ secrets.SLACK_WEBHOOK }}
