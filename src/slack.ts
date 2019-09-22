@@ -97,7 +97,11 @@ export class Slack extends IncomingWebhook {
     const mark: string = Slack.accessory[status]['mark'];
     const result: string = Slack.accessory[status]['result'];
     const mention_text: string = this.createMention(mention, mention_if, status);
-    const text: string = `${mark} ${job_name} ${result} ${mention_text}`;
+    let text: string = `${mark} ${job_name} ${result}`;
+
+    if (mention_text !== '') {
+      text += ` <!${mention_text}>`;
+    }
 
     const attachments: MessageAttachment = {
       color,
