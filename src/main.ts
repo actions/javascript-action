@@ -7,7 +7,7 @@ async function run() {
     const status: Status = getStatus(core.getInput('type', { required: true }));
     const job_name: string = core.getInput('job_name', { required: true });
     const mention: string = core.getInput('mention');
-    const mention_if: Status = getStatus(core.getInput('mention_if'));
+    const tmp_mention_if: string = core.getInput('mention_if');
     const username: string = core.getInput('username');
     const icon_emoji: string = core.getInput('icon_emoji');
     const channel: string = core.getInput('channel');
@@ -19,6 +19,13 @@ async function run() {
         Please configure "SLACK_WEBHOOK" as environment variable or
         specify the key called "url" in "with" section.
       `);
+    }
+
+    let mention_if: Status;
+    if (tmp_mention_if === '') {
+      mention_if = Status.None;
+    } else {
+      mention_if = getStatus(tmp_mention_if);
     }
 
     const slack = new Slack(url, username, icon_emoji, channel);

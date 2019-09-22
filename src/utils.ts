@@ -31,5 +31,6 @@ export enum Status {
   Failure = 0,
   Success = 1,
   Cancel = 2,
-  Always = 3
+  Always = 3,
+  None = 100
 }

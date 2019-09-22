@@ -23,6 +23,21 @@ jobs:
           channel: '#develop'
           url: ${{ secrets.SLACK_WEBHOOK }}
 
+  success_no_mention:
+    name: Works properly without mention
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Slack Notification
+        uses: homoluctus/slatify@releases/v1
+        if: always()
+        with:
+          type: ${{ job.status }}
+          job_name: ':robot_face: *Check action*'
+          channel: '#develop'
+          url: ${{ secrets.SLACK_WEBHOOK }}
+
   failure:
     name: Works failed
     runs-on: ubuntu-18.04
