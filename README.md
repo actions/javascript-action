@@ -8,6 +8,8 @@ If you are new, there's also a simpler introduction.  See the [Hello World JavaS
 
 This walk through takes you through creation, testing and publishing the action.
 
+This walk through takes you through creation, testing and publishing the action.
+
 ## Create an action from this template
 
 Click the `Use this Template` and provide the new repo details for your action
