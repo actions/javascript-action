@@ -1,3 +1,8 @@
+
+<p align="center">
+  <a href="https://github.com/actions/javascript-action"><img alt="GitHub Actions status" src="https://github.com/actions/javascript-action/workflows/Run%20JavaScript%20Action/badge.svg"></a>
+</p>
+
 # Create a JavaScript Action
 
 Use this template to bootstrap the creation of a JavaScript action.:rocket:
