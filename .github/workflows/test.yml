@@ -1,4 +1,4 @@
-name: "Run JavaScript Action"
+name: "test-local"
 on:
   pull_request:
   push:
