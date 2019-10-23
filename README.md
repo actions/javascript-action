@@ -68,7 +68,8 @@ See the [toolkit documentation](https://github.com/actions/toolkit/blob/master/R
 
 Actions are run from GitHub repos.  Packaging the action will create a packaged action in the dist folder.
 
-Comment out node_modules in .gitignore and create a releases/v1 branch
+Run package
+
 ```bash
 npm run package
 ```
