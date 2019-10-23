@@ -64,25 +64,32 @@ run()
 
 See the [toolkit documentation](https://github.com/actions/toolkit/blob/master/README.md#packages) for the various packages.
 
-## Publish to a distribution branch
+## Package for distribution
 
-Actions are run from GitHub repos.  We will create a releases branch and only checkin production modules (core in this case). 
+Actions are run from GitHub repos.  Packaging the action will create a packaged action in the dist folder.
 
-Comment out node_modules in .gitignore and create a releases/v1 branch
+Run package
+
 ```bash
-# comment this out distribution branches
-# node_modules/
+npm run package
+```
+
+Since the packaged index.js is run from the dist folder, check it in.
+
+```bash
+git add dist
+```
+
+## Create a release branch
+
+Users shouldn't consume the action from master since that would be latest code and actions can break compatibility between major versions.
+
+```bash
+$ git checkout -b v1
+$ git commit -a -m "v1 release"
 ```
 
 ```bash
-$ git checkout -b releases/v1
-$ git commit -a -m "prod dependencies"
-```
-
-```bash
-$ npm prune --production
-$ git add node_modules
-$ git commit -a -m "prod dependencies"
 $ git push origin releases/v1
 ```
 
@@ -90,24 +97,14 @@ Your action is now published! :rocket:
 
 See the [versioning documentation](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
 
-## Validate
+## Usage
 
-You can now validate the action by referencing the releases/v1 branch
-
-```yaml
-uses: actions/javascript-action@releases/v1
-with:
-  milliseconds: 1000
-```
-
-See the [actions tab](https://github.com/actions/javascript-action/actions) for runs of this action! :rocket:
-
-## Usage:
-
-After testing you can [create a v1 tag](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md) to reference the stable and tested action
+You can now consume the action by referencing the v1 branch
 
 ```yaml
 uses: actions/javascript-action@v1
 with:
   milliseconds: 1000
 ```
+
+See the [actions tab](https://github.com/actions/javascript-action/actions) for runs of this action! :rocket:
