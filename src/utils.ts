@@ -10,5 +10,5 @@ export function isAllowedStatus(status: string): string {
   if (!jobStatusList.includes(lowercaseStatus)) {
     throw new Error('Invalid value input');
   }
-  return status;
+  return lowercaseStatus;
 }
