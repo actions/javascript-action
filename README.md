@@ -24,7 +24,7 @@ You can customize the following parameters:
 
 |with parameter|required/optional|default|description|
 |:--:|:--:|:--|:--|
-|type|required|N/A|The result of GitHub Actions job<br>This parameter value must contain the following word:<br>- `success`<br>- `fail`<br>- `cancel`<br>We recommend using ${{ job.status }}|
+|type|required|N/A|The result of GitHub Actions job<br>This parameter value must contain the following word:<br>- `success`<br>- `failure`<br>- `cancelled`<br>We recommend using ${{ job.status }}|
 |job_name|required|N/A|Means slack notification title|
 |url|required|N/A|Slack Incoming Webhooks URL<br>Please specify this key or SLACK_WEBHOOK environment variable<br>※SLACK_WEBHOOK will be deprecated|
 |mention|optional|N/A|Slack message mention|
