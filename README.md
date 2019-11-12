@@ -53,10 +53,6 @@ Please refer `action.yml` for more details.
 
 <img src="./images/slack.png" alt="Notification Preview" width="70%">
 
-## Preview
-
-<img src="./images/preview.png" alt="Notification Preview" width="70%">
-
 # Contribute
 1. Fork this repository
 2. Pull your repository in local machine
