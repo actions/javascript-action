@@ -7,26 +7,20 @@ import {
 } from '@slack/webhook';
 
 export class Slack extends IncomingWebhook {
-  static readonly accessory: object[] = [
-    {
-      failure: {
-        color: '#cb2431',
-        result: 'Failed'
-      }
+  static readonly accessory: object = {
+    failure: {
+      color: '#cb2431',
+      result: 'Failed'
     },
-    {
-      success: {
-        color: '#2cbe4e',
-        result: 'Succeeded'
-      }
+    success: {
+      color: '#2cbe4e',
+      result: 'Succeeded'
     },
-    {
-      cancelled: {
-        color: '#ffc107',
-        result: 'Cancelled'
-      }
+    cancelled: {
+      color: '#ffc107',
+      result: 'Cancelled'
     }
-  ];
+  };
 
   constructor(
     url: string,
