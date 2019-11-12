@@ -5323,56 +5323,9 @@ isStream.transform = function (stream) {
 
 "use strict";
 
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const core = __importStar(__webpack_require__(470));
 const slack_1 = __webpack_require__(777);
-const utils_1 = __webpack_require__(163);
-function run() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const status = utils_1.isAllowedStatus(core.getInput('type', { required: true }));
-            const jobName = core.getInput('job_name', { required: true });
-            const mention = core.getInput('mention');
-            const mentionCondition = core.getInput('mention_if');
-            const username = core.getInput('username');
-            const iconEmoji = core.getInput('icon_emoji');
-            const channel = core.getInput('channel');
-            const url = core.getInput('url') || process.env.SLACK_WEBHOOK || '';
-            if (url === '') {
-                throw new Error(`
-        ERROR: Missing Slack Incoming Webhooks URL.
-        Please configure "SLACK_WEBHOOK" as environment variable or
-        specify the key called "url" in "with" section.
-      `);
-            }
-            const slack = new slack_1.Slack(url, username, iconEmoji, channel);
-            const payload = slack.generatePayload(jobName, mention, mentionCondition, status);
-            const result = yield slack.notify(payload);
-            core.debug(`Response from Slack: ${JSON.stringify(result)}`);
-        }
-        catch (err) {
-            console.log(err);
-            core.setFailed(err.message);
-        }
-    });
-}
-run();
+slack_1.run();
 
 
 /***/ }),
@@ -10926,6 +10879,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const github = __importStar(__webpack_require__(469));
 const core = __importStar(__webpack_require__(470));
+const utils_1 = __webpack_require__(163);
 const webhook_1 = __webpack_require__(736);
 class Slack extends webhook_1.IncomingWebhook {
     constructor(url, username, iconEmoji, channel) {
@@ -10983,8 +10937,8 @@ class Slack extends webhook_1.IncomingWebhook {
         if (status === 'always') {
             throw new Error('"always" cannot be specified with "type" parameter');
         }
-        const result = Slack.accessory[status]['result'];
         const color = Slack.accessory[status]['color'];
+        const result = Slack.accessory[status]['result'];
         const mentionText = this.isMention(mentionCondition, status) ? mention : '';
         let text = `${jobName} ${result}`;
         if (mentionText !== '') {
@@ -11020,7 +10974,6 @@ class Slack extends webhook_1.IncomingWebhook {
         });
     }
 }
-exports.Slack = Slack;
 Slack.accessory = {
     failure: {
         color: '#cb2431',
@@ -11035,6 +10988,36 @@ Slack.accessory = {
         result: 'Cancelled'
     }
 };
+function run() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const status = utils_1.isAllowedStatus(core.getInput('type', { required: true }));
+            const jobName = core.getInput('job_name', { required: true });
+            const mention = core.getInput('mention');
+            const mentionCondition = core.getInput('mention_if');
+            const username = core.getInput('username');
+            const iconEmoji = core.getInput('icon_emoji');
+            const channel = core.getInput('channel');
+            const url = core.getInput('url') || process.env.SLACK_WEBHOOK || '';
+            if (url === '') {
+                throw new Error(`
+        ERROR: Missing Slack Incoming Webhooks URL.
+        Please configure "SLACK_WEBHOOK" as environment variable or
+        specify the key called "url" in "with" section.
+      `);
+            }
+            const slack = new Slack(url, username, iconEmoji, channel);
+            const payload = slack.generatePayload(jobName, mention, mentionCondition, status);
+            const result = yield slack.notify(payload);
+            core.debug(`Response from Slack: ${JSON.stringify(result)}`);
+        }
+        catch (err) {
+            console.log(err);
+            core.setFailed(err.message);
+        }
+    });
+}
+exports.run = run;
 
 
 /***/ }),
