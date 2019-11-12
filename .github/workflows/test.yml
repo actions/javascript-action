@@ -1,9 +1,6 @@
 name: Check notification
 
-on:
-  pull_request:
-    branches:
-      - master
+on: pull_request
 
 jobs:
   success:
