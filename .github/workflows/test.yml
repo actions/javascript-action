@@ -12,23 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '10.x'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: NPM build
-        run: npm run build
-
-      - name: Install dependencies for production
-        run: |
-          rm -rf node_modules
-          npm install --production
-
       - name: Slack Notification
-        uses: homoluctus/slatify@releases/v1
+        uses: homoluctus/slatify@${{ github.head_ref }}
         if: always()
         with:
           type: ${{ job.status }}
@@ -44,23 +29,8 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '10.x'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: NPM build
-        run: npm run build
-
-      - name: Install dependencies for production
-        run: |
-          rm -rf node_modules
-          npm install --production
-
       - name: Slack Notification
-        uses: homoluctus/slatify@releases/v1
+        uses: homoluctus/slatify@${{ github.head_ref }}
         if: always()
         with:
           type: ${{ job.status }}
@@ -74,26 +44,11 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '10.x'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: NPM build
-        run: npm run build
-
-      - name: Install dependencies for production
-        run: |
-          rm -rf node_modules
-          npm install --production
-
       - name: Exit 1
         run: exit 1
 
       - name: Slack Notification
-        uses: homoluctus/slatify@releases/v1
+        uses: homoluctus/slatify@${{ github.head_ref }}
         if: always()
         with:
           type: ${{ job.status }}
@@ -111,26 +66,11 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '10.x'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: NPM build
-        run: npm run build
-
-      - name: Install dependencies for production
-        run: |
-          rm -rf node_modules
-          npm install --production
-
       - name: Wait
         run: sleep 60
 
       - name: Slack Notification
-        uses: homoluctus/slatify@releases/v1
+        uses: homoluctus/slatify@${{ github.head_ref }}
         if: always()
         with:
           type: ${{ job.status }}
