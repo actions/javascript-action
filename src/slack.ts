@@ -6,8 +6,19 @@ import {
   IncomingWebhookResult
 } from '@slack/webhook';
 
+interface AccessoryDesign {
+  color: string;
+  result: string;
+}
+
+interface Accessory {
+  failure: AccessoryDesign;
+  success: AccessoryDesign;
+  cancelled: AccessoryDesign;
+}
+
 export class Slack extends IncomingWebhook {
-  static readonly accessory: object = {
+  static readonly accessory: Accessory = {
     failure: {
       color: '#cb2431',
       result: 'Failed'
@@ -94,8 +105,8 @@ export class Slack extends IncomingWebhook {
       throw new Error('"always" cannot be specified with "type" parameter')
     }
 
-    const color: string = Slack.accessory[status]['color'];
     const result: string = Slack.accessory[status]['result'];
+    const color: string = Slack.accessory[status]['color'];
     const mentionText: string = this.isMention(mentionCondition, status) ? mention : '';
     let text: string = `${jobName} ${result}`;
 

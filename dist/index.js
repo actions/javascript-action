@@ -10983,8 +10983,8 @@ class Slack extends webhook_1.IncomingWebhook {
         if (status === 'always') {
             throw new Error('"always" cannot be specified with "type" parameter');
         }
-        const color = Slack.accessory[status]['color'];
         const result = Slack.accessory[status]['result'];
+        const color = Slack.accessory[status]['color'];
         const mentionText = this.isMention(mentionCondition, status) ? mention : '';
         let text = `${jobName} ${result}`;
         if (mentionText !== '') {
