@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@master
 
       - name: Slack Notification
-        uses: homoluctus/slatify@${{ github.head_ref }}
+        uses: ./
         if: always()
         with:
           type: ${{ job.status }}
@@ -30,7 +30,7 @@ jobs:
       - uses: actions/checkout@master
 
       - name: Slack Notification
-        uses: homoluctus/slatify@${{ github.head_ref }}
+        uses: ./
         if: always()
         with:
           type: ${{ job.status }}
@@ -48,7 +48,7 @@ jobs:
         run: exit 1
 
       - name: Slack Notification
-        uses: homoluctus/slatify@${{ github.head_ref }}
+        uses: ./
         if: always()
         with:
           type: ${{ job.status }}
@@ -70,7 +70,7 @@ jobs:
         run: sleep 60
 
       - name: Slack Notification
-        uses: homoluctus/slatify@${{ github.head_ref }}
+        uses: ./
         if: always()
         with:
           type: ${{ job.status }}
