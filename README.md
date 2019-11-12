@@ -61,8 +61,8 @@ Please refer `action.yml` for more details.
 1. Fork this repository
 2. Pull your repository in local machine
 3. Update original repository
-4. Checkout "develop" branch based "remotes/origin/develop" branch
-5. Work on "develop" branch
+4. Checkout "master" branch based "remotes/origin/master" branch
+5. Work on "master" branch
 6. Push you changes to your repository
 7. Create a new Pull Request
 
