@@ -3,7 +3,7 @@ description: 'Slack Notification for Github Actions'
 author: 'homoluctus'
 inputs:
   type:
-    description: 'job status (success or failure)'
+    description: 'job status (success, failure or cancelled)'
     required: true
   job_name:
     description: 'job name of workflow (format: markdown)'
@@ -12,7 +12,7 @@ inputs:
     description: 'slack mention'
     required: false
   mention_if:
-    description: 'the condition to mention'
+    description: 'the condition for mention'
     required: false
   username:
     description: 'slack username'
