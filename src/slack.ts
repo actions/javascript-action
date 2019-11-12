@@ -1,67 +1,73 @@
 import * as github from '@actions/github';
 import * as core from '@actions/core';
-import { Status } from './utils';
+import { isAllowedStatus } from './utils';
 import { SectionBlock, MessageAttachment } from '@slack/types';
 import {
   IncomingWebhook, IncomingWebhookSendArguments,
   IncomingWebhookResult
 } from '@slack/webhook';
 
-export class Slack extends IncomingWebhook {
-  static readonly accessory: object[] = [
-    {
-      // failure
+interface AccessoryDesign {
+  color: string;
+  result: string;
+}
+
+interface Accessory {
+  failure: AccessoryDesign;
+  success: AccessoryDesign;
+  cancelled: AccessoryDesign;
+}
+
+class Slack extends IncomingWebhook {
+  static readonly accessory: Accessory = {
+    failure: {
       color: '#cb2431',
-      mark: ':x:',
-      result: 'Failed',
+      result: 'Failed'
     },
-    {
-      // success
+    success: {
       color: '#2cbe4e',
-      mark: ':white_check_mark:',
-      result: 'Succeeded',
+      result: 'Succeeded'
     },
-    {
-      // cancel
+    cancelled: {
       color: '#ffc107',
-      mark: ':warning:',
-      result: 'Canceled',
+      result: 'Cancelled'
     }
-  ];
+  };
 
   constructor(
     url: string,
     username: string,
-    icon_emoji: string,
+    iconEmoji: string,
     channel: string
   ) {
-    super(url, {username, icon_emoji, channel});
+    super(url, {username, icon_emoji: iconEmoji, channel});
   }
 
   /**
    * Get slack blocks UI
+   * @returns {SectionBlock} blocks
    */
   protected get blocks(): SectionBlock {
     const context = github.context;
     const { sha, eventName, workflow, ref } = context;
     const { owner, repo } = context.repo;
     const { number } = context.issue;
-    const repo_url: string = `https://github.com/${owner}/${repo}`;
-    let action_url: string = repo_url;
+    const repoUrl: string = `https://github.com/${owner}/${repo}`;
+    let actionUrl: string = repoUrl;
 
     if (eventName === 'pull_request') {
-      action_url += `/pull/${number}/checks`
+      actionUrl += `/pull/${number}/checks`
     } else {
-      action_url += `/commit/${sha}/checks`;
+      actionUrl += `/commit/${sha}/checks`;
     }
 
     const blocks: SectionBlock = {
       type: 'section',
       fields: [
-        { type: 'mrkdwn', text: `*repository*\n<${repo_url}|${owner}/${repo}>` },
+        { type: 'mrkdwn', text: `*repository*\n<${repoUrl}|${owner}/${repo}>` },
         { type: 'mrkdwn', text: `*ref*\n${ref}` },
         { type: 'mrkdwn', text: `*event name*\n${eventName}` },
-        { type: 'mrkdwn', text: `*workflow*\n<${action_url}|${workflow}>` },
+        { type: 'mrkdwn', text: `*workflow*\n<${actionUrl}|${workflow}>` },
       ]
     }
 
@@ -69,38 +75,44 @@ export class Slack extends IncomingWebhook {
   }
 
   /**
-   * Create mention for slack message
+   * Check if message mention is needed
+   * @param {string} mentionCondition - mention condition
+   * @param {string} status - job status
+   * @returns {boolean}
    */
-  protected createMention(mention: string, mention_if: Status, status: Status): string {
-    if (mention_if === Status.Always || mention_if === status) {
-      return mention;
-    } else {
-      return '';
+  protected isMention(mentionCondition: string, status: string): boolean {
+    if (mentionCondition === 'always' || mentionCondition === status) {
+      return true;
     }
+    return false;
   }
 
   /**
    * Generate slack payload
+   * @param {string} jobName
+   * @param {string} mention
+   * @param {string} mentionCondition
+   * @param {string} status
+   * @returns {IncomingWebhookSendArguments} payload
    */
   public generatePayload(
-    job_name: string,
+    jobName: string,
     mention: string,
-    mention_if: Status,
-    status: Status
+    mentionCondition: string,
+    status: string
   ): IncomingWebhookSendArguments {
 
-    if (status === Status.Always) {
+    if (status === 'always') {
       throw new Error('"always" cannot be specified with "type" parameter')
     }
 
     const color: string = Slack.accessory[status]['color'];
-    const mark: string = Slack.accessory[status]['mark'];
     const result: string = Slack.accessory[status]['result'];
-    const mention_text: string = this.createMention(mention, mention_if, status);
-    let text: string = `${mark} ${job_name} ${result}`;
+    const mentionText: string = this.isMention(mentionCondition, status) ? mention : '';
+    let text: string = `${jobName} ${result}`;
 
-    if (mention_text !== '') {
-      text += ` <!${mention_text}>`;
+    if (mentionText !== '') {
+      text = `<!${mentionText}> ${text}`;
     }
 
     const attachments: MessageAttachment = {
@@ -121,16 +133,47 @@ export class Slack extends IncomingWebhook {
 
   /**
    * Notify information about github actions to Slack
+   * @param {IncomingWebhookSendArguments} payload
+   * @returns {Promise<IncomingWebhookResult>} result
    */
   public async notify(payload: IncomingWebhookSendArguments): Promise<IncomingWebhookResult> {
     try {
       const result = await this.send(payload);
-
       core.debug('Sent message to Slack');
-
       return result;
     } catch (err) {
       throw err;
     }
+  }
+}
+
+export async function run() {
+  try {
+    const status: string = isAllowedStatus(core.getInput('type', { required: true }));
+    const jobName: string = core.getInput('job_name', { required: true });
+    const mention: string = core.getInput('mention');
+    const mentionCondition: string = core.getInput('mention_if');
+    const username: string = core.getInput('username');
+    const iconEmoji: string = core.getInput('icon_emoji');
+    const channel: string = core.getInput('channel');
+    const url: string = core.getInput('url') || process.env.SLACK_WEBHOOK || '';
+
+    if (url === '') {
+      throw new Error(`
+        ERROR: Missing Slack Incoming Webhooks URL.
+        Please configure "SLACK_WEBHOOK" as environment variable or
+        specify the key called "url" in "with" section.
+      `);
+    }
+
+    const slack = new Slack(url, username, iconEmoji, channel);
+    const payload = slack.generatePayload(jobName, mention, mentionCondition, status);
+    const result = await slack.notify(payload);
+
+    core.debug(`Response from Slack: ${JSON.stringify(result)}`);
+
+  } catch (err) {
+    console.log(err)
+    core.setFailed(err.message);
   }
 }

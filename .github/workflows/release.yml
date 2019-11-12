@@ -2,11 +2,8 @@ name: Prepare for release
 
 on:
   push:
-    branches:
-      - releases/*
-
-    paths:
-      - src/*
+    tags:
+      - 'v*'
 
 jobs:
   release:
@@ -14,74 +11,26 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v1
-        with:
-          ref: remotes/origin/releases/v1
 
-      - name: Git checkout
-        run: git checkout -b releases/v1
-
-      - name: Setup Node
-        uses: actions/setup-node@v1
+      - uses: actions/setup-node@v1
         with:
           node-version: '10.x'
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: NPM build
-        run: npm run build
-
-      - name: Not ignore node_modules
-        run: sed -i '/node_modules*/d' .gitignore
-
-      - name: Install dependencies for production
-        run: |
-          rm -rf node_modules
-          npm install --production
-
-      - name: Setup git
+      - name: Create Release
+        uses: actions/create-release@v1.0.0
         env:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        run: |
-          git config --local user.name homoluctus
-          git config --local user.email w.slife18sy@gmail.com
-          git remote set-url origin https://homoluctus:${ACCESS_TOKEN}@github.com/homoluctus/slatify.git
-
-      - name: Git commit
-        run: |
-          git add -A
-
-          DIFF=`git diff --cached --numstat | wc -l`
-          if [ $DIFF -eq 0 ]; then
-            exit 0
-          fi
-
-          git commit -am '[UPDATE] prepare for release'
-
-      - name: Git push
-        run: git push origin HEAD
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          draft: 'false'
+          prerelease: 'false'
 
       - name: Slack Notification
         uses: homoluctus/slatify@master
         if: always()
         with:
           type: ${{ job.status }}
-          job_name: ':truck: *Prepare for release*'
-          channel: '#develop'
-          url: ${{ secrets.SLACK_WEBHOOK }}
-
-  check:
-    name: Check action
-    runs-on: ubuntu-18.04
-    needs: release
-    steps:
-      - uses: actions/checkout@master
-
-      - name: Slack Notification
-        uses: homoluctus/slatify@releases/v1
-        if: always()
-        with:
-          type: ${{ job.status }}
-          job_name: ':robot_face: *Check action*'
+          job_name: ':rocket: *Publish new release ${{ github.ref }}*'
           channel: '#develop'
           url: ${{ secrets.SLACK_WEBHOOK }}

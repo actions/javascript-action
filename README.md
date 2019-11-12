@@ -24,7 +24,7 @@ You can customize the following parameters:
 
 |with parameter|required/optional|default|description|
 |:--:|:--:|:--|:--|
-|type|required|N/A|The result of GitHub Actions job<br>This parameter value must contain the following word:<br>- `success`<br>- `fail`<br>- `cancel`<br>We recommend using ${{ job.status }}|
+|type|required|N/A|The result of GitHub Actions job<br>This parameter value must contain the following word:<br>- `success`<br>- `failure`<br>- `cancelled`<br>We recommend using ${{ job.status }}|
 |job_name|required|N/A|Means slack notification title|
 |url|required|N/A|Slack Incoming Webhooks URL<br>Please specify this key or SLACK_WEBHOOK environment variable<br>※SLACK_WEBHOOK will be deprecated|
 |mention|optional|N/A|Slack message mention|
@@ -53,16 +53,12 @@ Please refer `action.yml` for more details.
 
 <img src="./images/slack.png" alt="Notification Preview" width="70%">
 
-## Preview
-
-<img src="./images/preview.png" alt="Notification Preview" width="70%">
-
 # Contribute
 1. Fork this repository
 2. Pull your repository in local machine
 3. Update original repository
-4. Checkout "develop" branch based "remotes/origin/develop" branch
-5. Work on "develop" branch
+4. Checkout "master" branch based "remotes/origin/master" branch
+5. Work on "master" branch
 6. Push you changes to your repository
 7. Create a new Pull Request
 

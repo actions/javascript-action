@@ -1,9 +1,6 @@
 name: Check notification
 
-on:
-  pull_request:
-    branches:
-      - master
+on: pull_request
 
 jobs:
   success:
@@ -13,7 +10,7 @@ jobs:
       - uses: actions/checkout@master
 
       - name: Slack Notification
-        uses: homoluctus/slatify@releases/v1
+        uses: ./
         if: always()
         with:
           type: ${{ job.status }}
@@ -30,7 +27,7 @@ jobs:
       - uses: actions/checkout@master
 
       - name: Slack Notification
-        uses: homoluctus/slatify@releases/v1
+        uses: ./
         if: always()
         with:
           type: ${{ job.status }}
@@ -48,7 +45,7 @@ jobs:
         run: exit 1
 
       - name: Slack Notification
-        uses: homoluctus/slatify@releases/v1
+        uses: ./
         if: always()
         with:
           type: ${{ job.status }}
@@ -70,7 +67,7 @@ jobs:
         run: sleep 60
 
       - name: Slack Notification
-        uses: homoluctus/slatify@releases/v1
+        uses: ./
         if: always()
         with:
           type: ${{ job.status }}
