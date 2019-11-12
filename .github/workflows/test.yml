@@ -12,6 +12,21 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: NPM build
+        run: npm run build
+
+      - name: Install dependencies for production
+        run: |
+          rm -rf node_modules
+          npm install --production
+
       - name: Slack Notification
         uses: homoluctus/slatify@releases/v1
         if: always()
@@ -29,6 +44,21 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: NPM build
+        run: npm run build
+
+      - name: Install dependencies for production
+        run: |
+          rm -rf node_modules
+          npm install --production
+
       - name: Slack Notification
         uses: homoluctus/slatify@releases/v1
         if: always()
@@ -43,6 +73,21 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@master
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: NPM build
+        run: npm run build
+
+      - name: Install dependencies for production
+        run: |
+          rm -rf node_modules
+          npm install --production
 
       - name: Exit 1
         run: exit 1
@@ -65,6 +110,21 @@ jobs:
     needs: success
     steps:
       - uses: actions/checkout@master
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: NPM build
+        run: npm run build
+
+      - name: Install dependencies for production
+        run: |
+          rm -rf node_modules
+          npm install --production
 
       - name: Wait
         run: sleep 60
