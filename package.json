@@ -4,7 +4,8 @@
   "description": "Container template action using actions/toolkit",
   "main": "lib/main.js",
   "scripts": {
-    "build": "tsc",
+    "build": "ncc build src/index.ts",
+    "precommit": "npm run build && git add dist/",
     "format": "prettier --write **/*.ts",
     "test": "jest"
   },
@@ -35,6 +36,7 @@
   "devDependencies": {
     "@types/jest": "^24.0.13",
     "@types/node": "^12.0.4",
+    "@zeit/ncc": "^0.20.5",
     "jest": "^24.8.0",
     "jest-circus": "^24.7.1",
     "prettier": "^1.17.1",
