@@ -1,6 +1,5 @@
 import * as github from '@actions/github';
 import * as core from '@actions/core';
-import { Status } from './utils';
 import { SectionBlock, MessageAttachment } from '@slack/types';
 import {
   IncomingWebhook, IncomingWebhookSendArguments,
@@ -10,58 +9,59 @@ import {
 export class Slack extends IncomingWebhook {
   static readonly accessory: object[] = [
     {
-      // failure
-      color: '#cb2431',
-      mark: ':x:',
-      result: 'Failed',
+      failure: {
+        color: '#cb2431',
+        result: 'Failed'
+      }
     },
     {
-      // success
-      color: '#2cbe4e',
-      mark: ':white_check_mark:',
-      result: 'Succeeded',
+      success: {
+        color: '#2cbe4e',
+        result: 'Succeeded'
+      }
     },
     {
-      // cancel
-      color: '#ffc107',
-      mark: ':warning:',
-      result: 'Canceled',
+      cancelled: {
+        color: '#ffc107',
+        result: 'Cancelled'
+      }
     }
   ];
 
   constructor(
     url: string,
     username: string,
-    icon_emoji: string,
+    iconEmoji: string,
     channel: string
   ) {
-    super(url, {username, icon_emoji, channel});
+    super(url, {username, icon_emoji: iconEmoji, channel});
   }
 
   /**
    * Get slack blocks UI
+   * @returns {SectionBlock} blocks
    */
   protected get blocks(): SectionBlock {
     const context = github.context;
     const { sha, eventName, workflow, ref } = context;
     const { owner, repo } = context.repo;
     const { number } = context.issue;
-    const repo_url: string = `https://github.com/${owner}/${repo}`;
-    let action_url: string = repo_url;
+    const repoUrl: string = `https://github.com/${owner}/${repo}`;
+    let actionUrl: string = repoUrl;
 
     if (eventName === 'pull_request') {
-      action_url += `/pull/${number}/checks`
+      actionUrl += `/pull/${number}/checks`
     } else {
-      action_url += `/commit/${sha}/checks`;
+      actionUrl += `/commit/${sha}/checks`;
     }
 
     const blocks: SectionBlock = {
       type: 'section',
       fields: [
-        { type: 'mrkdwn', text: `*repository*\n<${repo_url}|${owner}/${repo}>` },
+        { type: 'mrkdwn', text: `*repository*\n<${repoUrl}|${owner}/${repo}>` },
         { type: 'mrkdwn', text: `*ref*\n${ref}` },
         { type: 'mrkdwn', text: `*event name*\n${eventName}` },
-        { type: 'mrkdwn', text: `*workflow*\n<${action_url}|${workflow}>` },
+        { type: 'mrkdwn', text: `*workflow*\n<${actionUrl}|${workflow}>` },
       ]
     }
 
@@ -69,38 +69,44 @@ export class Slack extends IncomingWebhook {
   }
 
   /**
-   * Create mention for slack message
+   * Check if message mention is needed
+   * @param {string} mentionCondition - mention condition
+   * @param {string} status - job status
+   * @returns {boolean}
    */
-  protected createMention(mention: string, mention_if: Status, status: Status): string {
-    if (mention_if === Status.Always || mention_if === status) {
-      return mention;
-    } else {
-      return '';
+  protected isMention(mentionCondition: string, status: string): boolean {
+    if (mentionCondition === 'always' || mentionCondition === status) {
+      return true;
     }
+    return false;
   }
 
   /**
    * Generate slack payload
+   * @param {string} jobName
+   * @param {string} mention
+   * @param {string} mentionCondition
+   * @param {string} status
+   * @returns {IncomingWebhookSendArguments} payload
    */
   public generatePayload(
-    job_name: string,
+    jobName: string,
     mention: string,
-    mention_if: Status,
-    status: Status
+    mentionCondition: string,
+    status: string
   ): IncomingWebhookSendArguments {
 
-    if (status === Status.Always) {
+    if (status === 'always') {
       throw new Error('"always" cannot be specified with "type" parameter')
     }
 
     const color: string = Slack.accessory[status]['color'];
-    const mark: string = Slack.accessory[status]['mark'];
     const result: string = Slack.accessory[status]['result'];
-    const mention_text: string = this.createMention(mention, mention_if, status);
-    let text: string = `${mark} ${job_name} ${result}`;
+    const mentionText: string = this.isMention(mentionCondition, status) ? mention : '';
+    let text: string = `${jobName} ${result}`;
 
-    if (mention_text !== '') {
-      text += ` <!${mention_text}>`;
+    if (mentionText !== '') {
+      text = `<!${mentionText}> ${text}`;
     }
 
     const attachments: MessageAttachment = {
@@ -121,13 +127,13 @@ export class Slack extends IncomingWebhook {
 
   /**
    * Notify information about github actions to Slack
+   * @param {IncomingWebhookSendArguments} payload
+   * @returns {Promise<IncomingWebhookResult>} result
    */
   public async notify(payload: IncomingWebhookSendArguments): Promise<IncomingWebhookResult> {
     try {
       const result = await this.send(payload);
-
       core.debug('Sent message to Slack');
-
       return result;
     } catch (err) {
       throw err;
