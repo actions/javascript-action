@@ -41,7 +41,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - name: Exit 1
+      - name: Forced failure
         run: exit 1
 
       - name: Slack Notification
@@ -54,6 +54,12 @@ jobs:
           mention_if: 'failure'
           channel: '#develop'
           url: ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: Check if work properly
+        if: sucess()
+        run: |
+          echo 'Slack notification for failure succeeded'
+          exit 0
 
   cancel:
     # You have to cancel this job
