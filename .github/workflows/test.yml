@@ -56,9 +56,9 @@ jobs:
           url: ${{ secrets.SLACK_WEBHOOK }}
 
       - name: Check if work properly
-        if: sucess()
+        if: failure()
         run: |
-          echo 'Slack notification for failure succeeded'
+          echo 'Slack failure notification succeeded'
           exit 0
 
   cancel:
@@ -82,3 +82,9 @@ jobs:
           mention_if: 'always'
           channel: '#develop'
           url: ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: Check if work properly
+        if: cancelled()
+        run: |
+          echo 'Slack cancelled notification succeeded'
+          exit 0
