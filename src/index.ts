@@ -1,3 +1,3 @@
-import { run } from './slack';
+import {run} from './slack';
 
 run();
