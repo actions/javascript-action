@@ -2511,21 +2511,16 @@ function isValid(target, validList) {
  * @returns {string|Error}
  */
 function validateStatus(jobStatus) {
-    jobStatus = jobStatus.toLowerCase();
     if (!isValid(jobStatus, jobStatuses)) {
         throw new Error('Invalid type parameter');
     }
     return jobStatus;
 }
 exports.validateStatus = validateStatus;
-function validateMentionCondition(condition) {
-    condition = condition.toLowerCase();
-    if (!isValid(condition, metionConditions)) {
-        throw new Error('Invalid mention_if parameter');
-    }
-    return condition;
+function isValidCondition(condition) {
+    return isValid(condition, metionConditions);
 }
-exports.validateMentionCondition = validateMentionCondition;
+exports.isValidCondition = isValidCondition;
 
 
 /***/ }),
@@ -5358,11 +5353,11 @@ const slack_1 = __webpack_require__(777);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const status = utils_1.validateStatus(core.getInput('type', { required: true }));
+            const status = utils_1.validateStatus(core.getInput('type', { required: true }).toLowerCase());
             const jobName = core.getInput('job_name', { required: true });
             const url = process.env.SLACK_WEBHOOK || core.getInput('url');
             let mention = core.getInput('mention');
-            let mentionCondition = core.getInput('mention_if');
+            let mentionCondition = core.getInput('mention_if').toLowerCase();
             const slackOptions = {
                 username: core.getInput('username'),
                 channel: core.getInput('channel'),
@@ -5370,12 +5365,13 @@ function run() {
             };
             const commitFlag = core.getInput('commit') === 'true';
             const token = core.getInput('token');
-            try {
-                mentionCondition = utils_1.validateMentionCondition(mentionCondition);
-            }
-            catch (err) {
+            if (mention && !utils_1.isValidCondition(mentionCondition)) {
+                mention = '';
                 mentionCondition = '';
-                console.warn(`Ignore slack message metion: ${err.message}`);
+                console.warn(`
+      Ignore slack message metion:
+      mention_if: ${mentionCondition} is invalid
+      `);
             }
             if (url === '') {
                 throw new Error(`[Error] Missing Slack Incoming Webhooks URL.
