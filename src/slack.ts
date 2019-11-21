@@ -8,6 +8,7 @@ import {
   IncomingWebhookDefaultArguments
 } from '@slack/webhook';
 import {Context} from '@actions/github/lib/context';
+import {thisExpression} from '@babel/types';
 
 interface Accessory {
   color: string;
@@ -90,12 +91,14 @@ class Block {
    */
   public async getCommitFields(token: string): Promise<MrkdwnElement[]> {
     const {owner, repo} = this.context.repo;
-    const {sha} = this.context;
+    const ref: string = this.isPullRequest
+      ? this.context.ref.replace(/refs\/heads\//, '')
+      : this.context.sha;
     const client: github.GitHub = new github.GitHub(token);
     const {
       data: commit
     }: Octokit.Response<Octokit.ReposGetCommitResponse> = await client.repos.getCommit(
-      {owner, repo, ref: sha}
+      {owner, repo, ref}
     );
     const authorName: string = commit.author.login;
     const authorUrl: string = commit.author.html_url;

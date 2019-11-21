@@ -11016,9 +11016,11 @@ class Block {
     getCommitFields(token) {
         return __awaiter(this, void 0, void 0, function* () {
             const { owner, repo } = this.context.repo;
-            const { sha } = this.context;
+            const ref = this.isPullRequest
+                ? this.context.ref.replace(/refs\/heads\//, '')
+                : this.context.sha;
             const client = new github.GitHub(token);
-            const { data: commit } = yield client.repos.getCommit({ owner, repo, ref: sha });
+            const { data: commit } = yield client.repos.getCommit({ owner, repo, ref });
             const authorName = commit.author.login;
             const authorUrl = commit.author.html_url;
             const commitMsg = commit.commit.message;
