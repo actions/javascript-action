@@ -102,4 +102,4 @@ jobs:
           channel: '#develop'
           url: ${{ secrets.SLACK_WEBHOOK }}
           commit: 'true'
-          token: ${{ github.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
