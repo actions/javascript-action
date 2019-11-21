@@ -5368,6 +5368,8 @@ function run() {
                 channel: core.getInput('channel'),
                 icon_emoji: core.getInput('icon_emoji')
             };
+            const commitFlag = core.getInput('commit') === 'true';
+            const token = core.getInput('token');
             try {
                 mentionCondition = utils_1.validateMentionCondition(mentionCondition);
             }
@@ -5382,7 +5384,7 @@ function run() {
       `);
             }
             const slack = new slack_1.Slack();
-            const payload = slack.generatePayload(jobName, status, mention, mentionCondition);
+            const payload = yield slack.generatePayload(jobName, status, mention, mentionCondition, commitFlag, token);
             console.info(`Generated payload for slack: ${JSON.stringify(payload)}`);
             yield slack.notify(url, slackOptions, payload);
             console.info('Sent message to Slack');
@@ -10974,9 +10976,9 @@ class Block {
     }
     /**
      * Get slack blocks UI
-     * @returns {SectionBlock} blocks
+     * @returns {MrkdwnElement[]} blocks
      */
-    get block() {
+    get baseFields() {
         const { sha, eventName, workflow, ref } = this.context;
         const { owner, repo } = this.context.repo;
         const { number } = this.context.issue;
@@ -10990,16 +10992,58 @@ class Block {
         else {
             actionUrl += `/commit/${sha}/checks`;
         }
-        const block = {
-            type: 'section',
-            fields: [
-                { type: 'mrkdwn', text: `*repository*\n<${repoUrl}|${owner}/${repo}>` },
-                { type: 'mrkdwn', text: `*ref*\n${ref}` },
-                { type: 'mrkdwn', text: `*event name*\n${eventUrl}` },
-                { type: 'mrkdwn', text: `*workflow*\n<${actionUrl}|${workflow}>` }
-            ]
-        };
-        return block;
+        const fields = [
+            {
+                type: 'mrkdwn',
+                text: `*repository*\n<${repoUrl}|${owner}/${repo}>`
+            },
+            {
+                type: 'mrkdwn',
+                text: `*ref*\n${ref}`
+            },
+            {
+                type: 'mrkdwn',
+                text: `*event name*\n${eventUrl}`
+            },
+            {
+                type: 'mrkdwn',
+                text: `*workflow*\n<${actionUrl}|${workflow}>`
+            }
+        ];
+        return fields;
+    }
+    /**
+     * Get MrkdwnElement fields including git commit data
+     * @param {string} token
+     * @returns {Promise<MrkdwnElement[]>}
+     */
+    getCommitField(token) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { owner, repo } = this.context.repo;
+            const { sha } = this.context;
+            const options = {
+                owner,
+                repo,
+                commit_sha: sha
+            };
+            const client = new github.GitHub(token);
+            const { data: commit } = yield client.repos.getCommit(options);
+            const authorName = commit.author.login;
+            const authorUrl = commit.author.html_url;
+            const commitMsg = commit.commit.message;
+            const commitUrl = commit.html_url;
+            const fields = [
+                {
+                    type: 'mrkdwn',
+                    text: `*commit*\n<${commitUrl}|${commitMsg}>`
+                },
+                {
+                    type: 'mrkdwn',
+                    text: `*author*\n<${authorUrl}|${authorName}>`
+                }
+            ];
+            return fields;
+        });
     }
 }
 class Slack {
@@ -11020,23 +11064,33 @@ class Slack {
      * @param {string} mentionCondition
      * @returns {IncomingWebhookSendArguments}
      */
-    generatePayload(jobName, status, mention, mentionCondition) {
-        const slackBlockUI = new Block();
-        const notificationType = slackBlockUI[status];
-        const tmpText = `${jobName} ${notificationType.result}`;
-        const text = mention && this.isMention(mentionCondition, status)
-            ? `<!${mention}> ${tmpText}`
-            : tmpText;
-        const attachments = {
-            color: notificationType.color,
-            blocks: [slackBlockUI.block]
-        };
-        const payload = {
-            text,
-            attachments: [attachments],
-            unfurl_links: true
-        };
-        return payload;
+    generatePayload(jobName, status, mention, mentionCondition, commitFlag, token) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const slackBlockUI = new Block();
+            const notificationType = slackBlockUI[status];
+            const tmpText = `${jobName} ${notificationType.result}`;
+            const text = mention && this.isMention(mentionCondition, status)
+                ? `<!${mention}> ${tmpText}`
+                : tmpText;
+            let baseBlock = {
+                type: 'section',
+                fields: slackBlockUI.baseFields
+            };
+            if (commitFlag && token) {
+                const commitFields = yield slackBlockUI.getCommitField(token);
+                baseBlock.fields = baseBlock.fields.concat(commitFields);
+            }
+            const attachments = {
+                color: notificationType.color,
+                blocks: [baseBlock]
+            };
+            const payload = {
+                text,
+                attachments: [attachments],
+                unfurl_links: true
+            };
+            return payload;
+        });
     }
     /**
      * Notify information about github actions to Slack

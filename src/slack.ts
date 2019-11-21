@@ -1,5 +1,6 @@
 import * as github from '@actions/github';
-import {SectionBlock, MessageAttachment} from '@slack/types';
+import Octokit from '@octokit/rest';
+import {MessageAttachment, MrkdwnElement} from '@slack/types';
 import {
   IncomingWebhook,
   IncomingWebhookSendArguments,
@@ -44,9 +45,9 @@ class Block {
 
   /**
    * Get slack blocks UI
-   * @returns {SectionBlock} blocks
+   * @returns {MrkdwnElement[]} blocks
    */
-  public get block(): SectionBlock {
+  public get baseFields(): MrkdwnElement[] {
     const {sha, eventName, workflow, ref} = this.context;
     const {owner, repo} = this.context.repo;
     const {number} = this.context.issue;
@@ -61,17 +62,61 @@ class Block {
       actionUrl += `/commit/${sha}/checks`;
     }
 
-    const block: SectionBlock = {
-      type: 'section',
-      fields: [
-        {type: 'mrkdwn', text: `*repository*\n<${repoUrl}|${owner}/${repo}>`},
-        {type: 'mrkdwn', text: `*ref*\n${ref}`},
-        {type: 'mrkdwn', text: `*event name*\n${eventUrl}`},
-        {type: 'mrkdwn', text: `*workflow*\n<${actionUrl}|${workflow}>`}
-      ]
-    };
+    const fields: MrkdwnElement[] = [
+      {
+        type: 'mrkdwn',
+        text: `*repository*\n<${repoUrl}|${owner}/${repo}>`
+      },
+      {
+        type: 'mrkdwn',
+        text: `*ref*\n${ref}`
+      },
+      {
+        type: 'mrkdwn',
+        text: `*event name*\n${eventUrl}`
+      },
+      {
+        type: 'mrkdwn',
+        text: `*workflow*\n<${actionUrl}|${workflow}>`
+      }
+    ];
+    return fields;
+  }
 
-    return block;
+  /**
+   * Get MrkdwnElement fields including git commit data
+   * @param {string} token
+   * @returns {Promise<MrkdwnElement[]>}
+   */
+  public async getCommitField(token: string): Promise<MrkdwnElement[]> {
+    const {owner, repo} = this.context.repo;
+    const {sha} = this.context;
+    const options: Octokit.GitGetCommitParams = {
+      owner,
+      repo,
+      commit_sha: sha
+    };
+    const client: github.GitHub = new github.GitHub(token);
+    const {
+      data: commit
+    }: Octokit.Response<Octokit.ReposGetCommitResponse> = await client.repos.getCommit(
+      options
+    );
+    const authorName: string = commit.author.login;
+    const authorUrl: string = commit.author.html_url;
+    const commitMsg: string = commit.commit.message;
+    const commitUrl: string = commit.html_url;
+    const fields: MrkdwnElement[] = [
+      {
+        type: 'mrkdwn',
+        text: `*commit*\n<${commitUrl}|${commitMsg}>`
+      },
+      {
+        type: 'mrkdwn',
+        text: `*author*\n<${authorUrl}|${authorName}>`
+      }
+    ];
+    return fields;
   }
 }
 
@@ -94,12 +139,14 @@ export class Slack {
    * @param {string} mentionCondition
    * @returns {IncomingWebhookSendArguments}
    */
-  public generatePayload(
+  public async generatePayload(
     jobName: string,
     status: string,
     mention: string,
-    mentionCondition: string
-  ): IncomingWebhookSendArguments {
+    mentionCondition: string,
+    commitFlag: boolean,
+    token?: string
+  ): Promise<IncomingWebhookSendArguments> {
     const slackBlockUI = new Block();
     const notificationType: Accessory = slackBlockUI[status];
     const tmpText: string = `${jobName} ${notificationType.result}`;
@@ -107,10 +154,21 @@ export class Slack {
       mention && this.isMention(mentionCondition, status)
         ? `<!${mention}> ${tmpText}`
         : tmpText;
+    let baseBlock = {
+      type: 'section',
+      fields: slackBlockUI.baseFields
+    };
+
+    if (commitFlag && token) {
+      const commitFields: MrkdwnElement[] = await slackBlockUI.getCommitField(
+        token
+      );
+      baseBlock.fields = baseBlock.fields.concat(commitFields);
+    }
 
     const attachments: MessageAttachment = {
       color: notificationType.color,
-      blocks: [slackBlockUI.block]
+      blocks: [baseBlock]
     };
 
     const payload: IncomingWebhookSendArguments = {

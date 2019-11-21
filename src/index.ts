@@ -18,6 +18,8 @@ async function run() {
       channel: core.getInput('channel'),
       icon_emoji: core.getInput('icon_emoji')
     };
+    const commitFlag: boolean = core.getInput('commit') === 'true';
+    const token: string = core.getInput('token');
 
     try {
       mentionCondition = validateMentionCondition(mentionCondition);
@@ -34,11 +36,13 @@ async function run() {
     }
 
     const slack = new Slack();
-    const payload = slack.generatePayload(
+    const payload = await slack.generatePayload(
       jobName,
       status,
       mention,
-      mentionCondition
+      mentionCondition,
+      commitFlag,
+      token
     );
     console.info(`Generated payload for slack: ${JSON.stringify(payload)}`);
 
