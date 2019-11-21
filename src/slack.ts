@@ -91,8 +91,9 @@ class Block {
    */
   public async getCommitFields(token: string): Promise<MrkdwnElement[]> {
     const {owner, repo} = this.context.repo;
+    const head_ref: string = process.env.GITHUB_HEAD_REF as string;
     const ref: string = this.isPullRequest
-      ? this.context.ref.replace(/refs\/heads\//, '')
+      ? head_ref.replace(/refs\/heads\//, '')
       : this.context.sha;
     const client: github.GitHub = new github.GitHub(token);
     const {

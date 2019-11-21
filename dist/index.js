@@ -11016,8 +11016,9 @@ class Block {
     getCommitFields(token) {
         return __awaiter(this, void 0, void 0, function* () {
             const { owner, repo } = this.context.repo;
+            const head_ref = process.env.GITHUB_HEAD_REF;
             const ref = this.isPullRequest
-                ? this.context.ref.replace(/refs\/heads\//, '')
+                ? head_ref.replace(/refs\/heads\//, '')
                 : this.context.sha;
             const client = new github.GitHub(token);
             const { data: commit } = yield client.repos.getCommit({ owner, repo, ref });
