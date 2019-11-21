@@ -91,16 +91,11 @@ class Block {
   public async getCommitFields(token: string): Promise<MrkdwnElement[]> {
     const {owner, repo} = this.context.repo;
     const {sha} = this.context;
-    const options: Octokit.GitGetCommitParams = {
-      owner,
-      repo,
-      commit_sha: sha
-    };
     const client: github.GitHub = new github.GitHub(token);
     const {
       data: commit
     }: Octokit.Response<Octokit.ReposGetCommitResponse> = await client.repos.getCommit(
-      options
+      {owner, repo, ref: sha}
     );
     const authorName: string = commit.author.login;
     const authorUrl: string = commit.author.html_url;

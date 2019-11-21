@@ -11017,13 +11017,8 @@ class Block {
         return __awaiter(this, void 0, void 0, function* () {
             const { owner, repo } = this.context.repo;
             const { sha } = this.context;
-            const options = {
-                owner,
-                repo,
-                commit_sha: sha
-            };
             const client = new github.GitHub(token);
-            const { data: commit } = yield client.repos.getCommit(options);
+            const { data: commit } = yield client.repos.getCommit({ owner, repo, ref: sha });
             const authorName = commit.author.login;
             const authorUrl = commit.author.html_url;
             const commitMsg = commit.commit.message;

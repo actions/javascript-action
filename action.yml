@@ -33,7 +33,6 @@ inputs:
   token:
     description: 'need to get commit data'
     required: false
-    default: ''
 runs:
   using: 'node12'
   main: 'dist/index.js'
