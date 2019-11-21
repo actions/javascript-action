@@ -31,11 +31,14 @@ You can customize the following parameters:
 |icon_emoji|optional|Use Slack Incoming Webhook configuration|Slack icon|
 |username|optional|Use Slack Incoming Webhook configuration|Slack username|
 |channel|optional|Use Slack Incoming Webhook configuration|Slack channel name|
+|commit|optional|false|If true, slack notification includes the latest commit message and author.|
+|token|case by case|N/A|This token is used to get commit data.<br>If commit parameter is true, this parameter is required.<br>${{ secrets.GITHUB_TOKEN }} is recommended.|
 
 Please refer `action.yml` for more details.
 
-## Example
-```..github/workflows/main.yml
+## Examples
+
+```..github/workflows/example1.yml
 - name: Slack Notification
   uses: homoluctus/slatify@master
   if: always()
@@ -46,6 +49,23 @@ Please refer `action.yml` for more details.
     mention_if: 'failure'
     channel: '#random'
     url: ${{ secrets.SLACK_WEBHOOK }}
+```
+
+↓ Including the latest commit data
+
+```..github/workflows/example2.yml
+- name: Slack Notification
+  uses: homoluctus/slatify@master
+  if: always()
+  with:
+    type: ${{ job.status }}
+    job_name: '*Lint Check*'
+    mention: 'here'
+    mention_if: 'failure'
+    channel: '#random'
+    url: ${{ secrets.SLACK_WEBHOOK }}
+    commit: true
+    token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 # Slack UI Example

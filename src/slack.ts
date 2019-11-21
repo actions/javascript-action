@@ -88,7 +88,7 @@ class Block {
    * @param {string} token
    * @returns {Promise<MrkdwnElement[]>}
    */
-  public async getCommitField(token: string): Promise<MrkdwnElement[]> {
+  public async getCommitFields(token: string): Promise<MrkdwnElement[]> {
     const {owner, repo} = this.context.repo;
     const {sha} = this.context;
     const options: Octokit.GitGetCommitParams = {
@@ -160,7 +160,7 @@ export class Slack {
     };
 
     if (commitFlag && token) {
-      const commitFields: MrkdwnElement[] = await slackBlockUI.getCommitField(
+      const commitFields: MrkdwnElement[] = await slackBlockUI.getCommitFields(
         token
       );
       baseBlock.fields = baseBlock.fields.concat(commitFields);

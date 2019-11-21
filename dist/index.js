@@ -11017,7 +11017,7 @@ class Block {
      * @param {string} token
      * @returns {Promise<MrkdwnElement[]>}
      */
-    getCommitField(token) {
+    getCommitFields(token) {
         return __awaiter(this, void 0, void 0, function* () {
             const { owner, repo } = this.context.repo;
             const { sha } = this.context;
@@ -11077,7 +11077,7 @@ class Slack {
                 fields: slackBlockUI.baseFields
             };
             if (commitFlag && token) {
-                const commitFields = yield slackBlockUI.getCommitField(token);
+                const commitFields = yield slackBlockUI.getCommitFields(token);
                 baseBlock.fields = baseBlock.fields.concat(commitFields);
             }
             const attachments = {
