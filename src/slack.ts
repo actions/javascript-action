@@ -1,8 +1,5 @@
 import * as github from '@actions/github';
-import {
-  SectionBlock,
-  MessageAttachment
-} from '@slack/types';
+import {SectionBlock, MessageAttachment} from '@slack/types';
 import {
   IncomingWebhook,
   IncomingWebhookSendArguments,
@@ -86,7 +83,7 @@ export class Slack {
    * @returns {boolean}
    */
   private isMention(condition: string, status: string): boolean {
-    return condition === 'always' || condition === status
+    return condition === 'always' || condition === status;
   }
 
   /**
@@ -106,9 +103,10 @@ export class Slack {
     const slackBlockUI = new Block();
     const notificationType: Accessory = slackBlockUI[status];
     const tmpText: string = `${jobName} ${notificationType.result}`;
-    const text = mention && this.isMention(mentionCondition, status)
-      ? `<!${mention}> ${tmpText}`
-      : tmpText;
+    const text =
+      mention && this.isMention(mentionCondition, status)
+        ? `<!${mention}> ${tmpText}`
+        : tmpText;
 
     const attachments: MessageAttachment = {
       color: notificationType.color,
@@ -141,7 +139,7 @@ export class Slack {
       throw new Error(`
       Failed to send notification to Slack
       Response: ${response.text}
-      `)
+      `);
     }
   }
 }
