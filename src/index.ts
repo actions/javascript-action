@@ -1,18 +1,18 @@
 import * as core from '@actions/core';
 import {IncomingWebhookDefaultArguments} from '@slack/webhook';
 
-import {validateStatus, validateMentionCondition} from './utils';
+import {validateStatus, isValidCondition} from './utils';
 import {Slack} from './slack';
 
 async function run() {
   try {
     const status: string = validateStatus(
-      core.getInput('type', {required: true})
+      core.getInput('type', {required: true}).toLowerCase()
     );
     const jobName: string = core.getInput('job_name', {required: true});
     const url: string = process.env.SLACK_WEBHOOK || core.getInput('url');
     let mention: string = core.getInput('mention');
-    let mentionCondition: string = core.getInput('mention_if');
+    let mentionCondition: string = core.getInput('mention_if').toLowerCase();
     const slackOptions: IncomingWebhookDefaultArguments = {
       username: core.getInput('username'),
       channel: core.getInput('channel'),
@@ -21,11 +21,13 @@ async function run() {
     const commitFlag: boolean = core.getInput('commit') === 'true';
     const token: string = core.getInput('token');
 
-    try {
-      mentionCondition = validateMentionCondition(mentionCondition);
-    } catch (err) {
+    if (mention && !isValidCondition(mentionCondition)) {
+      mention = '';
       mentionCondition = '';
-      console.warn(`Ignore slack message metion: ${err.message}`);
+      console.warn(`
+      Ignore slack message metion:
+      mention_if: ${mentionCondition} is invalid
+      `);
     }
 
     if (url === '') {

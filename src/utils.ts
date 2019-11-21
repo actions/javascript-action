@@ -11,19 +11,12 @@ function isValid(target: string, validList: string[]): boolean {
  * @returns {string|Error}
  */
 export function validateStatus(jobStatus: string): string {
-  jobStatus = jobStatus.toLowerCase();
-
   if (!isValid(jobStatus, jobStatuses)) {
     throw new Error('Invalid type parameter');
   }
   return jobStatus;
 }
 
-export function validateMentionCondition(condition: string): string {
-  condition = condition.toLowerCase();
-
-  if (!isValid(condition, metionConditions)) {
-    throw new Error('Invalid mention_if parameter');
-  }
-  return condition;
+export function isValidCondition(condition: string): boolean {
+  return isValid(condition, metionConditions);
 }
