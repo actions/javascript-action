@@ -39,8 +39,8 @@
     "@slack/webhook": "^5.0.1"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.13",
-    "@types/node": "^12.0.4",
+    "@types/jest": "^24.0.23",
+    "@types/node": "^12.12.11",
     "@zeit/ncc": "^0.20.5",
     "husky": "^3.1.0",
     "jest": "^24.8.0",
