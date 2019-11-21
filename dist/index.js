@@ -11074,7 +11074,7 @@ class Slack {
             };
             if (commitFlag && token) {
                 const commitFields = yield slackBlockUI.getCommitFields(token);
-                baseBlock.fields = baseBlock.fields.concat(commitFields);
+                Array.prototype.push.apply(baseBlock.fields, commitFields);
             }
             const attachments = {
                 color: notificationType.color,

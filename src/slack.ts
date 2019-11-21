@@ -163,7 +163,7 @@ export class Slack {
       const commitFields: MrkdwnElement[] = await slackBlockUI.getCommitFields(
         token
       );
-      baseBlock.fields = baseBlock.fields.concat(commitFields);
+      Array.prototype.push.apply(baseBlock.fields, commitFields);
     }
 
     const attachments: MessageAttachment = {
