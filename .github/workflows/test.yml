@@ -14,7 +14,7 @@ jobs:
         if: always()
         with:
           type: ${{ job.status }}
-          job_name: ':robot_face: *Check action*'
+          job_name: ':robot_face: *Success*'
           mention: 'here'
           mention_if: 'failure'
           channel: '#develop'
@@ -31,7 +31,7 @@ jobs:
         if: always()
         with:
           type: ${{ job.status }}
-          job_name: ':robot_face: *Check action*'
+          job_name: ':robot_face: *Success no mention*'
           channel: '#develop'
           url: ${{ secrets.SLACK_WEBHOOK }}
 
@@ -41,7 +41,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - name: Exit 1
+      - name: Forced failure
         run: exit 1
 
       - name: Slack Notification
@@ -49,11 +49,17 @@ jobs:
         if: always()
         with:
           type: ${{ job.status }}
-          job_name: ':robot_face: *Check action*'
+          job_name: ':robot_face: *Failure*'
           mention: 'here'
           mention_if: 'failure'
           channel: '#develop'
           url: ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: Check if work properly
+        if: failure()
+        run: |
+          echo 'Slack failure notification succeeded'
+          exit 0
 
   cancel:
     # You have to cancel this job
@@ -71,8 +77,29 @@ jobs:
         if: always()
         with:
           type: ${{ job.status }}
-          job_name: ':robot_face: *Check action*'
+          job_name: ':robot_face: *Cancel*'
           mention: 'here'
           mention_if: 'always'
           channel: '#develop'
           url: ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: Check if work properly
+        if: cancelled()
+        run: |
+          echo 'Slack cancelled notification succeeded'
+          exit 0
+
+  commit:
+    name: Include commit data
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+
+      - uses: ./
+        with:
+          type: ${{ job.status }}
+          job_name: ':robot_face: *Commit*'
+          channel: '#develop'
+          url: ${{ secrets.SLACK_WEBHOOK }}
+          commit: 'true'
+          token: ${{ secrets.GITHUB_TOKEN }}

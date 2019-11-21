@@ -26,6 +26,13 @@ inputs:
   url:
     description: 'slack incoming webhook url'
     required: false
+  commit:
+    description: 'whether include commit data or not (true or false)'
+    required: false
+    default: 'false'
+  token:
+    description: 'need to get commit data'
+    required: false
 runs:
   using: 'node12'
   main: 'dist/index.js'
