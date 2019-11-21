@@ -68,9 +68,11 @@ Please refer `action.yml` for more details.
     token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
+<img src="./images/slack2.png" alt="Notification Preview" width="90%">
+
 # Slack UI Example
 
-<img src="./images/slack.png" alt="Notification Preview" width="70%">
+<img src="./images/slack.png" alt="Notification Preview" width="90%">
 
 # Contribute
 1. Fork this repository
