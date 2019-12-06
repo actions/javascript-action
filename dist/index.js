@@ -11024,7 +11024,7 @@ class Block {
             const { data: commit } = yield client.repos.getCommit({ owner, repo, ref });
             const authorName = commit.author.login;
             const authorUrl = commit.author.html_url;
-            const commitMsg = commit.commit.message.split['\n'][0];
+            const commitMsg = commit.commit.message.split('\n')[0];
             const commitUrl = commit.html_url;
             const fields = [
                 {
