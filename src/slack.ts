@@ -103,7 +103,7 @@ class Block {
     );
     const authorName: string = commit.author.login;
     const authorUrl: string = commit.author.html_url;
-    const commitMsg: string = commit.commit.message;
+    const commitMsg: string = commit.commit.message.split('\n')[0];
     const commitUrl: string = commit.html_url;
     const fields: MrkdwnElement[] = [
       {
