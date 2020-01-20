@@ -96,25 +96,25 @@ class Block {
       ? head_ref.replace(/refs\/heads\//, '')
       : this.context.sha;
     const client: github.GitHub = new github.GitHub(token);
-    const {
-      data: commit
-    }: Octokit.Response<Octokit.ReposGetCommitResponse> = await client.repos.getCommit(
-      {owner, repo, ref}
-    );
-    const authorName: string = commit.author.login;
-    const authorUrl: string = commit.author.html_url;
+    const {data: commit} = await client.repos.getCommit({owner, repo, ref});
+
     const commitMsg: string = commit.commit.message.split('\n')[0];
     const commitUrl: string = commit.html_url;
     const fields: MrkdwnElement[] = [
       {
         type: 'mrkdwn',
         text: `*commit*\n<${commitUrl}|${commitMsg}>`
-      },
-      {
-        type: 'mrkdwn',
-        text: `*author*\n<${authorUrl}|${authorName}>`
       }
     ];
+
+    if (commit.author) {
+      const authorName: string = commit.author.login;
+      const authorUrl: string = commit.author.html_url;
+      fields.push({
+        type: 'mrkdwn',
+        text: `*author*\n<${authorUrl}|${authorName}>`
+      });
+    }
     return fields;
   }
 }
