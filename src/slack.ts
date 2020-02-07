@@ -1,5 +1,5 @@
 import * as github from '@actions/github';
-import Octokit from '@octokit/rest';
+import {Octokit} from '@octokit/rest';
 import {MessageAttachment, MrkdwnElement} from '@slack/types';
 import {
   IncomingWebhook,
@@ -8,7 +8,6 @@ import {
   IncomingWebhookDefaultArguments
 } from '@slack/webhook';
 import {Context} from '@actions/github/lib/context';
-import {thisExpression} from '@babel/types';
 
 interface Accessory {
   color: string;
@@ -95,7 +94,7 @@ class Block {
     const ref: string = this.isPullRequest
       ? head_ref.replace(/refs\/heads\//, '')
       : this.context.sha;
-    const client: github.GitHub = new github.GitHub(token);
+    const client = new Octokit({auth: token});
     const {data: commit} = await client.repos.getCommit({owner, repo, ref});
 
     const commitMsg: string = commit.commit.message.split('\n')[0];
