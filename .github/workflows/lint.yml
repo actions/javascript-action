@@ -1,9 +1,7 @@
-name: TS Lint Check
+name: lint
 
 on:
   pull_request:
-    branches:
-      - master
     paths:
       - src/*
 
@@ -12,15 +10,35 @@ jobs:
     name: Lint Check
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
 
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
 
-      - name: Setup TS
-        run: npm install tslint typescript -g
+      - name: Install prettier
+        run: yarn --frozen-lockfile
 
-      - name: Lint check with tslint
-        run: tslint './src/*.ts'
+      - name: Check
+        id: lint_check
+        run: |
+          result=$(yarn run lint)
+          echo "::set-output name=exit_code::$?"
+          echo "::set-output name=result::$result"
+
+      - uses: actions/github-script@0.4.0
+        if: failure() && steps.lint_check.outputs.result != ''
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '### Prettier\n{ steps.lint_check.outputs.result }}'
+            })
+
+      - name: Error exit
+        if: ${{ steps.lint_check.outputs.exit_code }} != '0'
+        run: exit 1
