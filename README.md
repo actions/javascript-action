@@ -1,11 +1,21 @@
 # Slatify
 
-![](https://github.com/homoluctus/slatify/workflows/TS%20Lint%20Check/badge.svg)
+![GitHub Workflow](https://github.com/homoluctus/slatify/workflows/lint/badge.svg)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/homoluctus/slatify?color=brightgreen)
 ![GitHub](https://img.shields.io/github/license/homoluctus/slatify?color=brightgreen)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 This is Slack Notification for GitHub Actions.<br>
 Generated from [actions/javascript-template](https://github.com/actions/javascript-template).
+
+# ToC
+
+- [Feature](#Feature)
+- [Usage](#Usage)
+  - [Examples](#Examples)
+- [Slack UI](#Slack%20UI)
+- [Contribution](#Contribution)
+- [LICENSE](#LICENSE)
 
 # Feature
 - Notify the result of GitHub Actions
@@ -17,7 +27,7 @@ Generated from [actions/javascript-template](https://github.com/actions/javascri
   - Notify message to channel members efficiently
   - You can specify the condition to mention
 
-# How to use
+# Usage
 First of all, you need to set GitHub secrets for SLACK_WEBHOOK that is Incoming Webhook URL.<br>
 You can customize the following parameters:
 
@@ -70,16 +80,17 @@ Please refer `action.yml` for more details.
 
 <img src="./images/slack2.png" alt="Notification Preview" width="90%">
 
-# Slack UI Example
+# Slack UI
 
 <img src="./images/slack.png" alt="Notification Preview" width="90%">
 
-# Contribute
+# Contribution
+
 1. Fork this repository
 2. Pull your repository in local machine
 3. Update original repository
 4. Checkout "master" branch based "remotes/origin/master" branch
-5. Work on "master" branch
+5. Work on "master" or other branch
 6. Push you changes to your repository
 7. Create a new Pull Request
 

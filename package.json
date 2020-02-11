@@ -6,7 +6,7 @@
   "scripts": {
     "build": "ncc build src/index.ts",
     "format": "prettier --write **/*.ts",
-    "pre-commit": "npm run format && npm run build",
+    "lint": "prettier --check --loglevel warn src/**",
     "test": "jest"
   },
   "husky": {
