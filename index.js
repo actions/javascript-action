@@ -9,7 +9,7 @@ async function run() {
     console.log(`Waiting ${ms} milliseconds ...`)
 
     core.debug((new Date()).toTimeString())
-    wait(parseInt(ms));
+    await wait(parseInt(ms));
     core.debug((new Date()).toTimeString())
 
     core.setOutput('time', new Date().toTimeString());
