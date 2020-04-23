@@ -5793,34 +5793,34 @@ class MSTeams_MSTeams {
 			needs
 		}
 	) {
-		const msteamsBlockUI = new MSTeams_Block();
-		const notificationType = msteamsBlockUI[status];
-		const tmpText = `${jobName} ${notificationType.result}`;
-		const text =
-			mention && this.isMention(mentionCondition, status)
-				? `<!${mention}> ${tmpText}`
-				: tmpText;
-		let baseBlock = {
-			type: 'section',
-			fields: msteamsBlockUI.baseFields,
-			"activityTitle": `${github.context.sender.login} ${github.context.event.name} initialised workflow ${github.context.event.workflow}`,
-			"activitySubtitle": github.context.repository,
-			"activityImage": github.context.sender.avatar_url,
-			"facts": msteamsBlockUI.baseFields,
-			"markdown": true
-		};
+		// const msteamsBlockUI = new Block();
+		// const notificationType = msteamsBlockUI[status];
+		// const tmpText = `${jobName} ${notificationType.result}`;
+		// const text =
+		// 	mention && this.isMention(mentionCondition, status)
+		// 		? `<!${mention}> ${tmpText}`
+		// 		: tmpText;
+		// let baseBlock = {
+		// 	type: 'section',
+			// fields: msteamsBlockUI.baseFields,
+			// "activityTitle": `${github.sender.login} ${github.event.name} initialised workflow ${github.event.workflow}`,
+			// "activitySubtitle": github.repository,
+			// "activityImage": github.sender.avatar_url,
+			// "facts": msteamsBlockUI.baseFields,
+			// "markdown": true
+		// };
 
-		if (commitFlag && token) {
-			const commitFields = await msteamsBlockUI.getCommitFields(
-				token
-			);
-			Array.prototype.push.apply(baseBlock.fields, commitFields);
-		}
+		// if (commitFlag && token) {
+		// 	const commitFields = await msteamsBlockUI.getCommitFields(
+		// 		token
+		// 	);
+		// 	Array.prototype.push.apply(baseBlock.fields, commitFields);
+		// }
 
-		const attachments = {
-			color: notificationType.color,
-			blocks: [baseBlock]
-		};
+		// const attachments = {
+		// 	color: notificationType.color,
+		// 	blocks: [baseBlock]
+		// };
 
 		const get_result_mark = result => result === 'success' ? '✓' : result === 'failure' ? '✗' : result === 'skipped' ? '⤼' : 'o';
 
