@@ -22,9 +22,9 @@ jobs:
           channel: '#develop'
           url: ${{ secrets.MSTEAMS_WEBHOOK }}
 #        env:
-          needs: ${{ toJson(needs) }}
-          job: ${{ toJson(job) }}
-          steps: ${{ toJson(steps) }}
+#          needs: ${{ toJson(needs) }}
+#          job: ${{ toJson(job) }}
+#          steps: ${{ toJson(steps) }}
   success_no_mention:
     name: Works properly without mention
     runs-on: ubuntu-18.04
@@ -40,9 +40,9 @@ jobs:
           channel: '#develop'
           url: ${{ secrets.MSTEAMS_WEBHOOK }}
 #        env:
-          needs: ${{ toJson(needs) }}
-          job: ${{ toJson(job) }}
-          steps: ${{ toJson(steps) }}
+#          needs: ${{ toJson(needs) }}
+#          job: ${{ toJson(job) }}
+#          steps: ${{ toJson(steps) }}
   failure:
     name: Works failed
     runs-on: ubuntu-18.04
@@ -63,9 +63,9 @@ jobs:
           channel: '#develop'
           url: ${{ secrets.MSTEAMS_WEBHOOK }}
 #        env:
-          needs: ${{ toJson(needs) }}
-          job: ${{ toJson(job) }}
-          steps: ${{ toJson(steps) }}
+#          needs: ${{ toJson(needs) }}
+#          job: ${{ toJson(job) }}
+#          steps: ${{ toJson(steps) }}
 
       - name: Check if work properly
         if: failure()
@@ -95,9 +95,9 @@ jobs:
           channel: '#develop'
           url: ${{ secrets.MSTEAMS_WEBHOOK }}
 #        env:
-          needs: ${{ toJson(needs) }}
-          job: ${{ toJson(job) }}
-          steps: ${{ toJson(steps) }}
+#          needs: ${{ toJson(needs) }}
+#          job: ${{ toJson(job) }}
+#          steps: ${{ toJson(steps) }}
 
       - name: Check if work properly
         if: cancelled()
@@ -120,6 +120,6 @@ jobs:
           commit: 'true'
           token: ${{ secrets.GITHUB_TOKEN }}
 #        env:
-          needs: ${{ toJson(needs) }}
-          job: ${{ toJson(job) }}
-          steps: ${{ toJson(steps) }}
+#          needs: ${{ toJson(needs) }}
+#          job: ${{ toJson(job) }}
+#          steps: ${{ toJson(steps) }}
