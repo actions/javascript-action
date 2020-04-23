@@ -119,7 +119,7 @@ jobs:
           url: ${{ secrets.MSTEAMS_WEBHOOK }}
           commit: 'true'
           token: ${{ secrets.GITHUB_TOKEN }}
-#        env:
+        env:
           needs_context: '${{ toJson(needs) }}'
           job_context: '${{ toJson(job) }}'
           steps_context: "${{ toJson(steps) }}"
