@@ -20,12 +20,9 @@ async function run() {
 		const commitFlag = core.getInput('commit') === 'true';
 		const token = core.getInput('token');
 
-		let github = JSON.parse(core.getInput('github'));
-		let job = JSON.parse(core.getInput('job'));
-		let steps = JSON.parse(core.getInput('steps'));
-		let runner = JSON.parse(core.getInput('runner'));
-		let strategy = JSON.parse(core.getInput('strategy'));
-		let matrix = JSON.parse(core.getInput('matrix'));
+		let github = JSON.parse(core.getInput('github')||{});
+		let job = JSON.parse(core.getInput('job')||{});
+		let steps = JSON.parse(core.getInput('steps')||{});
 
 		if (mention && !isValidCondition(mentionCondition)) {
 			mention = '';
@@ -54,10 +51,7 @@ async function run() {
 			{
 				github,
 				job,
-				steps,
-				runner,
-				strategy,
-				matrix
+				steps
 			}
 		);
 		console.info(`Generated payload for msteams: ${JSON.stringify(payload)}`);

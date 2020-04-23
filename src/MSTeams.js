@@ -135,10 +135,7 @@ export class MSTeams {
 		{
 			github,
 			job,
-			steps,
-			runner,
-			strategy,
-			matrix
+			steps
 		}
 	) {
 		const msteamsBlockUI = new Block();

@@ -24,7 +24,6 @@ jobs:
           github: ${{ toJson(github) }}
           job: ${{ toJson(job) }}
           steps: ${{ toJson(steps) }}
-
   success_no_mention:
     name: Works properly without mention
     runs-on: ubuntu-18.04
@@ -42,7 +41,6 @@ jobs:
           github: ${{ toJson(github) }}
           job: ${{ toJson(job) }}
           steps: ${{ toJson(steps) }}
-
   failure:
     name: Works failed
     runs-on: ubuntu-18.04
