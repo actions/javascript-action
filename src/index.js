@@ -26,6 +26,9 @@ async function run() {
 		let steps = core.getInput('steps');
 		steps = steps === '' ? {} : JSON.parse(steps);
 		console.log(steps);
+		let needs = core.getInput('needs');
+		needs = needs === '' ? {} : JSON.parse(needs);
+		console.log(needs);
 
 		if (mention && !isValidCondition(mentionCondition)) {
 			mention = '';
@@ -52,9 +55,9 @@ async function run() {
 			commitFlag,
 			token,
 			{
-				github,
 				job,
-				steps
+				steps,
+				needs
 			}
 		);
 		console.info(`Generated payload for msteams: ${JSON.stringify(payload)}`);

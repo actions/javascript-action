@@ -134,7 +134,8 @@ export class MSTeams {
 		token,
 		{
 			job,
-			steps
+			steps,
+			needs
 		}
 	) {
 		const msteamsBlockUI = new Block();

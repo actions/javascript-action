@@ -35,6 +35,6 @@ jobs:
           commit: true
           token: ${{ secrets.GITHUB_TOKEN }}
         env:
-          github: ${{ toJson(github) }}
+          needs: ${{ toJson(needs) }}
           job: ${{ toJson(job) }}
           steps: ${{ toJson(steps) }}
