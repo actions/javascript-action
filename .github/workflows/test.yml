@@ -120,6 +120,6 @@ jobs:
           commit: 'true'
           token: ${{ secrets.GITHUB_TOKEN }}
 #        env:
-          needs_context: ${{ toJson(needs) }}
-          job_context: ${{ toJson(job) }}
-          steps_context: ${{ toJson(steps) }}
+          needs_context: '${{ toJson(needs) }}'
+          job_context: '${{ toJson(job) }}'
+          steps_context: "${{ toJson(steps) }}"
