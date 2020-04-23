@@ -5659,7 +5659,7 @@ var dist = __webpack_require__(960);
 
 class MSTeams_Block {
 	constructor() {
-		this.context = github.context.context;
+		this.context = github.context;
 	}
 
 	get success() {
@@ -5793,7 +5793,7 @@ class MSTeams_MSTeams {
 			needs
 		}
 	) {
-		// const msteamsBlockUI = new Block();
+		const msteamsBlockUI = new MSTeams_Block();
 		const notificationType = msteamsBlockUI[status];
 		// const tmpText = `${jobName} ${notificationType.result}`;
 		// const text =
