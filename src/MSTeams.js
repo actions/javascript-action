@@ -3,7 +3,9 @@ import { Octokit } from '@octokit/rest';
 import { IncomingWebhook } from 'ms-teams-webhook';
 
 class Block {
-	context = github.context;
+	constructor() {
+		this.context = github.context;
+	}
 
 	get success() {
 		return {

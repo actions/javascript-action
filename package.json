@@ -4,6 +4,7 @@
 	"description": "Microsoft Teams Notification for Github Actions",
 	"main": "dist/index.js",
 	"scripts": {
+    	"build": "ncc build src -o dist",
 		"lint": "eslint index.js",
 		"package": "babel src -d dist",
 		"test": "eslint index.js && jest"
@@ -24,7 +25,7 @@
 	},
 	"homepage": "https://github.com/Skitionek/notify-microsoft-teams#readme",
 	"dependencies": {
-		"@actions/core": "^1.1.1",
+		"@actions/core": "^1.2.3",
 		"@octokit/rest": "^17.5.2",
 		"botbuilder": "^4.8.0",
 		"ms-teams-webhook": "^1.0.3"
