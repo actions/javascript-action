@@ -22,10 +22,13 @@ async function run() {
 
 		let github = core.getInput('github');
 		github = github === '' ? {} : JSON.parse(github);
+		console.log(github);
 		let job = core.getInput('job');
 		job = job === '' ? {} : JSON.parse(job);
+		console.log(job);
 		let steps = core.getInput('steps');
 		steps = steps === '' ? {} : JSON.parse(steps);
+		console.log(steps);
 
 		if (mention && !isValidCondition(mentionCondition)) {
 			mention = '';
