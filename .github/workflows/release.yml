@@ -34,7 +34,7 @@ jobs:
           url: ${{ secrets.MSTEAMS_WEBHOOK }}
           commit: true
           token: ${{ secrets.GITHUB_TOKEN }}
-        env:
+#        env:
           needs: ${{ toJson(needs) }}
           job: ${{ toJson(job) }}
           steps: ${{ toJson(steps) }}
