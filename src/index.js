@@ -60,7 +60,7 @@ async function run() {
 				needs
 			}
 		);
-		console.info(`Generated payload for msteams: ${JSON.stringify(payload)}`);
+		// console.info(`Generated payload for msteams: ${JSON.stringify(payload)}`);
 
 		await msteams.notify(url, msteamsOptions, payload);
 		console.info('Sent message to MSTeams');
