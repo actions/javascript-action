@@ -4,9 +4,8 @@
 	"description": "Microsoft Teams Notification for Github Actions",
 	"main": "dist/index.js",
 	"scripts": {
-    	"build": "ncc build src -o dist",
+    	"package": "ncc build src -o dist",
 		"lint": "eslint index.js",
-		"package": "babel src -d dist",
 		"test": "eslint index.js && jest"
 	},
 	"repository": {
