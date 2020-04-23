@@ -20,9 +20,12 @@ async function run() {
 		const commitFlag = core.getInput('commit') === 'true';
 		const token = core.getInput('token');
 
-		let github = JSON.parse(core.getInput('github')||{});
-		let job = JSON.parse(core.getInput('job')||{});
-		let steps = JSON.parse(core.getInput('steps')||{});
+		let github = core.getInput('github');
+		github = github === '' ? {} : JSON.parse(github);
+		let job = core.getInput('job');
+		job = job === '' ? {} : JSON.parse(job);
+		let steps = core.getInput('steps');
+		steps = steps === '' ? {} : JSON.parse(steps);
 
 		if (mention && !isValidCondition(mentionCondition)) {
 			mention = '';

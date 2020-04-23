@@ -5790,10 +5790,7 @@ class MSTeams_MSTeams {
 		{
 			github,
 			job,
-			steps,
-			runner,
-			strategy,
-			matrix
+			steps
 		}
 	) {
 		const msteamsBlockUI = new MSTeams_Block();
@@ -5992,12 +5989,9 @@ async function run() {
 		const commitFlag = Object(core.getInput)('commit') === 'true';
 		const token = Object(core.getInput)('token');
 
-		let github = JSON.parse(Object(core.getInput)('github'));
-		let job = JSON.parse(Object(core.getInput)('job'));
-		let steps = JSON.parse(Object(core.getInput)('steps'));
-		let runner = JSON.parse(Object(core.getInput)('runner'));
-		let strategy = JSON.parse(Object(core.getInput)('strategy'));
-		let matrix = JSON.parse(Object(core.getInput)('matrix'));
+		let github = JSON.parse(Object(core.getInput)('github')||{});
+		let job = JSON.parse(Object(core.getInput)('job')||{});
+		let steps = JSON.parse(Object(core.getInput)('steps')||{});
 
 		if (mention && !isValidCondition(mentionCondition)) {
 			mention = '';
@@ -6026,10 +6020,7 @@ async function run() {
 			{
 				github,
 				job,
-				steps,
-				runner,
-				strategy,
-				matrix
+				steps
 			}
 		);
 		console.info(`Generated payload for msteams: ${JSON.stringify(payload)}`);
