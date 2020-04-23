@@ -5888,12 +5888,12 @@ class MSTeams_MSTeams {
 				break;
 		}
 
-		Object(core.info)(github.context);
+		Object(core.info)(JSON.stringify(github.context));
 		return {
 			"@type": "MessageCard",
 			"@context": "http://schema.org/extensions",
 			"themeColor": notificationType.color,
-			"title": `[${github.context.sender.login}](${github.context.sender.url}) [${github.context.event.name}](${github.context.event.compare}) initialised workflow [${github.context.event.workflow}](${github.context.event.repository.html_url}/actions?query=workflow%3A${github.context.event.workflow}})`,
+			"title": `[${github.context.event.sender.login}](${github.context.event.sender.url}) [${github.context.event.name}](${github.context.event.compare}) initialised workflow [${github.context.event.workflow}](${github.context.event.repository.html_url}/actions?query=workflow%3A${github.context.event.workflow}})`,
 			"summary": `[${github.context.repository}](${github.context.event.repository.html_url})`,
 			"text": `Changelog:${Object(github.context.event.commits.reduce)(c => '\n+ ' + c.message, '')}`,
 			"sections": [

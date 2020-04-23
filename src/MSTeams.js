@@ -233,6 +233,7 @@ export class MSTeams {
 				break;
 		}
 
+		core.info(JSON.stringify(github));
 		return {
 			"@type": "MessageCard",
 			"@context": "http://schema.org/extensions",
