@@ -14,13 +14,6 @@ jobs:
       - name: MSTeams Notification
         uses: ./
         if: always()
-        with:
-          type: ${{ job.status }}
-          job_name: ':robot_face: *Success*'
-          mention: 'here'
-          mention_if: 'failure'
-          channel: '#develop'
-          url: ${{ secrets.MSTEAMS_WEBHOOK }}
 #        env:
 #          needs: ${{ toJson(needs) }}
 #          job: ${{ toJson(job) }}
