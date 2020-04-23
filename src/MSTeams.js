@@ -1,4 +1,4 @@
-import * as github from '@actions/github';
+import {context as github} from '@actions/github';
 import { Octokit } from '@octokit/rest';
 import { IncomingWebhook } from 'ms-teams-webhook';
 
@@ -133,7 +133,6 @@ export class MSTeams {
 		commitFlag,
 		token,
 		{
-			github,
 			job,
 			steps
 		}

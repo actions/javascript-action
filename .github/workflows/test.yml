@@ -21,6 +21,7 @@ jobs:
           mention_if: 'failure'
           channel: '#develop'
           url: ${{ secrets.MSTEAMS_WEBHOOK }}
+        env:
           github: ${{ toJson(github) }}
           job: ${{ toJson(job) }}
           steps: ${{ toJson(steps) }}
@@ -38,6 +39,7 @@ jobs:
           job_name: ':robot_face: *Success no mention*'
           channel: '#develop'
           url: ${{ secrets.MSTEAMS_WEBHOOK }}
+        env:
           github: ${{ toJson(github) }}
           job: ${{ toJson(job) }}
           steps: ${{ toJson(steps) }}
@@ -60,6 +62,7 @@ jobs:
           mention_if: 'failure'
           channel: '#develop'
           url: ${{ secrets.MSTEAMS_WEBHOOK }}
+        env:
           github: ${{ toJson(github) }}
           job: ${{ toJson(job) }}
           steps: ${{ toJson(steps) }}
@@ -91,6 +94,7 @@ jobs:
           mention_if: 'always'
           channel: '#develop'
           url: ${{ secrets.MSTEAMS_WEBHOOK }}
+        env:
           github: ${{ toJson(github) }}
           job: ${{ toJson(job) }}
           steps: ${{ toJson(steps) }}
@@ -115,6 +119,7 @@ jobs:
           url: ${{ secrets.MSTEAMS_WEBHOOK }}
           commit: 'true'
           token: ${{ secrets.GITHUB_TOKEN }}
+        env:
           github: ${{ toJson(github) }}
           job: ${{ toJson(job) }}
           steps: ${{ toJson(steps) }}

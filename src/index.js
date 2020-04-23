@@ -20,9 +20,6 @@ async function run() {
 		const commitFlag = core.getInput('commit') === 'true';
 		const token = core.getInput('token');
 
-		let github = core.getInput('github');
-		github = github === '' ? {} : JSON.parse(github);
-		console.log(github);
 		let job = core.getInput('job');
 		job = job === '' ? {} : JSON.parse(job);
 		console.log(job);
