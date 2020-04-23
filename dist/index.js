@@ -5794,7 +5794,7 @@ class MSTeams_MSTeams {
 		}
 	) {
 		// const msteamsBlockUI = new Block();
-		// const notificationType = msteamsBlockUI[status];
+		const notificationType = msteamsBlockUI[status];
 		// const tmpText = `${jobName} ${notificationType.result}`;
 		// const text =
 		// 	mention && this.isMention(mentionCondition, status)
