@@ -4,7 +4,7 @@ import { IncomingWebhook } from 'ms-teams-webhook';
 
 class Block {
 	constructor() {
-		this.context = github.context;
+		this.context = github;
 	}
 
 	get success() {
@@ -138,7 +138,7 @@ export class MSTeams {
 			needs
 		}
 	) {
-		// const msteamsBlockUI = new Block();
+		const msteamsBlockUI = new Block();
 		const notificationType = msteamsBlockUI[status];
 		// const tmpText = `${jobName} ${notificationType.result}`;
 		// const text =
