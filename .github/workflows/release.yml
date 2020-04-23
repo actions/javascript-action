@@ -2,8 +2,39 @@ name: Prepare for release
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: npm ci
+      - run: npm run test:integration
+
+  release:
+    needs: build
+    name: release
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Install dependencies
+        run: npm ci
+      - name: Release
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
+
 
 jobs:
   release:
@@ -16,15 +47,13 @@ jobs:
         with:
           node-version: '12.x'
 
-      - name: Create Release
-        uses: actions/create-release@v1.0.0
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
-          draft: 'false'
-          prerelease: 'false'
+        run: npx semantic-release
 
       - name: MSTeams Notification
         uses: skitionek/notify-microsoft-teams@master
