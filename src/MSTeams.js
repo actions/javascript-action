@@ -1,6 +1,8 @@
 import {context as github} from '@actions/github';
 import { Octokit } from '@octokit/rest';
 import { IncomingWebhook } from 'ms-teams-webhook';
+import * as core from '@actions/core';
+
 
 class Block {
 	constructor() {
@@ -231,7 +233,7 @@ export class MSTeams {
 				break;
 		}
 
-		console.log(github);
+		core.info(github);
 		return {
 			"@type": "MessageCard",
 			"@context": "http://schema.org/extensions",

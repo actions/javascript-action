@@ -5657,6 +5657,8 @@ var dist = __webpack_require__(960);
 
 
 
+
+
 class MSTeams_Block {
 	constructor() {
 		this.context = github.context;
@@ -5664,13 +5666,15 @@ class MSTeams_Block {
 
 	get success() {
 		return {
+			icon:  '✓',
 			color: '#2cbe4e',
-			result: 'Succeeded'
+			result: 'Succeeded!'
 		};
 	}
 
 	get failure() {
 		return {
+			icon:  '✗',
 			color: '#cb2431',
 			result: 'Failed'
 		};
@@ -5678,8 +5682,17 @@ class MSTeams_Block {
 
 	get cancelled() {
 		return {
+			icon: 'o',
 			color: '#ffc107',
 			result: 'Cancelled'
+		};
+	}
+
+	get skipped() {
+		return {
+			icon: '⤼',
+			color: '#1a6aff',
+			result: 'Skipped'
 		};
 	}
 
@@ -5875,6 +5888,7 @@ class MSTeams_MSTeams {
 				break;
 		}
 
+		Object(core.info)(github.context);
 		return {
 			"@type": "MessageCard",
 			"@context": "http://schema.org/extensions",
