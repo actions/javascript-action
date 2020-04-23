@@ -1,0 +1,12 @@
+### JetBrainsInversed.gitignore template
+*
+!.gitignore
+!runConfigurations
+!runConfigurations/*
+!codeStyles
+!codeStyles/*
+!watcherTasks.xml
+!inspectionProfiles
+!inspectionProfiles/*
+!dictionaries
+!dictionaries/*

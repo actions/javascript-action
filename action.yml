@@ -1,13 +1,38 @@
-name: 'Wait'
-description: 'Wait a designated number of milliseconds'
+name: 'notify-microsoft-teams'
+description: 'Microsoft Teams Notification for Github Actions'
+author: 'Skitionek'
 inputs:
-  milliseconds:  # id of input
-    description: 'number of milliseconds to wait'
+  type:
+    description: 'job status (success, failure or cancelled)'
     required: true
-    default: '1000'
-outputs:
-  time: # output will be available to future steps 
-    description: 'The message to output'
+  job_name:
+    description: 'job name of workflow (format: markdown)'
+    required: true
+  mention:
+    description: 'msteams mention'
+    required: false
+  mention_if:
+    description: 'the condition for mention'
+    required: false
+  username:
+    description: 'msteams username'
+    required: false
+  icon_emoji:
+    description: 'msteams icon emoji'
+    required: false
+  url:
+    description: 'teams incoming webhook url'
+    required: false
+  commit:
+    description: 'whether include commit data or not (true or false)'
+    required: false
+    default: 'false'
+  token:
+    description: 'need to get commit data'
+    required: false
 runs:
   using: 'node12'
-  main: 'dist/index.js'
+  main: 'src/index.js'
+branding:
+  icon: 'bell'
+  color: 'purple'

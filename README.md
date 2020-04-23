@@ -1,114 +1,101 @@
+# Notify Microsoft Teams
 
-<p align="center">
-  <a href="https://github.com/actions/javascript-action/actions"><img alt="javscript-action status" src="https://github.com/actions/javascript-action/workflows/units-test/badge.svg"></a>
-</p>
+Work in progress - Teams notify action inspired by ![git:homoluctus/slatify](https://github.com/homoluctus/slatify)
 
-# Create a JavaScript Action
+![GitHub Workflow](https://github.com/homoluctus/slatify/workflows/lint/badge.svg)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/homoluctus/slatify?color=brightgreen)
+![GitHub](https://img.shields.io/github/license/homoluctus/slatify?color=brightgreen)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-Use this template to bootstrap the creation of a JavaScript action.:rocket:
+This is MSTeams Notification for GitHub Actions.<br>
+Generated from [actions/javascript-template](https://github.com/actions/javascript-template).
 
-This template includes tests, linting, a validation workflow, publishing, and versioning guidance.  
+# ToC
 
-If you are new, there's also a simpler introduction.  See the [Hello World JavaScript Action](https://github.com/actions/hello-world-javascript-action)
+- [Feature](#Feature)
+- [Usage](#Usage)
+  - [Examples](#Examples)
+- [MSTeams UI](#MSTeams%20UI)
+- [Contribution](#Contribution)
+- [LICENSE](#LICENSE)
 
-## Create an action from this template
+# Feature
+- Notify the result of GitHub Actions
+- Support three job status (reference: [job-context](https://help.github.com/en/articles/contexts-and-expression-syntax-for-github-actions#job-context))
+  - success
+  - failure
+  - cancelled
+- Mention
+  - Notify message to channel members efficiently
+  - You can specify the condition to mention
 
-Click the `Use this Template` and provide the new repo details for your action
+# Usage
+First of all, you need to set GitHub secrets for MSTEAMS_WEBHOOK that is Incoming Webhook URL.<br>
+You can customize the following parameters:
 
-## Code in Master
+|with parameter|required/optional|default|description|
+|:--:|:--:|:--|:--|
+|type|required|N/A|The result of GitHub Actions job<br>This parameter value must contain the following word:<br>- `success`<br>- `failure`<br>- `cancelled`<br>We recommend using ${{ job.status }}|
+|job_name|required|N/A|Means msteams notification title|
+|url|required|N/A|MSTeams Incoming Webhooks URL<br>Please specify this key or MSTEAMS_WEBHOOK environment variable<br>※MSTEAMS_WEBHOOK will be deprecated|
+|mention|optional|N/A|MSTeams message mention|
+|mention_if|optional|N/A|The condition to mention<br>This parameter can contain the following word:<br>- `success`<br>- `failure`<br>- `cancelled`<br>- `always`|
+|icon_emoji|optional|Use MSTeams Incoming Webhook configuration|MSTeams icon|
+|username|optional|Use MSTeams Incoming Webhook configuration|MSTeams username|
+|channel|optional|Use MSTeams Incoming Webhook configuration|MSTeams channel name|
+|commit|optional|false|If true, msteams notification includes the latest commit message and author.|
+|token|case by case|N/A|This token is used to get commit data.<br>If commit parameter is true, this parameter is required.<br>${{ secrets.GITHUB_TOKEN }} is recommended.|
 
-Install the dependencies  
-```bash
-$ npm install
+Please refer `action.yml` for more details.
+
+## Examples
+
+```..github/workflows/example1.yml
+- name: MSTeams Notification
+  uses: homoluctus/slatify@master
+  if: always()
+  with:
+    type: ${{ job.status }}
+    job_name: '*Lint Check*'
+    mention: 'here'
+    mention_if: 'failure'
+    channel: '#random'
+    url: ${{ secrets.MSTEAMS_WEBHOOK }}
 ```
 
-Run the tests :heavy_check_mark:  
-```bash
-$ npm test
+↓ Including the latest commit data
 
- PASS  ./index.test.js
-  ✓ throws invalid number (3ms)
-  ✓ wait 500 ms (504ms)
-  ✓ test runs (95ms)
-
-...
+```..github/workflows/example2.yml
+- name: MSTeams Notification
+  uses: homoluctus/slatify@master
+  if: always()
+  with:
+    type: ${{ job.status }}
+    job_name: '*Lint Check*'
+    mention: 'here'
+    mention_if: 'failure'
+    channel: '#random'
+    url: ${{ secrets.MSTEAMS_WEBHOOK }}
+    commit: true
+    token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-## Change action.yml
+<img src="./images/msteams2.png" alt="Notification Preview" width="90%">
 
-The action.yml contains defines the inputs and output for your action.
+# MSTeams UI
 
-Update the action.yml with your name, description, inputs and outputs for your action.
+<img src="./images/msteams.png" alt="Notification Preview" width="90%">
 
-See the [documentation](https://help.github.com/en/articles/metadata-syntax-for-github-actions)
+# Contribution
 
-## Change the Code
+1. Fork this repository
+2. Pull your repository in local machine
+3. Update original repository
+4. Checkout "master" branch based "remotes/origin/master" branch
+5. Work on "master" or other branch
+6. Push you changes to your repository
+7. Create a new Pull Request
 
-Most toolkit and CI/CD operations involve async operations so the action is run in an async function.
+# LICENSE
 
-```javascript
-const core = require('@actions/core');
-...
-
-async function run() {
-  try { 
-      ...
-  } 
-  catch (error) {
-    core.setFailed(error.message);
-  }
-}
-
-run()
-```
-
-See the [toolkit documentation](https://github.com/actions/toolkit/blob/master/README.md#packages) for the various packages.
-
-## Package for distribution
-
-GitHub Actions will run the entry point from the action.yml. Packaging assembles the code into one file that can be checked in to Git, enabling fast and reliable execution and preventing the need to check in node_modules.
-
-Actions are run from GitHub repos.  Packaging the action will create a packaged action in the dist folder.
-
-Run package
-
-```bash
-npm run package
-```
-
-Since the packaged index.js is run from the dist folder.
-
-```bash
-git add dist
-```
-
-## Create a release branch
-
-Users shouldn't consume the action from master since that would be latest code and actions can break compatibility between major versions.
-
-Checkin to the v1 release branch
-
-```bash
-$ git checkout -b v1
-$ git commit -a -m "v1 release"
-```
-
-```bash
-$ git push origin v1
-```
-
-Your action is now published! :rocket: 
-
-See the [versioning documentation](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
-
-## Usage
-
-You can now consume the action by referencing the v1 branch
-
-```yaml
-uses: actions/javascript-action@v1
-with:
-  milliseconds: 1000
-```
-
-See the [actions tab](https://github.com/actions/javascript-action/actions) for runs of this action! :rocket:
+[The MIT License (MIT)](https://github.com/homoluctus/slatify/blob/master/LICENSE)
