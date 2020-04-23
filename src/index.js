@@ -6,9 +6,9 @@ import { MSTeams } from './MSTeams';
 async function run() {
 	try {
 		const status = validateStatus(
-			core.getInput('type', { required }).toLowerCase()
+			core.getInput('type' ).toLowerCase()
 		);
-		const jobName = core.getInput('job_name', { required });
+		const jobName = core.getInput('job_name');
 		const url = process.env.MSTEAMS_WEBHOOK || core.getInput('url');
 		let mention = core.getInput('mention');
 		let mentionCondition = core.getInput('mention_if').toLowerCase();
