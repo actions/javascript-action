@@ -9,16 +9,16 @@ inputs:
     description: 'job name of workflow (format: markdown)'
     required: true
   mention:
-    description: 'msteams mention'
+    description: 'Microsoft Teams mention'
     required: false
   mention_if:
     description: 'the condition for mention'
     required: false
   username:
-    description: 'msteams username'
+    description: 'Microsoft Teams username'
     required: false
   icon_emoji:
-    description: 'msteams icon emoji'
+    description: 'Microsoft Teams icon emoji'
     required: false
   url:
     description: 'teams incoming webhook url'
