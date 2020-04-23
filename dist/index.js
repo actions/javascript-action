@@ -5644,7 +5644,7 @@ function isValidCondition(condition) {
 }
 
 // EXTERNAL MODULE: ./node_modules/@actions/github/lib/github.js
-var lib_github = __webpack_require__(469);
+var github = __webpack_require__(469);
 
 // EXTERNAL MODULE: ./node_modules/@octokit/rest/dist-node/index.js
 var dist_node = __webpack_require__(889);
@@ -5659,7 +5659,7 @@ var dist = __webpack_require__(960);
 
 class MSTeams_Block {
 	constructor() {
-		this.context = lib_github.context;
+		this.context = github.context.context;
 	}
 
 	get success() {
@@ -5788,9 +5788,9 @@ class MSTeams_MSTeams {
 		commitFlag,
 		token,
 		{
-			github,
 			job,
-			steps
+			steps,
+			needs
 		}
 	) {
 		const msteamsBlockUI = new MSTeams_Block();
@@ -5803,9 +5803,9 @@ class MSTeams_MSTeams {
 		let baseBlock = {
 			type: 'section',
 			fields: msteamsBlockUI.baseFields,
-			"activityTitle": `${github.sender.login} ${github.event.name} initialised workflow ${github.event.workflow}`,
-			"activitySubtitle": github.repository,
-			"activityImage": github.sender.avatar_url,
+			"activityTitle": `${github.context.sender.login} ${github.context.event.name} initialised workflow ${github.context.event.workflow}`,
+			"activitySubtitle": github.context.repository,
+			"activityImage": github.context.sender.avatar_url,
 			"facts": msteamsBlockUI.baseFields,
 			"markdown": true
 		};
@@ -5855,21 +5855,21 @@ class MSTeams_MSTeams {
 			case 'success':
 				bold_result = {
 					"activityTitle": "Success!",
-					"activitySubtitle": github.event.head_commit.timestamp,
+					"activitySubtitle": github.context.event.head_commit.timestamp,
 					"activityImage": "https://www.iconninja.com/yes-circle-mark-check-correct-tick-success-icon-459"
 				};
 				break;
 			case 'failure':
 				bold_result = {
 					"activityTitle": "Failure",
-					"activitySubtitle": github.event.head_commit.timestamp,
+					"activitySubtitle": github.context.event.head_commit.timestamp,
 					"activityImage": "https://www.iconninja.com/files/306/928/885/invalid-circle-close-delete-cross-x-incorrect-icon.png"
 				};
 				break;
 			case 'cancelled':
 				bold_result = {
 					"activityTitle": "Cancelled",
-					"activitySubtitle": github.event.head_commit.timestamp,
+					"activitySubtitle": github.context.event.head_commit.timestamp,
 					"activityImage": "https://www.iconninja.com/files/453/139/634/cancel-icon.png"
 				};
 				break;
@@ -5879,9 +5879,9 @@ class MSTeams_MSTeams {
 			"@type": "MessageCard",
 			"@context": "http://schema.org/extensions",
 			"themeColor": notificationType.color,
-			"title": `[${github.sender.login}](${github.sender.url}) [${github.event.name}](${github.event.compare}) initialised workflow [${github.event.workflow}](${github.event.repository.html_url}/actions?query=workflow%3A${github.event.workflow}})`,
-			"summary": `[${github.repository}](${github.event.repository.html_url})`,
-			"text": `Changelog:${github.event.commits.reduce(c => '\n+ ' + c.message, '')}`,
+			"title": `[${github.context.sender.login}](${github.context.sender.url}) [${github.context.event.name}](${github.context.event.compare}) initialised workflow [${github.context.event.workflow}](${github.context.event.repository.html_url}/actions?query=workflow%3A${github.context.event.workflow}})`,
+			"summary": `[${github.context.repository}](${github.context.event.repository.html_url})`,
+			"text": `Changelog:${Object(github.context.event.commits.reduce)(c => '\n+ ' + c.message, '')}`,
 			"sections": [
 				...steps_sections,
 				...needs_sections,
@@ -5974,10 +5974,8 @@ class MSTeams_MSTeams {
 
 async function run() {
 	try {
-		const status = validateStatus(
-			Object(core.getInput)('type', { required: true }).toLowerCase()
-		);
-		const jobName = Object(core.getInput)('job_name', { required: true });
+		const status = Object(core.getInput)('type' ).toLowerCase();
+		const jobName = Object(core.getInput)('job_name');
 		const url = process.env.MSTEAMS_WEBHOOK || Object(core.getInput)('url');
 		let mention = Object(core.getInput)('mention');
 		let mentionCondition = Object(core.getInput)('mention_if').toLowerCase();
@@ -5989,9 +5987,15 @@ async function run() {
 		const commitFlag = Object(core.getInput)('commit') === 'true';
 		const token = Object(core.getInput)('token');
 
-		let github = JSON.parse(Object(core.getInput)('github')||{});
-		let job = JSON.parse(Object(core.getInput)('job')||{});
-		let steps = JSON.parse(Object(core.getInput)('steps')||{});
+		let job = Object(core.getInput)('job');
+		Object(core.info)("job", job);
+		// job = job === '' ? {} : JSON.parse(job);
+		let steps = Object(core.getInput)('steps');
+		Object(core.info)("steps", steps);
+		// steps = steps === '' ? {} : JSON.parse(steps);
+		let needs = Object(core.getInput)('needs');
+		Object(core.info)("needs", needs);
+		// needs = needs === '' ? {} : JSON.parse(needs);
 
 		if (mention && !isValidCondition(mentionCondition)) {
 			mention = '';
@@ -6018,12 +6022,12 @@ async function run() {
 			commitFlag,
 			token,
 			{
-				github,
 				job,
-				steps
+				steps,
+				needs
 			}
 		);
-		console.info(`Generated payload for msteams: ${JSON.stringify(payload)}`);
+		// console.info(`Generated payload for msteams: ${JSON.stringify(payload)}`);
 
 		await msteams.notify(url, msteamsOptions, payload);
 		console.info('Sent message to MSTeams');
