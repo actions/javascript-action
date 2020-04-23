@@ -21,13 +21,13 @@ async function run() {
 		const token = core.getInput('token');
 
 		let job = core.getInput('job');
-		console.log("job", job);
+		core.info("job", job);
 		job = job === '' ? {} : JSON.parse(job);
 		let steps = core.getInput('steps');
-		console.log("steps", steps);
+		core.info("steps", steps);
 		steps = steps === '' ? {} : JSON.parse(steps);
 		let needs = core.getInput('needs');
-		console.log("needs", needs);
+		core.info("needs", needs);
 		needs = needs === '' ? {} : JSON.parse(needs);
 
 		if (mention && !isValidCondition(mentionCondition)) {
