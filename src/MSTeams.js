@@ -233,12 +233,11 @@ export class MSTeams {
 				break;
 		}
 
-		core.info(github);
 		return {
 			"@type": "MessageCard",
 			"@context": "http://schema.org/extensions",
 			"themeColor": notificationType.color,
-			"title": `[${github.sender.login}](${github.sender.url}) [${github.event.name}](${github.event.compare}) initialised workflow [${github.event.workflow}](${github.event.repository.html_url}/actions?query=workflow%3A${github.event.workflow}})`,
+			"title": `[${github.event.sender.login}](${github.event.sender.url}) [${github.event.name}](${github.event.compare}) initialised workflow [${github.event.workflow}](${github.event.repository.html_url}/actions?query=workflow%3A${github.event.workflow}})`,
 			"summary": `[${github.repository}](${github.event.repository.html_url})`,
 			"text": `Changelog:${github.event.commits.reduce(c => '\n+ ' + c.message, '')}`,
 			"sections": [
