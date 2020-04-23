@@ -13,43 +13,12 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: npm ci
-      - run: npm run test:integration
-
-  release:
-    needs: build
-    name: release
-    runs-on: ubuntu-18.04
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-      - name: Setup Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12
       - name: Install dependencies
         run: npm ci
-      - name: Release
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
-
-
-jobs:
-  release:
-    name: Build production
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v1
-
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
-
-      - name: Install dependencies
-        run: npm ci
-
+      - name: Test
+        run: npm run test
+      - name: Build
+        run: npm run package
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -65,3 +34,6 @@ jobs:
           url: ${{ secrets.MSTEAMS_WEBHOOK }}
           commit: true
           token: ${{ secrets.GITHUB_TOKEN }}
+          github: ${{ toJson(github) }}
+          job: ${{ toJson(job) }}
+          steps: ${{ toJson(steps) }}
