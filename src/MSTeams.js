@@ -9,13 +9,15 @@ class Block {
 
 	get success() {
 		return {
+			icon:  '✓',
 			color: '#2cbe4e',
-			result: 'Succeeded'
+			result: 'Succeeded!'
 		};
 	}
 
 	get failure() {
 		return {
+			icon:  '✗',
 			color: '#cb2431',
 			result: 'Failed'
 		};
@@ -23,8 +25,17 @@ class Block {
 
 	get cancelled() {
 		return {
+			icon: 'o',
 			color: '#ffc107',
 			result: 'Cancelled'
+		};
+	}
+
+	get skipped() {
+		return {
+			icon: '⤼',
+			color: '#1a6aff',
+			result: 'Skipped'
 		};
 	}
 
@@ -220,6 +231,7 @@ export class MSTeams {
 				break;
 		}
 
+		console.log(github);
 		return {
 			"@type": "MessageCard",
 			"@context": "http://schema.org/extensions",
