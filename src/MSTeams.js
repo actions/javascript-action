@@ -54,15 +54,15 @@ class Block {
 
 		return [
 			{
-				"name": `*repository*`,
+				"name": `Repository*`,
 				"value": `<${repoUrl}|${owner}/${repo}>`
 			}, {
-				"name": `*ref*`,
+				"name": `ref*`,
 				"value": `${ref}`
 			}, {
 				"name": `*event name*`,
 				"value": `${eventUrl}`
-			},{
+			}, {
 				"name": `*workflow*`,
 				"value": `<${actionUrl}|${workflow}>`
 			}
@@ -131,7 +131,15 @@ export class MSTeams {
 		mention,
 		mentionCondition,
 		commitFlag,
-		token
+		token,
+		{
+			github,
+			job,
+			steps,
+			runner,
+			strategy,
+			matrix
+		}
 	) {
 		const msteamsBlockUI = new Block();
 		const notificationType = msteamsBlockUI[status];
@@ -143,9 +151,9 @@ export class MSTeams {
 		let baseBlock = {
 			type: 'section',
 			fields: msteamsBlockUI.baseFields,
-			"activityTitle": "![TestImage](https://47a92947.ngrok.io/Content/Images/default.png)Larry Bryant created a new task",
-			"activitySubtitle": "On Project Tango",
-			"activityImage": "https://teamsnodesample.azurewebsites.net/static/img/image5.png",
+			"activityTitle": `${github.sender.login} ${github.event.name} initialised workflow ${github.event.workflow}`,
+			"activitySubtitle": github.repository,
+			"activityImage": github.sender.avatar_url,
 			"facts": msteamsBlockUI.baseFields,
 			"markdown": true
 		};
@@ -162,15 +170,71 @@ export class MSTeams {
 			blocks: [baseBlock]
 		};
 
+		const get_result_mark = result => result === 'success' ? '✓' : result === 'failure' ? '✗' : result === 'skipped' ? '⤼' : 'o';
+
+		const steps_sections = Object.keys(steps).map(step_id => {
+			const r = {
+				title: `${get_result_mark(steps[step_id].outcome)} ${step_id}`,
+			};
+			if (steps[step_id].result === 'failure') {
+				const outputs = steps[step_id].outputs;
+				r.text = Object.keys(outputs).reduce(output_name => `+ ${output_name}:${'\n'}\`\`\`${outputs[output_name]}\`\`\``, '')
+			}
+		});
+		if (steps_sections.length) {
+			steps_sections[0].startGroup = true;
+		}
+
+		const needs_sections = Object.keys(needs).map(job_id => {
+			const r = {
+				title: `${get_result_mark(needs[job_id].result)} ${job_id}`,
+			};
+			if (needs[job_id].result === 'failure') {
+				const outputs = needs[job_id].outputs;
+				r.text = Object.keys(outputs).reduce(output_name => `+ ${output_name}:${'\n'}\`\`\`${outputs[output_name]}\`\`\``, '')
+			}
+		});
+		if (needs_sections.length) {
+			needs_sections[0].startGroup = true;
+		}
+
+		let bold_result;
+		switch (job.status) {
+			case 'success':
+				bold_result = {
+					"activityTitle": "Success!",
+					"activitySubtitle": github.event.head_commit.timestamp,
+					"activityImage": "https://www.iconninja.com/yes-circle-mark-check-correct-tick-success-icon-459"
+				};
+				break;
+			case 'failure':
+				bold_result = {
+					"activityTitle": "Failure",
+					"activitySubtitle": github.event.head_commit.timestamp,
+					"activityImage": "https://www.iconninja.com/files/306/928/885/invalid-circle-close-delete-cross-x-incorrect-icon.png"
+				};
+				break;
+			case 'cancelled':
+				bold_result = {
+					"activityTitle": "Cancelled",
+					"activitySubtitle": github.event.head_commit.timestamp,
+					"activityImage": "https://www.iconninja.com/files/453/139/634/cancel-icon.png"
+				};
+				break;
+		}
+
 		return {
 			"@type": "MessageCard",
 			"@context": "http://schema.org/extensions",
-			// text,
-			// attachments: [attachments],
-			// unfurl_links: true,
 			"themeColor": notificationType.color,
-			"summary": text,
-			"sections": [baseBlock],
+			"title": `[${github.sender.login}](${github.sender.url}) [${github.event.name}](${github.event.compare}) initialised workflow [${github.event.workflow}](${github.event.repository.html_url}/actions?query=workflow%3A${github.event.workflow}})`,
+			"summary": `[${github.repository}](${github.event.repository.html_url})`,
+			"text": `Changelog:${github.event.commits.reduce(c => '\n+ ' + c.message, '')}`,
+			"sections": [
+				...steps_sections,
+				...needs_sections,
+				bold_result
+			],
 			"potentialAction": [{
 				"@type": "ActionCard",
 				"name": "Add a comment",

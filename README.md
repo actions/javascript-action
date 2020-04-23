@@ -1,6 +1,6 @@
 # Notify Microsoft Teams
 
-Work in progress - Teams notify action inspired by ![git:homoluctus/slatify](https://github.com/homoluctus/slatify)
+Work in progress - Teams notify action inspired by [git:homoluctus/slatify](https://github.com/homoluctus/slatify)
 
 ![GitHub Workflow](https://github.com/homoluctus/slatify/workflows/lint/badge.svg)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/homoluctus/slatify?color=brightgreen)

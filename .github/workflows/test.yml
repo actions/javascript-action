@@ -105,3 +105,6 @@ jobs:
           url: ${{ secrets.MSTEAMS_WEBHOOK }}
           commit: 'true'
           token: ${{ secrets.GITHUB_TOKEN }}
+          github: ${{ toJson(github) }}
+          job: ${{ toJson(job) }}
+          steps: ${{ toJson(steps) }}
