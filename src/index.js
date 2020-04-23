@@ -22,13 +22,13 @@ async function run() {
 
 		let job = core.getInput('job');
 		core.info("job", job);
-		job = job === '' ? {} : JSON.parse(job);
+		// job = job === '' ? {} : JSON.parse(job);
 		let steps = core.getInput('steps');
 		core.info("steps", steps);
-		steps = steps === '' ? {} : JSON.parse(steps);
+		// steps = steps === '' ? {} : JSON.parse(steps);
 		let needs = core.getInput('needs');
 		core.info("needs", needs);
-		needs = needs === '' ? {} : JSON.parse(needs);
+		// needs = needs === '' ? {} : JSON.parse(needs);
 
 		if (mention && !isValidCondition(mentionCondition)) {
 			mention = '';
