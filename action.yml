@@ -4,10 +4,10 @@ author: 'Skitionek'
 inputs:
   type:
     description: 'job status (success, failure or cancelled)'
-    required: true
+    required: false
   job_name:
     description: 'job name of workflow (format: markdown)'
-    required: true
+    required: false
   mention:
     description: 'Microsoft Teams mention'
     required: false
