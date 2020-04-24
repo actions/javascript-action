@@ -56,7 +56,7 @@ const statuses = {
 		color: '#1a6aff',
 		activityTitle: 'No job context has been provided'
 	}
-}
+};
 
 function Status(status) {
 	if (!status) {
@@ -75,7 +75,7 @@ const workflow_link = `[${workflow}](${repository.html_url}/actions?query=workfl
 const payload_link = `[${eventName}](${compare})`;
 const sender_link = `[${sender.login}](${sender.url})`;
 const repository_link = `[${repository.full_name}](${repository.html_url})`;
-const changelog = `Changelog:${commits.reduce(c => core.info(c) || '\n+ ' + c.message, '')}`;
+const changelog = `Changelog:${commits.reduce((o,c) => o+core.info(c) || '\n+ ' + c.message, '')}`;
 const summary_generator = (obj, status_key) => {
 	const obj_sections = Object.keys(obj).map(step_id => {
 		const status = obj[step_id][status_key];
@@ -94,7 +94,7 @@ const summary_generator = (obj, status_key) => {
 
 class MSTeams {
 	outputs2markdown(outputs) {
-		return Object.keys(outputs).reduce(output_name => `+ ${output_name}:${'\n'}\`\`\`${outputs[output_name]}\`\`\``, '')
+		return Object.keys(outputs).reduce((o,output_name) => o+`+ ${output_name}:${'\n'}\`\`\`${outputs[output_name]}\`\`\``, '')
 	}
 
 	/**
@@ -121,7 +121,7 @@ class MSTeams {
 				"@type": "MessageCard",
 				"@context": "http://schema.org/extensions",
 				themeColor: status_summary.color,
-				title: `${sender_link} ${payload_link} initialised workflow ${workflow_link}`,
+				title: `${sender.login} ${eventName} initialised workflow ${workflow}`,
 				summary: repository_link,
 				text: changelog,
 				sections: [
