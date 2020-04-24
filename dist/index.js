@@ -1054,9 +1054,10 @@ const core = __webpack_require__(470);
 const placeholder = '';
 const {
 	payload: {
-		workflow,
-		repository = { html_url: placeholder },
-		name,
+		repository = {
+			html_url: placeholder,
+			name: placeholder
+		},
 		compare,
 		sender = {
 			login: placeholder,
@@ -1064,7 +1065,9 @@ const {
 		},
 		commits = [],
 		head_commit = { timestamp: placeholder }
-	}
+	},
+	eventName,
+	workflow
 } = github;
 
 const statuses = {
@@ -1112,9 +1115,9 @@ function Status(status) {
 }
 
 const workflow_link = `[${workflow}](${repository.html_url}/actions?query=workflow%3A${workflow}})`;
-const payload_link = `[${name}](${compare})`;
+const payload_link = `[${eventName}](${compare})`;
 const sender_link = `[${sender.login}](${sender.url})`;
-const repository_link = `[${repository}](${repository.html_url})`;
+const repository_link = `[${repository.name}](${repository.html_url})`;
 const changelog = `Changelog:${commits.reduce(c => '\n+ ' + c.message, '')}`;
 const summary_generator = (obj, status_key) => {
 	const obj_sections = Object.keys(obj).map(step_id => {
@@ -1152,8 +1155,9 @@ class MSTeams {
 	) {
 		const steps_summary = summary_generator(steps, 'outcome');
 		const needs_summary = summary_generator(needs, 'result');
-		console.log(job);
+		console.log(job, github);
 		const status_summary = Status(job.status);
+		console.dir(github)
 
 		return merge(
 			{
@@ -1169,7 +1173,7 @@ class MSTeams {
 					status_summary
 				]
 			},
-			eval(overwrite)
+			eval(overwrite.toString())
 		)
 	}
 
