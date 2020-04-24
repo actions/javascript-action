@@ -19,6 +19,21 @@ jobs:
           job: ${{ toJson(job) }}
           steps: ${{ toJson(steps) }}
 
+  needy one:
+    name: Works properly
+    needs: success
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: MSTeams Notification
+        uses: ./
+        if: always()
+        with:
+          url: ${{ secrets.MSTEAMS_WEBHOOK }}
+          needs: ${{ toJson(needs) }}
+          job: ${{ toJson(job) }}
+          steps: ${{ toJson(steps) }}
+
   failure:
     name: Works failed
     runs-on: ubuntu-18.04
@@ -58,7 +73,6 @@ jobs:
 
   with_overwrite:
     name: Works properly with overwrite
-    needs: needs_no_mention
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@master
