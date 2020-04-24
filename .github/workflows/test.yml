@@ -3,8 +3,7 @@ name: Check notification
 on:
   pull_request: {}
   push: {}
-  published: {}
-  updated: {}
+  release: {}
 
 jobs:
   success:
