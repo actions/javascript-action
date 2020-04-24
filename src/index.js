@@ -5,9 +5,11 @@ const missing_functionality_warning = objective =>
 	core.warning(`Missing ${objective} parameter will result in reduced functionality.`) || {};
 
 const access_context = context_name => {
-		let context = core.getInput(context_name);
-		return context === '' ? missing_functionality_warning(context_name) : JSON.parse(context);
+	let context = core.getInput(context_name);
+	if (!context) missing_functionality_warning(context_name);
+	return context === '' ? {} : JSON.parse(context);
 };
+
 async function run() {
 	try {
 		const webhook_url = process.env.MSTEAMS_WEBHOOK || core.getInput('webhook_url');

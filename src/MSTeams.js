@@ -1,6 +1,6 @@
 const { IncomingWebhook } = require('ms-teams-webhook');
 const { context: github } = require('@actions/github');
-const { merge } = require('lodash.merge');
+const merge = require('lodash.merge');
 const core = require('@actions/core');
 
 const placeholder = '';
