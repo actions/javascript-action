@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/Skitionek/notify-microsoft-teams/compare/v1.0.0...v1.0.1) (2020-04-24)
+
+
+### Bug Fixes
+
+* response error? ([834d9da](https://github.com/Skitionek/notify-microsoft-teams/commit/834d9da3bdb498c3345cde9ec1766b9e58d0c5da))
+
 # 1.0.0 (2020-04-24)
 
 
