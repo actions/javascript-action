@@ -1,12 +1,16 @@
 const { IncomingWebhook } = require('ms-teams-webhook');
 const { context: github } = require('@actions/github');
 const { merge } = require('lodash.merge');
+const core = require('@actions/core');
 
 class Status {
 	constructor(status) {
-		return this[status]
+		const r = this[status.lower()];
+		if(!r) {
+			core.error(`Not implemented status value: ${status}`)
+		}
 	}
-	get Success() {
+	get success() {
 		return {
 			icon: '✓',
 			color: '#2cbe4e',
@@ -15,7 +19,7 @@ class Status {
 			"activityImage": "https://www.iconninja.com/yes-circle-mark-check-correct-tick-success-icon-459"
 		};
 	}
-	get Failure() {
+	get failure() {
 		return {
 			icon: '✗',
 			color: '#cb2431',
@@ -24,7 +28,7 @@ class Status {
 			"activityImage": "https://www.iconninja.com/files/306/928/885/invalid-circle-close-delete-cross-x-incorrect-icon.png"
 		};
 	}
-	get Cancelled() {
+	get cancelled() {
 		return {
 			icon: 'o',
 			color: '#ffc107',
@@ -33,14 +37,14 @@ class Status {
 			"activityImage": "https://www.iconninja.com/files/453/139/634/cancel-icon.png"
 		};
 	}
-	get Skipped() {
+	get skipped() {
 		return {
 			icon: '⤼',
 			color: '#1a6aff',
 			activityTitle: 'Skipped'
 		};
 	}
-	get Unknown() {
+	get unknown() {
 		return {
 			icon: '?',
 			color: '#1a6aff',
@@ -58,7 +62,7 @@ const summary_generator = (obj, status_key) => {
 		const obj_sections = Object.keys(obj).map(step_id => {
 			const status = obj[step_id][status_key];
 			const r = {
-				title: `${Status[status].icon} ${step_id}`,
+				title: `${Status(status).icon} ${step_id}`,
 			};
 			if (status === 'failure') {
 				r.text = this.outputs2markdown(obj[step_id].outputs)
@@ -82,7 +86,7 @@ class MSTeams {
 	 */
 	async generatePayload(
 		{
-			job = { status: 'Unknown' },
+			job = { status: 'unknown' },
 			steps = {},
 			needs = {},
 			overwrite = ''
@@ -91,7 +95,7 @@ class MSTeams {
 		const steps_summary = summary_generator(steps,'outcome');
 		const needs_summary = summary_generator(needs,'result');
 		console.log(job);
-		const status_summary = Status[job.status];
+		const status_summary = Status(job.status);
 
 		return merge(
 			{
