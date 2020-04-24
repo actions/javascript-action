@@ -14,7 +14,7 @@
   },
   "husky"          : {
 	"hooks": {
-	  "pre-commit": "npm run package"
+	  "pre-commit": "npm run package && git add dist/index.js"
 	}
   },
   "keywords"       : [

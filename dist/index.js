@@ -26454,8 +26454,7 @@ module.exports = function btoa(str) {
 /***/ (function(__unusedmodule, __unusedexports, __webpack_require__) {
 
 const core = __webpack_require__(470);
-
-const { MSTeams } = __webpack_require__(77);
+const MSTeams = __webpack_require__(77);
 
 async function run() {
 	try {
