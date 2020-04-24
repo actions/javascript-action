@@ -28,41 +28,43 @@ const statuses = [
 		id: 'success',
 		icon: '✓',
 		color: '#2cbe4e',
-		"activityTitle": "Success!",
-		"activitySubtitle": head_commit.timestamp,
-		"activityImage": "https://raw.githubusercontent.com/Skitionek/notify-microsoft-teams/blob/master/icons/success.png"
+		activityTitle: "Success!",
+		activitySubtitle: head_commit.timestamp,
+		activityImage: "https://raw.githubusercontent.com/Skitionek/notify-microsoft-teams/blob/master/icons/success.png"
 
 	},
 	{
 		id: 'failure',
 		icon: '✗',
 		color: '#cb2431',
-		"activityTitle": "Failure",
-		"activitySubtitle": head_commit.timestamp,
-		"activityImage": "https://raw.githubusercontent.com/Skitionek/notify-microsoft-teams/master/icons/failure.png"
+		activityTitle: "Failure",
+		activitySubtitle: head_commit.timestamp,
+		activityImage: "https://raw.githubusercontent.com/Skitionek/notify-microsoft-teams/master/icons/failure.png"
 
 	},
 	{
 		id: 'cancelled',
 		icon: 'o',
 		color: '#ffc107',
-		"activityTitle": "Cancelled",
-		"activitySubtitle": head_commit.timestamp,
-		"activityImage": "https://raw.githubusercontent.com/Skitionek/notify-microsoft-teams/blob/master/icons/cancelled.png"
+		activityTitle: "Cancelled",
+		activitySubtitle: head_commit.timestamp,
+		activityImage: "https://raw.githubusercontent.com/Skitionek/notify-microsoft-teams/blob/master/icons/cancelled.png"
 	},
 	{
 		id: 'skipped',
 		icon: '⤼',
 		color: '#1a6aff',
-		"activityTitle": "Skipped",
-		"activityImage": "https://raw.githubusercontent.com/Skitionek/notify-microsoft-teams/blob/master/icons/skipped.png"
+		activityTitle: "Skipped",
+		activitySubtitle: head_commit.timestamp,
+		activityImage: "https://raw.githubusercontent.com/Skitionek/notify-microsoft-teams/blob/master/icons/skipped.png"
 	},
 	{
 		id: 'unknown',
 		icon: '?',
 		color: '#999',
 		activityTitle: 'No job context has been provided',
-		"activityImage": "https://raw.githubusercontent.com/Skitionek/notify-microsoft-teams/blob/master/icons/unknown.png"
+		activitySubtitle: head_commit.timestamp,
+		activityImage: "https://raw.githubusercontent.com/Skitionek/notify-microsoft-teams/blob/master/icons/unknown.png"
 	}
 ];
 
@@ -132,9 +134,17 @@ class MSTeams {
 	) {
 		const steps_summary = summary_generator(steps, 'outcome');
 		const needs_summary = summary_generator(needs, 'result');
-		console.log(job, github);
-		const status_summary = Status(job.status);
-		console.dir(github);
+		console.log('overwrite', overwrite);
+		const {
+			activityTitle,
+			activitySubtitle,
+			activityIma
+		} = Status(job.status);
+		const status_summary = {
+			activityTitle,
+			activitySubtitle,
+			activityIma
+		};
 
 		const sections = [
 			...steps_summary,
@@ -148,7 +158,7 @@ class MSTeams {
 			title: `${sender.login} ${eventName} initialised workflow "${workflow}"`,
 			summary: repository_link,
 			sections,
-			"potentialAction": [
+			potentialAction: [
 				{
 					"@type": "OpenUri",
 					"name": "Repository",
@@ -191,7 +201,7 @@ class MSTeams {
 			throw new Error(
 				"Failed to send notification to Microsoft Teams.\n" +
 				"Response:\n" +
-				JSON.stringify(response, null,2)
+				JSON.stringify(response, null, 2)
 			);
 		}
 	}
