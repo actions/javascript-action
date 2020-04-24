@@ -1186,12 +1186,12 @@ class MSTeams {
 		const {
 			activityTitle,
 			activitySubtitle,
-			activityIma
+			activityImage
 		} = Status(job.status);
 		const status_summary = {
 			activityTitle,
 			activitySubtitle,
-			activityIma
+			activityImage
 		};
 
 		const sections = [
