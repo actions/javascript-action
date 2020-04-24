@@ -3,9 +3,19 @@ const { context: github } = require('@actions/github');
 const { merge } = require('lodash.merge');
 const core = require('@actions/core');
 
+const placeholder = '';
 const {
 	payload: {
-		workflow, repository, name, compare, sender, commits, head_commit
+		workflow,
+		repository = { html_url: placeholder },
+		name,
+		compare,
+		sender = {
+			login: placeholder,
+			url: placeholder
+		},
+		commits = [],
+		head_commit = { timestamp: placeholder }
 	}
 } = github;
 
@@ -129,7 +139,10 @@ class MSTeams {
 		const response = await client.send(payload);
 
 		if (response.text !== 'ok') {
-			throw new Error(`Failed to send notification to MSTeams.\nResponse: ${response}`);
+			throw new Error(
+				"Failed to send notification to Microsoft Teams.\n" +
+				`Response: ${response}`
+			);
 		}
 	}
 }

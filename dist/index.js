@@ -1051,9 +1051,19 @@ const { context: github } = __webpack_require__(469);
 const { merge } = __webpack_require__(554);
 const core = __webpack_require__(470);
 
+const placeholder = '';
 const {
 	payload: {
-		workflow, repository, name, compare, sender, commits, head_commit
+		workflow,
+		repository = { html_url: placeholder },
+		name,
+		compare,
+		sender = {
+			login: placeholder,
+			url: placeholder
+		},
+		commits = [],
+		head_commit = { timestamp: placeholder }
 	}
 } = github;
 
@@ -1177,7 +1187,10 @@ class MSTeams {
 		const response = await client.send(payload);
 
 		if (response.text !== 'ok') {
-			throw new Error(`Failed to send notification to MSTeams.\nResponse: ${response}`);
+			throw new Error(
+				"Failed to send notification to Microsoft Teams.\n" +
+				`Response: ${response}`
+			);
 		}
 	}
 }
@@ -26461,25 +26474,30 @@ module.exports = function btoa(str) {
 const core = __webpack_require__(470);
 const MSTeams = __webpack_require__(77);
 
+const missing_functionality_warning = objective =>
+	core.warning(`Missing ${objective} parameter will result in reduced functionality.`) || {};
+
+const access_context = context_name => {
+		let context = core.getInput(context_name);
+		return context === '' ? missing_functionality_warning(context_name) : JSON.parse(context);
+};
 async function run() {
 	try {
 		const webhook_url = process.env.MSTEAMS_WEBHOOK || core.getInput('webhook_url');
 
-		let job = core.getInput('job');
-		job = job === '' ? {} : JSON.parse(job);
-		let steps = core.getInput('steps');
-		steps = steps === '' ? {} : JSON.parse(steps);
-		let needs = core.getInput('needs');
-		needs = needs === '' ? {} : JSON.parse(needs);
+		let job = access_context('job');
+		let steps = access_context('steps');
+		let needs = access_context('needs');
 		let overwrite = core.getInput('overwrite');
 		let raw = core.getInput('raw');
 		let dry_run = core.getInput('dry_run');
 
 		if (webhook_url === '') {
-			throw new Error(`[Error] Missing MSTeams Incoming Webhooks URL.
-      Please configure "MSTEAMS_WEBHOOK" as environment variable or
-      specify the key called "webhook_url" in "with" section.
-      `);
+			throw new Error(
+				'[Error] Missing Microsoft Teams Incoming Webhooks URL.\n' +
+				'Please configure "MSTEAMS_WEBHOOK" as environment variable or\n' +
+				'specify the key called "webhook_url" in "with" section.'
+			);
 		}
 
 		const msteams = new MSTeams();
@@ -26491,11 +26509,11 @@ async function run() {
 				overwrite
 			}
 		);
-		core.info(`Generated payload for msteams:\n${JSON.stringify(payload, null, 2)}`);
+		core.info(`Generated payload for Microsoft Teams:\n${JSON.stringify(payload, null, 2)}`);
 
-		if(!dry_run) {
+		if (!dry_run) {
 			await msteams.notify(webhook_url, payload);
-			core.info('Sent message to MSTeams');
+			core.info('Sent message to Microsoft Teams');
 		}
 	} catch (err) {
 		core.setFailed(err.message);
