@@ -59,9 +59,14 @@ const statuses = {
 }
 
 function Status(status) {
+	if (!status) {
+		core.error(`Unknown status value: ${status}`);
+		return r.unknown
+	}
 	const r = statuses[status.toLowerCase()];
 	if (!r) {
 		core.error(`Not implemented status value: ${status}`)
+		return r.unknown
 	}
 	return r
 }
@@ -69,8 +74,8 @@ function Status(status) {
 const workflow_link = `[${workflow}](${repository.html_url}/actions?query=workflow%3A${workflow}})`;
 const payload_link = `[${eventName}](${compare})`;
 const sender_link = `[${sender.login}](${sender.url})`;
-const repository_link = `[${repository.name}](${repository.html_url})`;
-const changelog = `Changelog:${commits.reduce(c => '\n+ ' + c.message, '')}`;
+const repository_link = `[${repository.full_name}](${repository.html_url})`;
+const changelog = `Changelog:${commits.reduce(c => core.info(c) || '\n+ ' + c.message, '')}`;
 const summary_generator = (obj, status_key) => {
 	const obj_sections = Object.keys(obj).map(step_id => {
 		const status = obj[step_id][status_key];
@@ -109,7 +114,7 @@ class MSTeams {
 		const needs_summary = summary_generator(needs, 'result');
 		console.log(job, github);
 		const status_summary = Status(job.status);
-		console.dir(github)
+		console.dir(github);
 
 		return merge(
 			{
