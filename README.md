@@ -12,7 +12,7 @@ Generated from [actions/javascript-template](https://github.com/actions/javascri
 - [Feature](#Feature)
 - [Usage](#Usage)
   - [Examples](#Examples)
-- [Microsoft Teams UI](#Microsoft Teams%20UI)
+- [Microsoft Teams UI](#Microsoft_Teams_UI)
 - [Contribution](#Contribution)
 - [LICENSE](#LICENSE)
 
@@ -121,7 +121,12 @@ jobs:
 
 # Microsoft Teams UI
 
-![Notification Preview](./images/msteams.png)
+![Notification Preview 1](./images/1.png)
+![Notification Preview 2](./images/2.png)
+![Notification Preview 3](./images/3.png)
+![Notification Preview 4](./images/4.png)
+![Notification Preview 5](./images/5.png)
+![Notification Preview 6](./images/6.png)
 
 # Contribution
 
