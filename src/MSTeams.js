@@ -56,7 +56,7 @@ const statuses = {
 }
 
 function Status(status) {
-	const r = statuses[status.lower()];
+	const r = statuses[status.toLowerCase()];
 	if (!r) {
 		core.error(`Not implemented status value: ${status}`)
 	}
