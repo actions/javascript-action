@@ -1249,7 +1249,7 @@ class MSTeams {
 		const client = new IncomingWebhook(url);
 		const response = await client.send(payload);
 
-		if (response.text !== '1') {
+		if (response.text !== 1) {
 			throw new Error(
 				"Failed to send notification to Microsoft Teams.\n" +
 				"Response:\n" +
