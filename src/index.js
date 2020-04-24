@@ -30,6 +30,15 @@ async function run() {
 		let raw = core.getInput('raw');
 		let dry_run = core.getInput('dry_run');
 
+		core.debug(`Parsed params:\n${JSON.stringify({
+			job,
+			steps,
+			needs,
+			raw,
+			overwrite,
+			webhook_url: '***'
+		})}`);
+
 		const msteams = new MSTeams();
 		let payload;
 		if (raw === '') {
