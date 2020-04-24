@@ -1,6 +1,6 @@
 {
   "name"           : "@skitionek/notify-microsoft-teams",
-  "version"        : "0.0.0",
+  "version"        : "v1.0.0",
   "description"    : "Microsoft Teams Notification for Github Actions",
   "main"           : "dist/index.js",
 	"publishConfig": {

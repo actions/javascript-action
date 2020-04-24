@@ -1,4 +1,4 @@
-name: Prepare for release
+name: CI
 
 on:
   push:
