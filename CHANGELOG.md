@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/Skitionek/notify-microsoft-teams/compare/v1.0.2...v1.0.3) (2020-04-24)
+
+
+### Bug Fixes
+
+* flood with notifications upon relase publishing ([f9057c0](https://github.com/Skitionek/notify-microsoft-teams/commit/f9057c0665c7343d5eb020c3b70a98626decbaee))
+
 ## [1.0.2](https://github.com/Skitionek/notify-microsoft-teams/compare/v1.0.1...v1.0.2) (2020-04-24)
 
 
