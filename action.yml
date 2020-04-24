@@ -4,7 +4,7 @@ author: 'Skitionek'
 inputs:
   webhook_url:
     description: 'teams incoming webhook url'
-    required: true
+    required: false
   raw:
     description: 'JSON object to send to Microsoft Teams'
     required: false

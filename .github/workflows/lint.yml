@@ -24,7 +24,7 @@ jobs:
       - name: Check
         id: lint_check
         run: |
-          result=$(yarn run lint)
+          result=$(npm run lint)
           echo "::set-output name=exit_code::$?"
           echo "::set-output name=result::$result"
 

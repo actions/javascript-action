@@ -1,13 +1,10 @@
 # Notify Microsoft Teams
-
-Work in progress - Teams notify action inspired by [git:homoluctus/slatify](https://github.com/homoluctus/slatify)
-
-![GitHub Workflow](https://github.com/homoluctus/slatify/workflows/lint/badge.svg)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/homoluctus/slatify?color=brightgreen)
+![CI](https://github.com/Skitionek/notify-microsoft-teams/workflows/CI/badge.svg)
 ![GitHub](https://img.shields.io/github/license/homoluctus/slatify?color=brightgreen)
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-This is MSTeams Notification for GitHub Actions.<br>
+Teams notify action inspired by [git:homoluctus/slatify](https://github.com/homoluctus/slatify) (for Slack).
+
+This is Microsoft Teams Notification for GitHub Actions.<br>
 Generated from [actions/javascript-template](https://github.com/actions/javascript-template).
 
 # ToC
@@ -15,87 +12,121 @@ Generated from [actions/javascript-template](https://github.com/actions/javascri
 - [Feature](#Feature)
 - [Usage](#Usage)
   - [Examples](#Examples)
-- [MSTeams UI](#MSTeams%20UI)
+- [Microsoft Teams UI](#Microsoft Teams%20UI)
 - [Contribution](#Contribution)
 - [LICENSE](#LICENSE)
 
 # Feature
 - Notify the result of GitHub Actions
-- Support three job status (reference: [job-context](https://help.github.com/en/articles/contexts-and-expression-syntax-for-github-actions#job-context))
-  - success
-  - failure
-  - cancelled
-- Mention
-  - Notify message to channel members efficiently
-  - You can specify the condition to mention
+- Support all job status (reference: [job-context](https://help.github.com/en/articles/contexts-and-expression-syntax-for-github-actions#job-context))
+- Logs relevant jobs ans steps along with their output in case of failure
+- Provides flexible interface to overwrite any part of the massage
+- Allows sending raw json-formatted messages directly from action definition
+
 
 # Usage
-First of all, you need to set GitHub secrets for MSTEAMS_WEBHOOK that is Incoming Webhook URL.<br>
+First of all, you need to set GitHub secrets for MSTEAMS_WEBHOOK that is Incoming Webhook URL.
+
 You can customize the following parameters:
 
 |with parameter|required/optional|default|description|
 |:--:|:--:|:--|:--|
-|type|required|N/A|The result of GitHub Actions job<br>This parameter value must contain the following word:<br>- `success`<br>- `failure`<br>- `cancelled`<br>We recommend using ${{ job.status }}|
-|job_name|required|N/A|Means msteams notification title|
-|url|required|N/A|MSTeams Incoming Webhooks URL<br>Please specify this key or MSTEAMS_WEBHOOK environment variable<br>※MSTEAMS_WEBHOOK will be deprecated|
-|mention|optional|N/A|MSTeams message mention|
-|mention_if|optional|N/A|The condition to mention<br>This parameter can contain the following word:<br>- `success`<br>- `failure`<br>- `cancelled`<br>- `always`|
-|icon_emoji|optional|Use MSTeams Incoming Webhook configuration|MSTeams icon|
-|username|optional|Use MSTeams Incoming Webhook configuration|MSTeams username|
-|channel|optional|Use MSTeams Incoming Webhook configuration|MSTeams channel name|
-|commit|optional|false|If true, msteams notification includes the latest commit message and author.|
-|token|case by case|N/A|This token is used to get commit data.<br>If commit parameter is true, this parameter is required.<br>${{ secrets.GITHUB_TOKEN }} is recommended.|
+|webhook_url|optional|$MSTEAMS_WEBHOOK|Microsoft Teams Incoming Webhooks URL<br>Please specify this key or MSTEAMS_WEBHOOK environment variable|
+|job|optional|{}}|JSON parsed job context|
+|steps|optional|{}|JSON parsed steps context|
+|needs|optional|{}|JSON parsed needs context|
+|dry_run|optional|False|Do not actually send the message|
+|raw|optional|''|JSON object to send to Microsoft Teams|
+|overwrite|optional|''|JSON like object to overwrite default message (executed with eval)|
 
-Please refer `action.yml` for more details.
+Please refer [action.yml](./action.yml) for more details.
 
 ## Examples
 
-```..github/workflows/example1.yml
-- name: MSTeams Notification
-  uses: homoluctus/slatify@master
-  if: always()
-  with:
-    type: ${{ job.status }}
-    job_name: '*Lint Check*'
-    mention: 'here'
-    mention_if: 'failure'
-    channel: '#random'
-    url: ${{ secrets.MSTEAMS_WEBHOOK }}
+```yml
+name: Check notification
+
+on:
+  push: {}
+  release: {}
+
+jobs:
+  success:
+    name: One with everything
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: Microsoft Teams Notification
+        uses: skitionek/notify-microsoft-teams@master
+        if: always()
+        with:
+          webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
+          needs: ${{ toJson(needs) }}
+          job: ${{ toJson(job) }}
+          steps: ${{ toJson(steps) }}
+          dry_run: True
+
+
+  without_optional_params:
+    name: One with little info
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: Microsoft Teams Notification
+        uses: skitionek/notify-microsoft-teams@master
+        if: always()
+        with:
+          webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
+
+  with_overwrite:
+    name: One with overwrite
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: Microsoft Teams Notification
+        uses: skitionek/notify-microsoft-teams@master
+        if: always()
+        with:
+          webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
+          overwrite: "{title: `Overwrote title in ${workflow_link}`}"
+
+  with_raw:
+    name: One with raw data
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: Microsoft Teams Notification
+        uses: skitionek/notify-microsoft-teams@master
+        if: always()
+        with:
+          webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
+          raw: >-
+            {
+              "@type": "MessageCard",
+              "@context": "http://schema.org/extensions",
+              "title": "No ${variables} avaliable in here"
+            }
+
+  if_failure:
+    name: Only if failure
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: Microsoft Teams Notification
+        uses: skitionek/notify-microsoft-teams@master
+        if: failure()
+        with:
+          webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
 ```
 
-↓ Including the latest commit data
+# Microsoft Teams UI
 
-```..github/workflows/example2.yml
-- name: MSTeams Notification
-  uses: homoluctus/slatify@master
-  if: always()
-  with:
-    type: ${{ job.status }}
-    job_name: '*Lint Check*'
-    mention: 'here'
-    mention_if: 'failure'
-    channel: '#random'
-    url: ${{ secrets.MSTEAMS_WEBHOOK }}
-    commit: true
-    token: ${{ secrets.GITHUB_TOKEN }}
-```
-
-<img src="./images/msteams2.png" alt="Notification Preview" width="90%">
-
-# MSTeams UI
-
-<img src="./images/msteams.png" alt="Notification Preview" width="90%">
+![Notification Preview](./images/msteams.png)
 
 # Contribution
 
-1. Fork this repository
-2. Pull your repository in local machine
-3. Update original repository
-4. Checkout "master" branch based "remotes/origin/master" branch
-5. Work on "master" or other branch
-6. Push you changes to your repository
-7. Create a new Pull Request
+You are welcome to contribute in any form. I would gladly improve this package.
 
 # LICENSE
 
-[The MIT License (MIT)](https://github.com/homoluctus/slatify/blob/master/LICENSE)
+[The MIT License (MIT)](https://github.com/Skitionek/notify-microsoft-teams/blob/master/LICENSE)
