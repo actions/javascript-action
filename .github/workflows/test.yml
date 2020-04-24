@@ -44,9 +44,9 @@ jobs:
       - name: Checkout from version control
         uses: actions/checkout@master
       - name: Do nothing 1
-        uses: Skitionek/star-wars-quote-action
+        uses: skitionek/star-wars-quote-action@master
       - name: Do nothing 2
-        uses: Skitionek/star-wars-quote-action
+        uses: skitionek/star-wars-quote-action@master
       - name: MSTeams Notification
         uses: ./
         if: always()
