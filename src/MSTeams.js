@@ -30,7 +30,7 @@ const statuses = [
 		color: '#2cbe4e',
 		activityTitle: "Success!",
 		activitySubtitle: head_commit.timestamp,
-		activityImage: "https://raw.githubusercontent.com/Skitionek/notify-microsoft-teams/blob/master/icons/success.png"
+		activityImage: "https://raw.githubusercontent.com/Skitionek/notify-microsoft-teams/master/icons/success.png"
 
 	},
 	{
@@ -48,7 +48,7 @@ const statuses = [
 		color: '#ffc107',
 		activityTitle: "Cancelled",
 		activitySubtitle: head_commit.timestamp,
-		activityImage: "https://raw.githubusercontent.com/Skitionek/notify-microsoft-teams/blob/master/icons/cancelled.png"
+		activityImage: "https://raw.githubusercontent.com/Skitionek/notify-microsoft-teams/master/icons/cancelled.png"
 	},
 	{
 		id: 'skipped',
@@ -56,7 +56,7 @@ const statuses = [
 		color: '#1a6aff',
 		activityTitle: "Skipped",
 		activitySubtitle: head_commit.timestamp,
-		activityImage: "https://raw.githubusercontent.com/Skitionek/notify-microsoft-teams/blob/master/icons/skipped.png"
+		activityImage: "https://raw.githubusercontent.com/Skitionek/notify-microsoft-teams/master/icons/skipped.png"
 	},
 	{
 		id: 'unknown',
@@ -64,7 +64,7 @@ const statuses = [
 		color: '#999',
 		activityTitle: 'No job context has been provided',
 		activitySubtitle: head_commit.timestamp,
-		activityImage: "https://raw.githubusercontent.com/Skitionek/notify-microsoft-teams/blob/master/icons/unknown.png"
+		activityImage: "https://raw.githubusercontent.com/Skitionek/notify-microsoft-teams/master/icons/unknown.png"
 	}
 ];
 
@@ -201,7 +201,7 @@ class MSTeams {
 		const client = new IncomingWebhook(url);
 		const response = await client.send(payload);
 
-		if (response.text !== 'ok') {
+		if (response.text !== '1') {
 			throw new Error(
 				"Failed to send notification to Microsoft Teams.\n" +
 				"Response:\n" +
