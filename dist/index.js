@@ -1051,75 +1051,75 @@ const { context: github } = __webpack_require__(469);
 const { merge } = __webpack_require__(554);
 const core = __webpack_require__(470);
 
-class Status {
-	constructor(status) {
-		const r = this[status.lower()];
-		if(!r) {
-			core.error(`Not implemented status value: ${status}`)
-		}
+const {
+	payload: {
+		workflow, repository, name, compare, sender, commits, head_commit
 	}
-	get success() {
-		return {
-			icon: '✓',
-			color: '#2cbe4e',
-			"activityTitle": "Success!",
-			"activitySubtitle": github.event.head_commit.timestamp,
-			"activityImage": "https://www.iconninja.com/yes-circle-mark-check-correct-tick-success-icon-459"
-		};
-	}
-	get failure() {
-		return {
-			icon: '✗',
-			color: '#cb2431',
-			"activityTitle": "Failure",
-			"activitySubtitle": github.event.head_commit.timestamp,
-			"activityImage": "https://www.iconninja.com/files/306/928/885/invalid-circle-close-delete-cross-x-incorrect-icon.png"
-		};
-	}
-	get cancelled() {
-		return {
-			icon: 'o',
-			color: '#ffc107',
-			"activityTitle": "Cancelled",
-			"activitySubtitle": github.event.head_commit.timestamp,
-			"activityImage": "https://www.iconninja.com/files/453/139/634/cancel-icon.png"
-		};
-	}
-	get skipped() {
-		return {
-			icon: '⤼',
-			color: '#1a6aff',
-			activityTitle: 'Skipped'
-		};
-	}
-	get unknown() {
-		return {
-			icon: '?',
-			color: '#1a6aff',
-			activityTitle: 'No job context has been provided'
-		};
+} = github;
+
+const statuses = {
+	success: {
+		icon: '✓',
+		color: '#2cbe4e',
+		"activityTitle": "Success!",
+		"activitySubtitle": head_commit.timestamp,
+		"activityImage": "https://www.iconninja.com/yes-circle-mark-check-correct-tick-success-icon-459"
+
+	},
+	failure: {
+		icon: '✗',
+		color: '#cb2431',
+		"activityTitle": "Failure",
+		"activitySubtitle": head_commit.timestamp,
+		"activityImage": "https://www.iconninja.com/files/306/928/885/invalid-circle-close-delete-cross-x-incorrect-icon.png"
+
+	},
+	cancelled: {
+		icon: 'o',
+		color: '#ffc107',
+		"activityTitle": "Cancelled",
+		"activitySubtitle": head_commit.timestamp,
+		"activityImage": "https://www.iconninja.com/files/453/139/634/cancel-icon.png"
+	},
+	skipped: {
+		icon: '⤼',
+		color: '#1a6aff',
+		activityTitle: 'Skipped'
+	},
+	unknown: {
+		icon: '?',
+		color: '#1a6aff',
+		activityTitle: 'No job context has been provided'
 	}
 }
 
-const workflow_link = `[${github.payload.workflow}](${github.payload.repository.html_url}/actions?query=workflow%3A${github.payload.workflow}})`;
-const payload_link = `[${github.payload.name}](${github.payload.compare})`;
-const sender_link = `[${github.payload.sender.login}](${github.payload.sender.url})`;
-const repository_link = `[${github.payload.repository}](${github.payload.repository.html_url})`;
-const changelog = `Changelog:${github.payload.commits.reduce(c => '\n+ ' + c.message, '')}`;
+function Status(status) {
+	const r = statuses[status.lower()];
+	if (!r) {
+		core.error(`Not implemented status value: ${status}`)
+	}
+	return r
+}
+
+const workflow_link = `[${workflow}](${repository.html_url}/actions?query=workflow%3A${workflow}})`;
+const payload_link = `[${name}](${compare})`;
+const sender_link = `[${sender.login}](${sender.url})`;
+const repository_link = `[${repository}](${repository.html_url})`;
+const changelog = `Changelog:${commits.reduce(c => '\n+ ' + c.message, '')}`;
 const summary_generator = (obj, status_key) => {
-		const obj_sections = Object.keys(obj).map(step_id => {
-			const status = obj[step_id][status_key];
-			const r = {
-				title: `${Status(status).icon} ${step_id}`,
-			};
-			if (status === 'failure') {
-				r.text = this.outputs2markdown(obj[step_id].outputs)
-			}
-		});
-		if (obj_sections.length) {
-			obj_sections[0].startGroup = true;
+	const obj_sections = Object.keys(obj).map(step_id => {
+		const status = obj[step_id][status_key];
+		const r = {
+			title: `${Status(status).icon} ${step_id}`,
+		};
+		if (status === 'failure') {
+			r.text = this.outputs2markdown(obj[step_id].outputs)
 		}
-		return obj_sections
+	});
+	if (obj_sections.length) {
+		obj_sections[0].startGroup = true;
+	}
+	return obj_sections
 };
 
 class MSTeams {
@@ -1140,8 +1140,8 @@ class MSTeams {
 			overwrite = ''
 		}
 	) {
-		const steps_summary = summary_generator(steps,'outcome');
-		const needs_summary = summary_generator(needs,'result');
+		const steps_summary = summary_generator(steps, 'outcome');
+		const needs_summary = summary_generator(needs, 'result');
 		console.log(job);
 		const status_summary = Status(job.status);
 
@@ -26491,7 +26491,7 @@ async function run() {
 				overwrite
 			}
 		);
-		core.info(`Generated payload for msteams: ${JSON.stringify(payload)}`);
+		core.info(`Generated payload for msteams:\n${JSON.stringify(payload, null, 2)}`);
 
 		if(!dry_run) {
 			await msteams.notify(webhook_url, payload);

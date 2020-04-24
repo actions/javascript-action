@@ -31,7 +31,7 @@ async function run() {
 				overwrite
 			}
 		);
-		core.info(`Generated payload for msteams: ${JSON.stringify(payload)}`);
+		core.info(`Generated payload for msteams:\n${JSON.stringify(payload, null, 2)}`);
 
 		if(!dry_run) {
 			await msteams.notify(webhook_url, payload);
