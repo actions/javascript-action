@@ -1,7 +1,6 @@
 name: Check notification
 
 on:
-  pull_request: {}
   push: {}
   release: {}
 
