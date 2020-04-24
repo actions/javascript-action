@@ -6,7 +6,7 @@ on:
 
 jobs:
   success:
-    name: Works properly
+    name: One with everything
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@master
@@ -21,7 +21,7 @@ jobs:
           dry_run: ${{ !github.event.action == 'release' }}
 
   needy_one:
-    name: Works properly
+    name: One with needs
     needs: success
     runs-on: ubuntu-18.04
     steps:
@@ -36,8 +36,27 @@ jobs:
           steps: ${{ toJson(steps) }}
           dry_run: ${{ !github.event.action == 'release' }}
 
+  steps_one:
+    name: One with steps
+    needs: success
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout from version control
+        uses: actions/checkout@master
+      - name: Do nothing 1
+      - name: Do nothing 2
+      - name: MSTeams Notification
+        uses: ./
+        if: always()
+        with:
+          webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
+          needs: ${{ toJson(needs) }}
+          job: ${{ toJson(job) }}
+          steps: ${{ toJson(steps) }}
+          dry_run: ${{ !github.event.action == 'release' }}
+
   failure:
-    name: Works failed
+    name: One failure
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@master
@@ -62,7 +81,7 @@ jobs:
 
 
   without_optional_params:
-    name: Works properly without optional params
+    name: One with little info
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@master
@@ -74,7 +93,7 @@ jobs:
           dry_run: ${{ !github.event.action == 'release' }}
 
   with_overwrite:
-    name: Works properly with overwrite
+    name: One with overwrite
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@master
@@ -89,7 +108,7 @@ jobs:
           dry_run: ${{ !github.event.action == 'release' }}
 
   with_raw:
-    name: Works properly witht raw data
+    name: One with raw data
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@master
