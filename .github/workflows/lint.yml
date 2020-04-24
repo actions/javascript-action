@@ -1,45 +1,18 @@
-name: lint
+name: Lint
 
 on:
   pull_request:
     paths:
       - src/*
-  push: {}
+  push:
+    paths:
+      - src/*
 
 jobs:
-  lint:
-    name: Lint Check
-    runs-on: ubuntu-18.04
+  eslint:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup Node
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v1
+      - uses: hallee/eslint-action@master
         with:
-          node-version: '12.x'
-
-      - name: Install prettier
-        run: yarn --frozen-lockfile
-
-      - name: Check
-        id: lint_check
-        run: |
-          result=$(npm run lint)
-          echo "::set-output name=exit_code::$?"
-          echo "::set-output name=result::$result"
-
-      - uses: actions/github-script@0.4.0
-        if: failure() && steps.lint_check.outputs.result != ''
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '### Prettier\n{ steps.lint_check.outputs.result }}'
-            })
-
-      - name: Error exit
-        if: ${{ steps.lint_check.outputs.exit_code }} != '0'
-        run: exit 1
+          repo-token: ${{secrets.GITHUB_TOKEN}}
