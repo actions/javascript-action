@@ -13,14 +13,6 @@ const access_context = context_name => {
 async function run() {
 	try {
 		const webhook_url = process.env.MSTEAMS_WEBHOOK || core.getInput('webhook_url');
-
-		let job = access_context('job');
-		let steps = access_context('steps');
-		let needs = access_context('needs');
-		let overwrite = core.getInput('overwrite');
-		let raw = core.getInput('raw');
-		let dry_run = core.getInput('dry_run');
-
 		if (webhook_url === '') {
 			throw new Error(
 				'[Error] Missing Microsoft Teams Incoming Webhooks URL.\n' +
@@ -29,20 +21,37 @@ async function run() {
 			);
 		}
 
+
+		let job = access_context('job');
+		let steps = access_context('steps');
+		let needs = access_context('needs');
+
+		let overwrite = core.getInput('overwrite');
+		let raw = core.getInput('raw');
+		let dry_run = core.getInput('dry_run');
+
 		const msteams = new MSTeams();
-		const payload = raw || await msteams.generatePayload(
-			{
-				job,
-				steps,
-				needs,
-				overwrite
-			}
-		);
+		let payload;
+		if (raw === '') {
+			payload = await msteams.generatePayload(
+				{
+					job,
+					steps,
+					needs,
+					overwrite
+				}
+			);
+		} else {
+			payload = Object.assign({}, msteams.header, JSON.parse(raw));
+		}
+
 		core.info(`Generated payload for Microsoft Teams:\n${JSON.stringify(payload, null, 2)}`);
 
-		if (!dry_run) {
+		if (dry_run === '') {
 			await msteams.notify(webhook_url, payload);
 			core.info('Sent message to Microsoft Teams');
+		} else {
+			core.info('Dry run - skipping notification send. Done.');
 		}
 	} catch (err) {
 		core.setFailed(err.message);

@@ -1067,54 +1067,62 @@ const {
 		head_commit = { timestamp: placeholder }
 	},
 	eventName,
-	workflow
+	workflow,
+	sha
 } = github;
 
-const statuses = {
-	success: {
+const statuses = [
+	{
+		id: 'success',
 		icon: '✓',
 		color: '#2cbe4e',
 		"activityTitle": "Success!",
 		"activitySubtitle": head_commit.timestamp,
-		"activityImage": "https://www.iconninja.com/yes-circle-mark-check-correct-tick-success-icon-459"
+		"activityImage": "https://github.com/Skitionek/notify-microsoft-teams/blob/master/icons/success.png"
 
 	},
-	failure: {
+	{
+		id: 'failure',
 		icon: '✗',
 		color: '#cb2431',
 		"activityTitle": "Failure",
 		"activitySubtitle": head_commit.timestamp,
-		"activityImage": "https://www.iconninja.com/files/306/928/885/invalid-circle-close-delete-cross-x-incorrect-icon.png"
+		"activityImage": "https://github.com/Skitionek/notify-microsoft-teams/blob/master/icons/failure.png"
 
 	},
-	cancelled: {
+	{
+		id: 'cancelled',
 		icon: 'o',
 		color: '#ffc107',
 		"activityTitle": "Cancelled",
 		"activitySubtitle": head_commit.timestamp,
-		"activityImage": "https://www.iconninja.com/files/453/139/634/cancel-icon.png"
+		"activityImage": "https://github.com/Skitionek/notify-microsoft-teams/blob/master/icons/cancelled.png"
 	},
-	skipped: {
+	{
+		id: 'skipped',
 		icon: '⤼',
 		color: '#1a6aff',
-		activityTitle: 'Skipped'
+		"activityTitle": "Skipped",
+		"activityImage": "https://github.com/Skitionek/notify-microsoft-teams/blob/master/icons/skipped.png"
 	},
-	unknown: {
+	{
+		id: 'unknown',
 		icon: '?',
-		color: '#1a6aff',
-		activityTitle: 'No job context has been provided'
+		color: '#999',
+		activityTitle: 'No job context has been provided',
+		"activityImage": "https://github.com/Skitionek/notify-microsoft-teams/blob/master/icons/unknown.png"
 	}
-};
+];
 
 function Status(status) {
 	if (!status) {
 		core.error(`Unknown status value: ${status}`);
-		return r.unknown
+		return statuses.find(({ id }) => id === 'unknown')
 	}
-	const r = statuses[status.toLowerCase()];
+	const r = statuses.find(({ id }) => id === status.toLowerCase());
 	if (!r) {
 		core.error(`Not implemented status value: ${status}`)
-		return r.unknown
+		return statuses.find(({ id }) => id === 'unknown')
 	}
 	return r
 }
@@ -1123,26 +1131,38 @@ const workflow_link = `[${workflow}](${repository.html_url}/actions?query=workfl
 const payload_link = `[${eventName}](${compare})`;
 const sender_link = `[${sender.login}](${sender.url})`;
 const repository_link = `[${repository.full_name}](${repository.html_url})`;
-const changelog = `Changelog:${commits.reduce((o,c) => o+core.info(c) || '\n+ ' + c.message, '')}`;
+const changelog = commits.length ? `**Changelog:**${commits.reduce((o, c) => console.dir(c) || o + '\n+ ' + c.message, '')}` : undefined;
+const outputs2markdown = (outputs) =>
+	Object.keys(outputs).reduce((o, output_name) => o + `+ ${output_name}:${'\n'}\`\`\`${outputs[output_name]}\`\`\``, '');
+
 const summary_generator = (obj, status_key) => {
-	const obj_sections = Object.keys(obj).map(step_id => {
-		const status = obj[step_id][status_key];
-		const r = {
-			title: `${Status(status).icon} ${step_id}`,
-		};
-		if (status === 'failure') {
-			r.text = this.outputs2markdown(obj[step_id].outputs)
+	const r = {
+		facts: [],
+		text: '',
+		startGroup: true
+	};
+	Object.keys(obj).forEach(step_id => {
+		const status = Status(obj[step_id][status_key]);
+		r.facts.push({
+			name: `${status.icon} ${step_id}`,
+			value: status.activityTitle
+		});
+		if (status.id === 'failure' && obj[step_id].outputs.length) {
+			r.text += `${step_id}:\n`;
+			r.text += outputs2markdown(obj[step_id].outputs)
 		}
 	});
-	if (obj_sections.length) {
-		obj_sections[0].startGroup = true;
-	}
-	return obj_sections
+	if (r.text === '') delete r.text;
+	if (!r.facts.length) return [];
+	return [r]
 };
 
 class MSTeams {
-	outputs2markdown(outputs) {
-		return Object.keys(outputs).reduce((o,output_name) => o+`+ ${output_name}:${'\n'}\`\`\`${outputs[output_name]}\`\`\``, '')
+	constructor() {
+		this.header = {
+			"@type": "MessageCard",
+			"@context": "http://schema.org/extensions"
+		}
 	}
 
 	/**
@@ -1164,21 +1184,41 @@ class MSTeams {
 		const status_summary = Status(job.status);
 		console.dir(github);
 
+		const sections = [
+			...steps_summary,
+			...needs_summary,
+			status_summary
+		];
+		const payload = {
+			...this.header,
+			correlationId: sha,
+			themeColor: status_summary.color,
+			title: `${sender.login} ${eventName} initialised workflow "${workflow}"`,
+			summary: repository_link,
+			sections,
+			"potentialAction": [
+				{
+					"@type": "OpenUri",
+					"name": "Repository",
+					"targets": [
+						{ "os": "default", "uri": repository.html_url }
+					]
+				},
+				{
+					"@type": "OpenUri",
+					"name": "Compare",
+					"targets": [
+						{ "os": "default", "uri": compare }
+					]
+				}
+			]
+		};
+		if (changelog) {
+			payload.text = changelog
+		}
 		return merge(
-			{
-				"@type": "MessageCard",
-				"@context": "http://schema.org/extensions",
-				themeColor: status_summary.color,
-				title: `${sender.login} ${eventName} initialised workflow ${workflow}`,
-				summary: repository_link,
-				text: changelog,
-				sections: [
-					...steps_summary,
-					...needs_summary,
-					status_summary
-				]
-			},
-			eval(overwrite.toString())
+			payload,
+			eval(String(overwrite).toString())
 		)
 	}
 
@@ -26495,14 +26535,6 @@ const access_context = context_name => {
 async function run() {
 	try {
 		const webhook_url = process.env.MSTEAMS_WEBHOOK || core.getInput('webhook_url');
-
-		let job = access_context('job');
-		let steps = access_context('steps');
-		let needs = access_context('needs');
-		let overwrite = core.getInput('overwrite');
-		let raw = core.getInput('raw');
-		let dry_run = core.getInput('dry_run');
-
 		if (webhook_url === '') {
 			throw new Error(
 				'[Error] Missing Microsoft Teams Incoming Webhooks URL.\n' +
@@ -26511,20 +26543,37 @@ async function run() {
 			);
 		}
 
+
+		let job = access_context('job');
+		let steps = access_context('steps');
+		let needs = access_context('needs');
+
+		let overwrite = core.getInput('overwrite');
+		let raw = core.getInput('raw');
+		let dry_run = core.getInput('dry_run');
+
 		const msteams = new MSTeams();
-		const payload = raw || await msteams.generatePayload(
-			{
-				job,
-				steps,
-				needs,
-				overwrite
-			}
-		);
+		let payload;
+		if (raw === '') {
+			payload = await msteams.generatePayload(
+				{
+					job,
+					steps,
+					needs,
+					overwrite
+				}
+			);
+		} else {
+			payload = Object.assign({}, msteams.header, JSON.parse(raw));
+		}
+
 		core.info(`Generated payload for Microsoft Teams:\n${JSON.stringify(payload, null, 2)}`);
 
-		if (!dry_run) {
+		if (dry_run === '') {
 			await msteams.notify(webhook_url, payload);
 			core.info('Sent message to Microsoft Teams');
+		} else {
+			core.info('Dry run - skipping notification send. Done.');
 		}
 	} catch (err) {
 		core.setFailed(err.message);
