@@ -57,7 +57,7 @@ async function run() {
 
 		core.info(`Generated payload for Microsoft Teams:\n${JSON.stringify(payload, null, 2)}`);
 
-		if (dry_run === '') {
+		if (dry_run === '' || dry_run==='false') {
 			await msteams.notify(webhook_url, payload);
 			core.info('Sent message to Microsoft Teams');
 		} else {
