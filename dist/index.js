@@ -1130,7 +1130,7 @@ class MSTeams {
 	 */
 	async generatePayload(
 		{
-			job = { status: 'unknown'},
+			job = { status: 'unknown' },
 			steps = {},
 			needs = {},
 			overwrite = ''
@@ -1138,6 +1138,7 @@ class MSTeams {
 	) {
 		const steps_summary = summary_generator(steps,'outcome');
 		const needs_summary = summary_generator(needs,'result');
+		console.log(job);
 		const status_summary = Status[job.status];
 
 		return merge(
