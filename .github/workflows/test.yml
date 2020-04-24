@@ -19,7 +19,7 @@ jobs:
           job: ${{ toJson(job) }}
           steps: ${{ toJson(steps) }}
 
-  needy one:
+  needy_one:
     name: Works properly
     needs: success
     runs-on: ubuntu-18.04
