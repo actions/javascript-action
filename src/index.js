@@ -31,12 +31,13 @@ async function run() {
 		let dry_run = core.getInput('dry_run');
 
 		core.info(`Parsed params:\n${JSON.stringify({
+			webhook_url: '***',
 			job,
 			steps,
 			needs,
 			raw,
 			overwrite,
-			webhook_url: '***'
+			dry_run
 		})}`);
 
 		const msteams = new MSTeams();

@@ -161,16 +161,16 @@ class MSTeams {
 			potentialAction: [
 				{
 					"@type": "OpenUri",
-					"name": "Repository",
-					"targets": [
-						{ "os": "default", "uri": repository.html_url }
+					name: "Repository",
+					targets: [
+						{ os: "default", uri: repository.html_url }
 					]
 				},
 				{
 					"@type": "OpenUri",
-					"name": "Compare",
-					"targets": [
-						{ "os": "default", "uri": compare }
+					name: "Compare",
+					targets: [
+						{ os: "default", uri: compare }
 					]
 				}
 			]
@@ -178,10 +178,14 @@ class MSTeams {
 		if (changelog) {
 			payload.text = changelog
 		}
-		return merge(
-			payload,
-			eval(`(${overwrite})`)
-		)
+		if (overwrite !== '') {
+			return merge(
+				payload,
+				eval(`(${overwrite})`)
+			)
+		} else {
+			return payload
+		}
 	}
 
 	/**
