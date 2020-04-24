@@ -26474,7 +26474,7 @@ async function run() {
 		if (webhook_url === '') {
 			throw new Error(`[Error] Missing MSTeams Incoming Webhooks URL.
       Please configure "MSTEAMS_WEBHOOK" as environment variable or
-      specify the key called "url" in "with" section.
+      specify the key called "webhook_url" in "with" section.
       `);
 		}
 

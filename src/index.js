@@ -1,6 +1,5 @@
 const core = require('@actions/core');
-
-const { MSTeams } = require('./MSTeams');
+const MSTeams = require('./MSTeams');
 
 async function run() {
 	try {
