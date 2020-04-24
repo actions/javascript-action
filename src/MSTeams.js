@@ -134,7 +134,7 @@ class MSTeams {
 	) {
 		const steps_summary = summary_generator(steps, 'outcome');
 		const needs_summary = summary_generator(needs, 'result');
-		console.log('overwrite', overwrite);
+
 		const {
 			activityTitle,
 			activitySubtitle,
@@ -180,7 +180,7 @@ class MSTeams {
 		}
 		return merge(
 			payload,
-			eval(String(overwrite).toString())
+			eval(`(${overwrite})`)
 		)
 	}
 

@@ -1182,7 +1182,7 @@ class MSTeams {
 	) {
 		const steps_summary = summary_generator(steps, 'outcome');
 		const needs_summary = summary_generator(needs, 'result');
-		console.log('overwrite', overwrite);
+
 		const {
 			activityTitle,
 			activitySubtitle,
@@ -1228,7 +1228,7 @@ class MSTeams {
 		}
 		return merge(
 			payload,
-			eval(String(overwrite).toString())
+			eval(`(${overwrite})`)
 		)
 	}
 
@@ -26563,7 +26563,7 @@ async function run() {
 		let raw = core.getInput('raw');
 		let dry_run = core.getInput('dry_run');
 
-		core.debug(`Parsed params:\n${JSON.stringify({
+		core.info(`Parsed params:\n${JSON.stringify({
 			job,
 			steps,
 			needs,
