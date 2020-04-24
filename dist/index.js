@@ -1054,7 +1054,7 @@ class Status {
 	constructor(status) {
 		return this[status]
 	}
-	get success() {
+	get Success() {
 		return {
 			icon: '✓',
 			color: '#2cbe4e',
@@ -1063,7 +1063,7 @@ class Status {
 			"activityImage": "https://www.iconninja.com/yes-circle-mark-check-correct-tick-success-icon-459"
 		};
 	}
-	get failure() {
+	get Failure() {
 		return {
 			icon: '✗',
 			color: '#cb2431',
@@ -1072,7 +1072,7 @@ class Status {
 			"activityImage": "https://www.iconninja.com/files/306/928/885/invalid-circle-close-delete-cross-x-incorrect-icon.png"
 		};
 	}
-	get cancelled() {
+	get Cancelled() {
 		return {
 			icon: 'o',
 			color: '#ffc107',
@@ -1081,14 +1081,14 @@ class Status {
 			"activityImage": "https://www.iconninja.com/files/453/139/634/cancel-icon.png"
 		};
 	}
-	get skipped() {
+	get Skipped() {
 		return {
 			icon: '⤼',
 			color: '#1a6aff',
 			activityTitle: 'Skipped'
 		};
 	}
-	get unknown() {
+	get Unknown() {
 		return {
 			icon: '?',
 			color: '#1a6aff',
@@ -1130,7 +1130,7 @@ class MSTeams {
 	 */
 	async generatePayload(
 		{
-			job = { status: 'unknown' },
+			job = { status: 'Unknown' },
 			steps = {},
 			needs = {},
 			overwrite = ''
