@@ -1186,7 +1186,8 @@ class MSTeams {
 		const {
 			activityTitle,
 			activitySubtitle,
-			activityImage
+			activityImage,
+			color
 		} = Status(job.status);
 		const status_summary = {
 			activityTitle,
@@ -1202,7 +1203,7 @@ class MSTeams {
 		const payload = {
 			...this.header,
 			correlationId: sha,
-			themeColor: status_summary.color,
+			themeColor: color,
 			title: `${sender.login} ${eventName} initialised workflow "${workflow}"`,
 			summary: repository_link,
 			sections,
