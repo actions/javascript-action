@@ -1,8 +1,11 @@
 {
-  "name"           : "notify-microsoft-teams",
+  "name"           : "@skitionek/notify-microsoft-teams",
   "version"        : "0.0.0",
   "description"    : "Microsoft Teams Notification for Github Actions",
   "main"           : "dist/index.js",
+	"publishConfig": {
+	  "registry":"https://npm.pkg.github.com/skitionek"
+	},
   "scripts"        : {
 	"package": "ncc build src -o dist",
 	"lint"   : "eslint index.js",
