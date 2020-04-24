@@ -10,38 +10,20 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@master
-
-      - name: MSTeams Notification
-        uses: ./
-        if: always()
-#        env:
-#          needs: ${{ toJson(needs) }}
-#          job: ${{ toJson(job) }}
-#          steps: ${{ toJson(steps) }}
-  success_no_mention:
-    name: Works properly without mention
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@master
-
       - name: MSTeams Notification
         uses: ./
         if: always()
         with:
-          type: ${{ job.status }}
-          job_name: ':robot_face: *Success no mention*'
-          channel: '#develop'
           url: ${{ secrets.MSTEAMS_WEBHOOK }}
-#        env:
-#          needs: ${{ toJson(needs) }}
-#          job: ${{ toJson(job) }}
-#          steps: ${{ toJson(steps) }}
+          needs: ${{ toJson(needs) }}
+          job: ${{ toJson(job) }}
+          steps: ${{ toJson(steps) }}
+
   failure:
     name: Works failed
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@master
-
       - name: Forced failure
         run: exit 1
 
@@ -49,16 +31,11 @@ jobs:
         uses: ./
         if: always()
         with:
-          type: ${{ job.status }}
-          job_name: ':robot_face: *Failure*'
-          mention: 'here'
-          mention_if: 'failure'
-          channel: '#develop'
           url: ${{ secrets.MSTEAMS_WEBHOOK }}
-#        env:
-#          needs: ${{ toJson(needs) }}
-#          job: ${{ toJson(job) }}
-#          steps: ${{ toJson(steps) }}
+          needs: ${{ toJson(needs) }}
+          job: ${{ toJson(job) }}
+          steps: ${{ toJson(steps) }}
+          dry_run: True
 
       - name: Check if work properly
         if: failure()
@@ -66,73 +43,48 @@ jobs:
           echo 'MSTeams failure notification succeeded'
           exit 0
 
-  cancel:
-    # You have to cancel this job
-    name: Works canceled
+
+  without_optional_params:
+    name: Works properly without optional params
     runs-on: ubuntu-18.04
-    needs: success
     steps:
       - uses: actions/checkout@master
-
-      - name: Wait
-        run: sleep 60
-
       - name: MSTeams Notification
         uses: ./
         if: always()
         with:
-          type: ${{ job.status }}
-          job_name: ':robot_face: *Cancel*'
-          mention: 'here'
-          mention_if: 'always'
-          channel: '#develop'
           url: ${{ secrets.MSTEAMS_WEBHOOK }}
-#        env:
-#          needs: ${{ toJson(needs) }}
-#          job: ${{ toJson(job) }}
-#          steps: ${{ toJson(steps) }}
+          dry_run: True
 
-      - name: Check if work properly
-        if: cancelled()
-        run: |
-          echo 'MSTeams cancelled notification succeeded'
-          exit 0
-
-  commit:
-    name: Include commit data
+  with_overwrite:
+    name: Works properly with overwrite
+    needs: needs_no_mention
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@master
-
-      - uses: ./
+      - name: MSTeams Notification
+        uses: ./
+        if: always()
         with:
-          type: ${{ job.status }}
-          job_name: ':robot_face: *Commit*'
-          channel: '#develop'
           url: ${{ secrets.MSTEAMS_WEBHOOK }}
-          commit: 'true'
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-      - name: Dump job context
-        env:
-          JOB_CONTEXT: ${{ toJson(job) }}
-        run: echo "$JOB_CONTEXT"
-      - name: Dump steps context
-        env:
-          STEPS_CONTEXT: ${{ toJson(steps) }}
-        run: echo "$STEPS_CONTEXT"
-      - name: Dump runner context
-        env:
-          RUNNER_CONTEXT: ${{ toJson(runner) }}
-        run: echo "$RUNNER_CONTEXT"
-      - name: Dump strategy context
-        env:
-          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
-        run: echo "$STRATEGY_CONTEXT"
-      - name: Dump matrix context
-        env:
-          MATRIX_CONTEXT: ${{ toJson(matrix) }}
-        run: echo "$MATRIX_CONTEXT"
+          overwrite: "{title: `Overwrote title in ${workflow_link}`}"
+          job: ${{ toJson(job) }}
+          steps: ${{ toJson(steps) }}
+          dry_run: True
+
+  with_raw:
+    name: Works properly witht raw data
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: MSTeams Notification
+        uses: ./
+        if: always()
+        with:
+          url: ${{ secrets.MSTEAMS_WEBHOOK }}
+          raw: | {
+              "@type": "MessageCard",
+              "@context": "http://schema.org/extensions",
+              "title": "No ${variables} avaliable in here"
+            }
+          dry_run: True

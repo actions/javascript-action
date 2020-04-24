@@ -28,13 +28,7 @@ jobs:
         uses: skitionek/notify-microsoft-teams@master
         if: always()
         with:
-          type: ${{ job.status }}
-          job_name: ':rocket: *Publish new release ${{ github.ref }}*'
-          channel: '#develop'
           url: ${{ secrets.MSTEAMS_WEBHOOK }}
-          commit: true
-          token: ${{ secrets.GITHUB_TOKEN }}
-#        env:
-          needs: '${{ toJson(needs) }}'
-          job: '${{ toJson(job) }}'
-          steps: '${{ toJson(steps) }}'
+          needs: ${{ toJson(needs) }}
+          job: ${{ toJson(job) }}
+          steps: ${{ toJson(steps) }}

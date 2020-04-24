@@ -1,43 +1,22 @@
-import * as core from '@actions/core';
+const core = require('@actions/core');
 
-import { isValidCondition, validateStatus } from './utils';
-import { MSTeams } from './MSTeams';
+const { MSTeams } = require('./MSTeams');
 
 async function run() {
 	try {
-		const status = core.getInput('type' ).toLowerCase();
-		const jobName = core.getInput('job_name');
-		const url = process.env.MSTEAMS_WEBHOOK || core.getInput('url');
-		let mention = core.getInput('mention');
-		let mentionCondition = core.getInput('mention_if').toLowerCase();
-		const msteamsOptions = {
-			username: core.getInput('username'),
-			channel: core.getInput('channel'),
-			icon_emoji: core.getInput('icon_emoji')
-		};
-		const commitFlag = core.getInput('commit') === 'true';
-		const token = core.getInput('token');
+		const webhook_url = process.env.MSTEAMS_WEBHOOK || core.getInput('webhook_url');
 
 		let job = core.getInput('job');
-		core.info("job", job);
-		// job = job === '' ? {} : JSON.parse(job);
+		job = job === '' ? {} : JSON.parse(job);
 		let steps = core.getInput('steps');
-		core.info("steps", steps);
-		// steps = steps === '' ? {} : JSON.parse(steps);
+		steps = steps === '' ? {} : JSON.parse(steps);
 		let needs = core.getInput('needs');
-		core.info("needs", needs);
-		// needs = needs === '' ? {} : JSON.parse(needs);
+		needs = needs === '' ? {} : JSON.parse(needs);
+		let overwrite = core.getInput('overwrite');
+		let raw = core.getInput('raw');
+		let dry_run = core.getInput('dry_run');
 
-		if (mention && !isValidCondition(mentionCondition)) {
-			mention = '';
-			mentionCondition = '';
-			console.warn(`
-      Ignore msteams message metion:
-      mention_if: ${mentionCondition} is invalid
-      `);
-		}
-
-		if (url === '') {
+		if (webhook_url === '') {
 			throw new Error(`[Error] Missing MSTeams Incoming Webhooks URL.
       Please configure "MSTEAMS_WEBHOOK" as environment variable or
       specify the key called "url" in "with" section.
@@ -45,23 +24,20 @@ async function run() {
 		}
 
 		const msteams = new MSTeams();
-		const payload = await msteams.generatePayload(
-			jobName,
-			status,
-			mention,
-			mentionCondition,
-			commitFlag,
-			token,
+		const payload = raw || await msteams.generatePayload(
 			{
 				job,
 				steps,
-				needs
+				needs,
+				overwrite
 			}
 		);
-		// console.info(`Generated payload for msteams: ${JSON.stringify(payload)}`);
+		core.info(`Generated payload for msteams: ${JSON.stringify(payload)}`);
 
-		await msteams.notify(url, msteamsOptions, payload);
-		console.info('Sent message to MSTeams');
+		if(!dry_run) {
+			await msteams.notify(webhook_url, payload);
+			core.info('Sent message to MSTeams');
+		}
 	} catch (err) {
 		core.setFailed(err.message);
 	}

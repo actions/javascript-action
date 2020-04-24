@@ -4,7 +4,7 @@
 	"description": "Microsoft Teams Notification for Github Actions",
 	"main": "dist/index.js",
 	"scripts": {
-    	"package": "ncc build src -o dist",
+		"package": "ncc build src -o dist",
 		"lint": "eslint index.js",
 		"test": "eslint index.js && jest"
 	},
@@ -27,6 +27,7 @@
 		"@actions/core": "^1.2.3",
 		"@octokit/rest": "^17.5.2",
 		"botbuilder": "^4.8.0",
+		"lodash.merge": "^4.6.2",
 		"ms-teams-webhook": "^1.0.3"
 	},
 	"devDependencies": {
