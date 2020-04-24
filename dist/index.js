@@ -1078,7 +1078,7 @@ const statuses = [
 		color: '#2cbe4e',
 		"activityTitle": "Success!",
 		"activitySubtitle": head_commit.timestamp,
-		"activityImage": "https://github.com/Skitionek/notify-microsoft-teams/blob/master/icons/success.png"
+		"activityImage": "https://raw.githubusercontent.com/Skitionek/notify-microsoft-teams/blob/master/icons/success.png"
 
 	},
 	{
@@ -1087,7 +1087,7 @@ const statuses = [
 		color: '#cb2431',
 		"activityTitle": "Failure",
 		"activitySubtitle": head_commit.timestamp,
-		"activityImage": "https://github.com/Skitionek/notify-microsoft-teams/blob/master/icons/failure.png"
+		"activityImage": "https://raw.githubusercontent.com/Skitionek/notify-microsoft-teams/master/icons/failure.png"
 
 	},
 	{
@@ -1096,21 +1096,21 @@ const statuses = [
 		color: '#ffc107',
 		"activityTitle": "Cancelled",
 		"activitySubtitle": head_commit.timestamp,
-		"activityImage": "https://github.com/Skitionek/notify-microsoft-teams/blob/master/icons/cancelled.png"
+		"activityImage": "https://raw.githubusercontent.com/Skitionek/notify-microsoft-teams/blob/master/icons/cancelled.png"
 	},
 	{
 		id: 'skipped',
 		icon: '⤼',
 		color: '#1a6aff',
 		"activityTitle": "Skipped",
-		"activityImage": "https://github.com/Skitionek/notify-microsoft-teams/blob/master/icons/skipped.png"
+		"activityImage": "https://raw.githubusercontent.com/Skitionek/notify-microsoft-teams/blob/master/icons/skipped.png"
 	},
 	{
 		id: 'unknown',
 		icon: '?',
 		color: '#999',
 		activityTitle: 'No job context has been provided',
-		"activityImage": "https://github.com/Skitionek/notify-microsoft-teams/blob/master/icons/unknown.png"
+		"activityImage": "https://raw.githubusercontent.com/Skitionek/notify-microsoft-teams/blob/master/icons/unknown.png"
 	}
 ];
 
@@ -1131,7 +1131,7 @@ const workflow_link = `[${workflow}](${repository.html_url}/actions?query=workfl
 const payload_link = `[${eventName}](${compare})`;
 const sender_link = `[${sender.login}](${sender.url})`;
 const repository_link = `[${repository.full_name}](${repository.html_url})`;
-const changelog = commits.length ? `**Changelog:**${commits.reduce((o, c) => console.dir(c) || o + '\n+ ' + c.message, '')}` : undefined;
+const changelog = commits.length ? `**Changelog:**${commits.reduce((o, c) => console.dir(c) || o + '\n+ ' + c.message, '\n')}` : undefined;
 const outputs2markdown = (outputs) =>
 	Object.keys(outputs).reduce((o, output_name) => o + `+ ${output_name}:${'\n'}\`\`\`${outputs[output_name]}\`\`\``, '');
 
@@ -1238,7 +1238,8 @@ class MSTeams {
 		if (response.text !== 'ok') {
 			throw new Error(
 				"Failed to send notification to Microsoft Teams.\n" +
-				`Response: ${response}`
+				"Response:\n" +
+				JSON.stringify(response, null,2)
 			);
 		}
 	}
