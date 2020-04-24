@@ -1,70 +1,76 @@
 {
-	"name": "notify-microsoft-teams",
-	"version": "0.0.0",
-	"description": "Microsoft Teams Notification for Github Actions",
-	"main": "dist/index.js",
-	"scripts": {
-		"package": "ncc build src -o dist",
-		"lint": "eslint index.js",
-		"test": "eslint index.js && jest"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/Skitionek/notify-microsoft-teams.git"
-	},
-	"keywords": [
-		"GitHub",
-		"Actions",
-		"JavaScript"
-	],
-	"author": "GitHub",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/Skitionek/notify-microsoft-teams/issues"
-	},
-	"homepage": "https://github.com/Skitionek/notify-microsoft-teams#readme",
-	"dependencies": {
-		"@actions/core": "^1.2.3",
-		"@octokit/rest": "^17.5.2",
-		"botbuilder": "^4.8.0",
-		"lodash.merge": "^4.6.2",
-		"ms-teams-webhook": "^1.0.3"
-	},
-	"devDependencies": {
-		"@actions/github": "^2.1.1",
-		"@babel/cli": "^7.8.4",
-		"@babel/core": "^7.9.0",
-		"@babel/plugin-proposal-class-properties": "^7.8.3",
-		"@babel/preset-env": "^7.9.5",
-		"@semantic-release/changelog": "^5.0.1",
-		"@semantic-release/git": "^9.0.0",
-		"@zeit/ncc": "^0.20.5",
-		"eslint": "^6.3.0",
-		"jest": "^24.9.0"
-	},
-	"release": {
-		"plugins": [
-			"@semantic-release/commit-analyzer",
-			"@semantic-release/release-notes-generator",
-			"@semantic-release/github",
-			"@semantic-release/changelog",
-			"@semantic-release/git"
-		],
-		"branch": "master"
-	},
-	"babel": {
-		"plugins": [
-			"@babel/plugin-proposal-class-properties"
-		],
-		"presets": [
-			[
-				"@babel/preset-env",
-				{
-					"targets": {
-						"node": "current"
-					}
-				}
-			]
-		]
+  "name"           : "notify-microsoft-teams",
+  "version"        : "0.0.0",
+  "description"    : "Microsoft Teams Notification for Github Actions",
+  "main"           : "dist/index.js",
+  "scripts"        : {
+	"package": "ncc build src -o dist",
+	"lint"   : "eslint index.js",
+	"test"   : "eslint index.js && jest"
+  },
+  "repository"     : {
+	"type": "git",
+	"url" : "git+https://github.com/Skitionek/notify-microsoft-teams.git"
+  },
+  "husky"          : {
+	"hooks": {
+	  "pre-commit": "npm run package"
 	}
+  },
+  "keywords"       : [
+	"GitHub",
+	"Actions",
+	"JavaScript"
+  ],
+  "author"         : "GitHub",
+  "license"        : "MIT",
+  "bugs"           : {
+	"url": "https://github.com/Skitionek/notify-microsoft-teams/issues"
+  },
+  "homepage"       : "https://github.com/Skitionek/notify-microsoft-teams#readme",
+  "dependencies"   : {
+	"@actions/core"   : "^1.2.3",
+	"@octokit/rest"   : "^17.5.2",
+	"botbuilder"      : "^4.8.0",
+	"lodash.merge"    : "^4.6.2",
+	"ms-teams-webhook": "^1.0.3"
+  },
+  "devDependencies": {
+	"@actions/github"                        : "^2.1.1",
+	"@babel/cli"                             : "^7.8.4",
+	"@babel/core"                            : "^7.9.0",
+	"@babel/plugin-proposal-class-properties": "^7.8.3",
+	"@babel/preset-env"                      : "^7.9.5",
+	"@semantic-release/changelog"            : "^5.0.1",
+	"@semantic-release/git"                  : "^9.0.0",
+	"@zeit/ncc"                              : "^0.20.5",
+	"eslint"                                 : "^6.3.0",
+	"husky"                                  : "^4.2.5",
+	"jest"                                   : "^24.9.0"
+  },
+  "release"        : {
+	"plugins": [
+	  "@semantic-release/commit-analyzer",
+	  "@semantic-release/release-notes-generator",
+	  "@semantic-release/github",
+	  "@semantic-release/changelog",
+	  "@semantic-release/git"
+	],
+	"branch" : "master"
+  },
+  "babel"          : {
+	"plugins": [
+	  "@babel/plugin-proposal-class-properties"
+	],
+	"presets": [
+	  [
+		"@babel/preset-env",
+		{
+		  "targets": {
+			"node": "current"
+		  }
+		}
+	  ]
+	]
+  }
 }
