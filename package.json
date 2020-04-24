@@ -8,8 +8,8 @@
 	},
   "scripts"        : {
 	"package": "ncc build src -o dist",
-	"lint"   : "eslint index.js",
-	"test"   : "eslint index.js && jest"
+	"lint"   : "eslint src/index.js",
+	"test"   : "npm run lint && jest"
   },
   "repository"     : {
 	"type": "git",
