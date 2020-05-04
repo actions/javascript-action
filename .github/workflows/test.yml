@@ -1,4 +1,4 @@
-name: "test-local"
+name: "units-test"
 on:
   pull_request:
   push:
@@ -7,13 +7,19 @@ on:
       - 'releases/*'
 
 jobs:
+  # unit tests
+  units:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - run: npm ci
+    - run: npm test
+
+  # test action works running from the graph  
   test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-
-    - run: npm ci
-    - run: npm test
     - uses: ./
       with:
         milliseconds: 1000
