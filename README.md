@@ -70,10 +70,10 @@ GitHub Actions will run the entry point from the action.yml. Packaging assembles
 
 Actions are run from GitHub repos.  Packaging the action will create a packaged action in the dist folder.
 
-Run package
+Run prepare
 
 ```bash
-npm run package
+npm run prepare
 ```
 
 Since the packaged index.js is run from the dist folder.

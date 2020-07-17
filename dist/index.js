@@ -1,4 +1,4 @@
-module.exports =
+require('./sourcemap-register.js');module.exports =
 /******/ (function(modules, runtime) { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	// The module cache
@@ -19,7 +19,13 @@ module.exports =
 /******/ 		};
 /******/
 /******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 		var threw = true;
+/******/ 		try {
+/******/ 			modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 			threw = false;
+/******/ 		} finally {
+/******/ 			if(threw) delete installedModules[moduleId];
+/******/ 		}
 /******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.l = true;
@@ -61,11 +67,11 @@ const wait = __webpack_require__(949);
 async function run() {
   try { 
     const ms = core.getInput('milliseconds');
-    console.log(`Waiting ${ms} milliseconds ...`)
+    core.info(`Waiting ${ms} milliseconds ...`)
 
-    core.debug((new Date()).toTimeString())
-    wait(parseInt(ms));
-    core.debug((new Date()).toTimeString())
+    core.debug((new Date()).toTimeString()) // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
+    await wait(parseInt(ms));
+    core.info((new Date()).toTimeString())
 
     core.setOutput('time', new Date().toTimeString());
   } 
@@ -362,3 +368,4 @@ module.exports = wait;
 /***/ })
 
 /******/ });
+//# sourceMappingURL=index.js.map
