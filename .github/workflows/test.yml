@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-      - 'releases/*'
+mishu      - 'releases/*'
 
 jobs:
   # unit tests
