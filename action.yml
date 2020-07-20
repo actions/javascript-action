@@ -6,7 +6,7 @@ inputs:
     required: true
     default: '1000'
 outputs:
-  time: # output will be available to future steps 
+  time: # output will be available to future steps
     description: 'The message to output'
 runs:
   using: 'node12'

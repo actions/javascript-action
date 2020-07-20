@@ -15,7 +15,7 @@ jobs:
     - run: npm ci
     - run: npm test
 
-  # test action works running from the graph  
+  # test action works running from the graph
   test:
     runs-on: ubuntu-latest
     steps:
