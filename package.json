@@ -33,7 +33,7 @@
   "homepage"       : "https://github.com/Skitionek/notify-microsoft-teams#readme",
   "dependencies"   : {
 	"@actions/core"   : "^1.2.3",
-	"@octokit/rest"   : "^17.5.2",
+	"@octokit/rest"   : "^17.11.2",
 	"botbuilder"      : "^4.8.0",
 	"lodash.merge"    : "^4.6.2",
 	"ms-teams-webhook": "^1.0.3"
