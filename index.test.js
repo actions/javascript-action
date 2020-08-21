@@ -12,7 +12,7 @@ test('wait 500 ms', async () => {
   await wait(500);
   const end = new Date();
   var delta = Math.abs(end - start);
-  expect(delta).toBeGreaterThan(450);
+  expect(delta).toBeGreaterThanOrEqual(500);
 });
 
 // shows how the runner will run a javascript action with env / stdout protocol
