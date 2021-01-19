@@ -7,14 +7,28 @@ async function run() {
   try {
     const octokit = new Octokit();
 const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/");
-
-// See https://developer.github.com/v3/issues/#create-an-issue
+const workflowname=process.env.GITHUB_WORKFLOW;
+core.info(`Waiting ${workflowname} milliseconds3 ...`);
+// get license
 const { data } = await octokit.request("Get /repos/{owner}/{repo}/contents/license", {
   owner,
   repo
   
 });
+//get config
 
+
+//get ndepend and extract it
+
+//create license file
+
+//get sln file
+
+//get baseline ndar if exists
+
+//execute ndepend
+
+// add artifacts
 core.info(`content: ${data.content}`);
     const ms = core.getInput('milliseconds');
     core.info(`Waiting ${ms} milliseconds3 ...`);
