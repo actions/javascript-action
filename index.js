@@ -1,6 +1,6 @@
 const core = require('@actions/core');
 const wait = require('./wait');
-const octokit = new Octokit();
+const { Octokit } = require("@octokit/action");
 
 // most @actions toolkit packages have async methods
 async function run() {
