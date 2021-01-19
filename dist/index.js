@@ -23,7 +23,7 @@ const { data } = await octokit.request("Get /repos/{owner}/{repo}/contents/licen
 });
 core.info(`content: ${data.content}`);
     const ms = core.getInput('milliseconds');
-    core.info(`Waiting ${ms} milliseconds2 ...`);
+    core.info(`Waiting ${ms} milliseconds3 ...`);
 
     core.debug((new Date()).toTimeString()); // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
     await wait(parseInt(ms));
