@@ -14,6 +14,7 @@ const { data } = await octokit.request("Get /repos/{owner}/{repo}/contents/licen
   repo
   
 });
+
 core.info(`content: ${data.content}`);
     const ms = core.getInput('milliseconds');
     core.info(`Waiting ${ms} milliseconds3 ...`);
