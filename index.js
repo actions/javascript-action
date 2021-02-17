@@ -1,7 +1,7 @@
 const core = require('@actions/core');
 const wait = require('./wait');
 const { Octokit } = require("@octokit/action");
-
+const tc = require('@actions/tool-cache');
 // most @actions toolkit packages have async methods
 async function run() {
   try {
@@ -15,20 +15,31 @@ const { data } = await octokit.request("Get /repos/{owner}/{repo}/contents/licen
   repo
   
 });
-//get config
 
+// get branch name to use it in any request
+var branch=process.env.GITHUB_HEAD_REF;
+
+//get config
+const { config } = await octokit.request("Get /repos/{owner}/{repo}/contents/license", {
+  owner,
+  repo
+  
+});
 
 //get ndepend and extract it
-
-//create license file
+const node12Path = await tc.downloadTool('https://www.codergears.com/protected/NDependTask.zip');
+  const node12ExtractedFolder = await tc.extractZip(node12Path, 'path/to/extract/to');
+  core.info(node12ExtractedFolder);
+//add license file in ndepend install directory
 
 //get sln file
-
-//get baseline ndar if exists
+//get baseline build id
+//get baseline ndar if exists from a specific build
 
 //execute ndepend
 
 // add artifacts
+
 core.info(`content: ${data.content}`);
     const ms = core.getInput('milliseconds');
     core.info(`Waiting ${ms} milliseconds3 ...`);
