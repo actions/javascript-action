@@ -34,8 +34,8 @@ const { config } = await octokit.request("Get /repos/{owner}/{repo}/contents/lic
 
 //get ndepend and extract it
 const node12Path = await tc.downloadTool('https://www.codergears.com/protected/NDependTask.zip');
-  const node12ExtractedFolder = await tc.extractZip(node12Path, node12Path+'\\NDepend');
- const NDependParser=node12Path+"\\NDepend\\NDependTask\\Integration\\VSTS\\VSTSAnalyzer.exe"
+  const node12ExtractedFolder = await tc.extractZip(node12Path, _getTempDirectory()+'\\NDepend');
+ const NDependParser=_getTempDirectory()+"\\NDepend\\NDependTask\\Integration\\VSTS\\VSTSAnalyzer.exe"
   await exec.exec(NDependParser, ['index.js', 'foo=bar']);
 //add license file in ndepend install directory
 
