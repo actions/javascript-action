@@ -17,7 +17,10 @@ async function run() {
     const octokit = new Octokit();
 const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/");
 const workflowname=process.env.GITHUB_WORKFLOW;
+const workspace=process.env.GITHUB_WORKSPACE;
+core.info(workspace);
 core.info(`Waiting ${workflowname} milliseconds3 ...`);
+
 // get license
 const { data } = await octokit.request("Get /repos/{owner}/{repo}/contents/license", {
   owner,
