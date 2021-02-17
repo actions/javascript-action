@@ -29,7 +29,7 @@ const { config } = await octokit.request("Get /repos/{owner}/{repo}/contents/lic
 //get ndepend and extract it
 const node12Path = await tc.downloadTool('https://www.codergears.com/protected/NDependTask.zip');
   const node12ExtractedFolder = await tc.extractZip(node12Path, 'path/to/extract/to');
-  core.info(node12ExtractedFolder);
+  core.info(node12Path);
 //add license file in ndepend install directory
 
 //get sln file
