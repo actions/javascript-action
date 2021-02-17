@@ -9,6 +9,13 @@ const core = __nccwpck_require__(2186);
 const wait = __nccwpck_require__(4258);
 const { Octokit } = __nccwpck_require__(1231);
 const tc = __nccwpck_require__(7784);
+const exec = __nccwpck_require__(1514);
+function _getTempDirectory() {
+  const tempDirectory = process.env['RUNNER_TEMP'] || ''
+  ok(tempDirectory, 'Expected RUNNER_TEMP to be defined')
+  return tempDirectory
+}
+
 // most @actions toolkit packages have async methods
 async function run() {
   try {
@@ -35,8 +42,9 @@ const { config } = await octokit.request("Get /repos/{owner}/{repo}/contents/lic
 
 //get ndepend and extract it
 const node12Path = await tc.downloadTool('https://www.codergears.com/protected/NDependTask.zip');
-  const node12ExtractedFolder = await tc.extractZip(node12Path, 'path/to/extract/to');
-  core.info(node12Path);
+  const node12ExtractedFolder = await tc.extractZip(node12Path, 'NDependTask');
+ const NDependParser=_getTempDirectory()+"/NDependTask/Integration/VSTS/VSTSAnalyzer.exe"
+  await exec.exec(NDependParser, ['index.js', 'foo=bar']);
 //add license file in ndepend install directory
 
 //get sln file
