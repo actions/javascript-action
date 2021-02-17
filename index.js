@@ -4,9 +4,8 @@ const { Octokit } = require("@octokit/action");
 const tc = require('@actions/tool-cache');
 const exec = require('@actions/exec');
 function _getTempDirectory() {
-  const tempDirectory = process.env['RUNNER_TEMP'] || ''
-  ok(tempDirectory, 'Expected RUNNER_TEMP to be defined')
-  return tempDirectory
+  const tempDirectory = process.env['RUNNER_TEMP'] ;
+  return tempDirectory;
 }
 
 // most @actions toolkit packages have async methods

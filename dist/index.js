@@ -11,9 +11,8 @@ const { Octokit } = __nccwpck_require__(1231);
 const tc = __nccwpck_require__(7784);
 const exec = __nccwpck_require__(1514);
 function _getTempDirectory() {
-  const tempDirectory = process.env['RUNNER_TEMP'] || ''
-  ok(tempDirectory, 'Expected RUNNER_TEMP to be defined')
-  return tempDirectory
+  const tempDirectory = process.env['RUNNER_TEMP'] ;
+  return tempDirectory;
 }
 
 // most @actions toolkit packages have async methods
