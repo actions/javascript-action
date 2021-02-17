@@ -48,11 +48,11 @@ const node12Path = await tc.downloadTool('https://www.codergears.com/protected/N
  const NDependParser=_getTempDirectory()+"\\NDepend\\NDependTask\\Integration\\VSTS\\VSTSAnalyzer.exe"
   await exec.exec(NDependParser, ['index.js', 'foo=bar']);
 //add license file in ndepend install directory
-const patterns = ['**/.sln'];
+const patterns = ['**/sln'];
 const globber = await glob.create(patterns.join('\n'));
 const files = await globber.glob();
 for await (const file of files) {
-  console.log(file)
+  core.info(file)
 }
 //get sln file
 //get baseline build id
