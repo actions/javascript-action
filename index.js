@@ -56,7 +56,7 @@ const node12Path = await tc.downloadTool('https://www.codergears.com/protected/N
  const licenseFile=_getTempDirectory()+"\\NDepend\\NDependTask\\Integration\\VSTS\\NDependProLicense.xml"
  const NDependOut=_getTempDirectory()+"\\NDependOut";
 //add license file in ndepend install directory
-
+fs.mkdirSync(NDependOut);
 fs.writeFileSync(licenseFile, result.data);
  
 await exec.exec(NDependParser, ['/outputDirectory', NDependOut,' /additionalOutput',workspace,' /sourceDirectory',workspace]);
