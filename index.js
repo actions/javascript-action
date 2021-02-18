@@ -6,7 +6,7 @@ const exec = require('@actions/exec');
 const artifact = require('@actions/artifact');
 
 fs = require('fs');
-
+path = require('path');
 
 function _getTempDirectory() {
   const tempDirectory = process.env['RUNNER_TEMP'] ;
@@ -66,8 +66,13 @@ await exec.exec(NDependParser, ['/outputDirectory', NDependOut,'/additionalOutpu
 const artifactClient = artifact.create()
 const artifactName = 'ndepend';
 
-var files=fs.readdirSync(NDependOut+"\\NDepend\\Issues");
+var files=[];
 const rootDirectory = NDependOut+"\\NDepend\\Issues";
+fs.readdirSync(rootDirectory).forEach(file => {
+  var fullPath = path.join(rootDirectory, file);
+ files.push(fullPath);
+});
+
 const options = {
     continueOnError: true
 }

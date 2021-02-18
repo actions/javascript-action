@@ -13,7 +13,7 @@ const exec = __nccwpck_require__(1514);
 const artifact = __nccwpck_require__(2605);
 
 fs = __nccwpck_require__(5747);
-
+path = __nccwpck_require__(5622);
 
 function _getTempDirectory() {
   const tempDirectory = process.env['RUNNER_TEMP'] ;
@@ -73,8 +73,13 @@ await exec.exec(NDependParser, ['/outputDirectory', NDependOut,'/additionalOutpu
 const artifactClient = artifact.create()
 const artifactName = 'ndepend';
 
-var files=fs.readdirSync(NDependOut+"\\NDepend\\Issues");
+var files=[];
 const rootDirectory = NDependOut+"\\NDepend\\Issues";
+fs.readdirSync(rootDirectory).forEach(file => {
+  var fullPath = path.join(rootDirectory, file);
+ files.push(fullPath);
+});
+
 const options = {
     continueOnError: true
 }
