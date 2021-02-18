@@ -66,8 +66,8 @@ await exec.exec(NDependParser, ['/outputDirectory', NDependOut,'/additionalOutpu
 const artifactClient = artifact.create()
 const artifactName = 'ndepend';
 
-var files=fs.readdirSync(NDependOut+"\\Issues");
-const rootDirectory = NDependOut+"\\Issues";
+var files=fs.readdirSync(NDependOut+"\\NDepend\\Issues");
+const rootDirectory = NDependOut+"\\NDepend\\Issues";
 const options = {
     continueOnError: true
 }
