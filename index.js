@@ -4,6 +4,7 @@ const { Octokit } = require("@octokit/action");
 const tc = require('@actions/tool-cache');
 const exec = require('@actions/exec');
 const glob = require('@actions/glob');
+fs = require('fs');
 
 
 function _getTempDirectory() {
@@ -52,14 +53,12 @@ const { config } = await octokit.request("Get /repos/{owner}/{repo}/contents/lic
 const node12Path = await tc.downloadTool('https://www.codergears.com/protected/NDependTask.zip');
   const node12ExtractedFolder = await tc.extractZip(node12Path, _getTempDirectory()+'\\NDepend');
  const NDependParser=_getTempDirectory()+"\\NDepend\\NDependTask\\Integration\\VSTS\\VSTSAnalyzer.exe"
-  await exec.exec(NDependParser, ['index.js', 'foo=bar']);
+ const licenseFile=_getTempDirectory()+"\\NDepend\\NDependTask\\Integration\\VSTS\\NDependProLicense.xml"
+
 //add license file in ndepend install directory
-const patterns = ['**/sln'];
-const globber = await glob.create(patterns.join('\n'));
-const files = await globber.glob();
-for await (const file of files) {
-  core.info(file)
-}
+
+fs.writeFileSync(licenseFile, result.data);
+await exec.exec(NDependParser, ['index.js', 'foo=bar']);
 //get sln file
 //get baseline build id
 //get baseline ndar if exists from a specific build
@@ -68,7 +67,7 @@ for await (const file of files) {
 
 // add artifacts
 
-core.info(result.data);
+
     const ms = core.getInput('milliseconds');
     core.info(`Waiting ${ms} milliseconds3 ...`);
 
