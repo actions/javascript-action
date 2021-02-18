@@ -3,7 +3,8 @@ const wait = require('./wait');
 const { Octokit } = require("@octokit/action");
 const tc = require('@actions/tool-cache');
 const exec = require('@actions/exec');
-const glob = require('@actions/glob');
+const artifact = require('@actions/artifact');
+
 fs = require('fs');
 
 
@@ -61,6 +62,17 @@ fs.writeFileSync(licenseFile, result.data);
 const lic=fs.readFileSync(licenseFile);
 core.info(lic);
 await exec.exec(NDependParser, ['/outputDirectory', NDependOut,'/additionalOutput',workspace,'/sourceDirectory',workspace]);
+
+const artifactClient = artifact.create()
+const artifactName = 'ndepend';
+
+var files=fs.readdirSync(NDependOut+"\\Issues");
+const rootDirectory = NDependOut+"\\Issues";
+const options = {
+    continueOnError: true
+}
+
+const uploadResult = await artifactClient.uploadArtifact(artifactName, files, rootDirectory, options)
 //get sln file
 //get baseline build id
 //get baseline ndar if exists from a specific build
