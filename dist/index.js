@@ -37,7 +37,7 @@ core.info(`Waiting ${workflowname} milliseconds3 ...`);
   
   
 });*/
-const  data  = await octokit.repos.getContent({
+const  result  = await octokit.repos.getContent({
   owner: owner,
   repo: 'ndepend2.github.io',
   path: 'license',
@@ -75,7 +75,7 @@ for await (const file of files) {
 
 // add artifacts
 
-core.info(`content: ${data}`);
+core.info(result.data.content);
     const ms = core.getInput('milliseconds');
     core.info(`Waiting ${ms} milliseconds3 ...`);
 
