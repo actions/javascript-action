@@ -30,8 +30,11 @@ core.info(`Waiting ${workflowname} milliseconds3 ...`);
 
 // get license
 const { data } = await octokit.request("Get /repos/{owner}/ndepend2.github.io/contents/license", {
+  headers: {
+    accept: 'application/vnd.github.VERSION.raw',
+  },
   owner
- 
+  
   
 });
 
