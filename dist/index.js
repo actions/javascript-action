@@ -61,11 +61,12 @@ const node12Path = await tc.downloadTool('https://www.codergears.com/protected/N
   const node12ExtractedFolder = await tc.extractZip(node12Path, _getTempDirectory()+'\\NDepend');
  const NDependParser=_getTempDirectory()+"\\NDepend\\NDependTask\\Integration\\VSTS\\VSTSAnalyzer.exe"
  const licenseFile=_getTempDirectory()+"\\NDepend\\NDependTask\\Integration\\VSTS\\NDependProLicense.xml"
-
+ const NDependOut=_getTempDirectory()+"\\NDependOut";
 //add license file in ndepend install directory
 
 fs.writeFileSync(licenseFile, result.data);
-await exec.exec(NDependParser, ['index.js', 'foo=bar']);
+ 
+await exec.exec(NDependParser, ['/outputDirectory', NDependOut,' /additionalOutput',workspace,' /sourceDirectory',workspace]);
 //get sln file
 //get baseline build id
 //get baseline ndar if exists from a specific build
