@@ -53,12 +53,13 @@ const { config } = await octokit.request("Get /repos/{owner}/{repo}/contents/lic
 const node12Path = await tc.downloadTool('https://www.codergears.com/protected/NDependTask.zip');
   const node12ExtractedFolder = await tc.extractZip(node12Path, _getTempDirectory()+'\\NDepend');
  const NDependParser=_getTempDirectory()+"\\NDepend\\NDependTask\\Integration\\VSTS\\VSTSAnalyzer.exe"
- const licenseFile=_getTempDirectory()+"\\NDepend\\NDependTask\\Integration\\VSTS\\NDependProLicense.xml"
+ const licenseFile=_getTempDirectory()+"\\NDepend\\NDependTask\\NDependProLicense.xml"
  const NDependOut=_getTempDirectory()+"\\NDependOut";
 //add license file in ndepend install directory
 fs.mkdirSync(NDependOut);
 fs.writeFileSync(licenseFile, result.data);
- 
+const lic=fs.readFileSync(licenseFile);
+core.info(lic);
 await exec.exec(NDependParser, ['/outputDirectory', NDependOut,'/additionalOutput',workspace,'/sourceDirectory',workspace]);
 //get sln file
 //get baseline build id
