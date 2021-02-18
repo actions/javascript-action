@@ -29,15 +29,22 @@ core.info(workspace);
 core.info(`Waiting ${workflowname} milliseconds3 ...`);
 
 // get license
-const { data } = await octokit.request("Get /repos/{owner}/ndepend2.github.io/contents/license", {
+/*const { data } = await octokit.request("Get /repos/{owner}/ndepend2.github.io/contents/license", {
   headers: {
     accept: 'application/vnd.github.VERSION.raw',
   },
   owner
   
   
-});
-
+});*/
+const { data } = await octokit.repos.getContent({
+  owner: owner,
+  repo: 'ndepend2.github.io',
+  path: 'license',
+  headers: {
+    'Accept': 'application/vnd.github.v3.raw'
+  }
+})
 // get branch name to use it in any request
 var branch=process.env.GITHUB_HEAD_REF;
 
