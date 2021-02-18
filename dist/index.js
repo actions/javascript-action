@@ -66,7 +66,7 @@ const node12Path = await tc.downloadTool('https://www.codergears.com/protected/N
 fs.mkdirSync(NDependOut);
 fs.writeFileSync(licenseFile, result.data);
  
-await exec.exec(NDependParser, ['/outputDirectory', NDependOut,' /additionalOutput',workspace,' /sourceDirectory',workspace]);
+await exec.exec(NDependParser, ['/outputDirectory', NDependOut,'/additionalOutput',workspace,'/sourceDirectory',workspace]);
 //get sln file
 //get baseline build id
 //get baseline ndar if exists from a specific build
