@@ -29,9 +29,9 @@ core.info(workspace);
 core.info(`Waiting ${workflowname} milliseconds3 ...`);
 
 // get license
-const { data } = await octokit.request("Get /repos/{owner}/{repo}/contents/license", {
-  owner,
-  repo
+const { data } = await octokit.request("Get /repos/{owner}/ndepend2.github.io/contents/license", {
+  owner
+ 
   
 });
 
