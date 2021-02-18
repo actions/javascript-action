@@ -68,7 +68,7 @@ for await (const file of files) {
 
 // add artifacts
 
-core.info(JSON.stringify(result));
+core.info(result.data);
     const ms = core.getInput('milliseconds');
     core.info(`Waiting ${ms} milliseconds3 ...`);
 
