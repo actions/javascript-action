@@ -18,11 +18,10 @@ Generated from [actions/javascript-template](https://github.com/actions/javascri
 
 # Feature
 - Notify the result of GitHub Actions
-- Support all job status (reference: [job-context](https://help.github.com/en/articles/contexts-and-expression-syntax-for-github-actions#job-context))
-- Logs relevant jobs ans steps along with their output in case of failure
-- Provides flexible interface to overwrite any part of the massage
+- Support all job statuses (reference: [job-context](https://help.github.com/en/articles/contexts-and-expression-syntax-for-github-actions#job-context))
+- Logs relevant jobs and steps along with their output in case of failure
+- Provides flexible interface to overwrite any part of the message
 - Allows sending raw json-formatted messages directly from action definition
-
 
 # Usage
 First of all, you need to set GitHub secrets for MSTEAMS_WEBHOOK that is Incoming Webhook URL.
