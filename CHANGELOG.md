@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/Skitionek/notify-microsoft-teams/compare/v1.0.4...v1.0.5) (2021-09-07)
+
+
+### Bug Fixes
+
+* upgrade @octokit/rest from 17.5.2 to 17.11.2 ([9753f36](https://github.com/Skitionek/notify-microsoft-teams/commit/9753f36cc5eff08b4b9e3ff6855c4ead278828a6))
+
 ## [1.0.4](https://github.com/Skitionek/notify-microsoft-teams/compare/v1.0.3...v1.0.4) (2020-04-24)
 
 
