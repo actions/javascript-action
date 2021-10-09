@@ -4,8 +4,8 @@
   "description": "JavaScript Action Template",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint index.js",
-    "prepare": "ncc build index.js -o dist --source-map",
+    "lint": "eslint .",
+    "prepare": "ncc build index.js -o dist --source-map --license licenses.txt",
     "test": "jest",
     "all": "npm run lint && npm run prepare && npm run test"
   },
@@ -25,11 +25,11 @@
   },
   "homepage": "https://github.com/actions/javascript-action#readme",
   "dependencies": {
-    "@actions/core": "^1.1.1"
+    "@actions/core": "^1.2.5"
   },
   "devDependencies": {
-    "@zeit/ncc": "^0.22.3",
+    "@vercel/ncc": "^0.27.0",
     "eslint": "^7.4.0",
-    "jest": "^26.1.0"
+    "jest": "^26.6.3"
   }
 }

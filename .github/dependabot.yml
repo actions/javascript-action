@@ -6,4 +6,7 @@ updates:
     directory: "/"
     # Check the npm registry for updates every day (weekdays)
     schedule:
+ add_dependabot
+      khoảng thời gian : "hàng ngày"   ======= 
       interval: "daily"
+ chính
