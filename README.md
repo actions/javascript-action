@@ -1,3 +1,6 @@
+# :warning Deprecated! Microsoft Teams no longer supports webhook implementation
+
+
 # Notify Microsoft Teams
 ![CI](https://github.com/Skitionek/notify-microsoft-teams/workflows/CI/badge.svg)
 ![GitHub](https://img.shields.io/github/license/homoluctus/slatify?color=brightgreen)
