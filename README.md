@@ -1,4 +1,4 @@
-# :warning Deprecated! Microsoft Teams no longer supports webhook implementation
+# :warning: Deprecated! Microsoft Teams no longer supports webhook implementation
 
 
 # Notify Microsoft Teams
