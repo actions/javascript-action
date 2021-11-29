@@ -1,3 +1,10 @@
+## [1.0.6](https://github.com/Skitionek/notify-microsoft-teams/compare/v1.0.5...v1.0.6) (2021-11-29)
+
+
+### Bug Fixes
+
+* package.json & package-lock.json to reduce vulnerabilities ([27e451c](https://github.com/Skitionek/notify-microsoft-teams/commit/27e451c44cf8c5dcea56eb70063cc276137aa59d))
+
 ## [1.0.5](https://github.com/Skitionek/notify-microsoft-teams/compare/v1.0.4...v1.0.5) (2021-09-07)
 
 
