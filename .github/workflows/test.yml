@@ -62,24 +62,47 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@master
-      - name: Forced failure
-        run: exit 1
-
+      
+      - id: Forced_failure
+        name: Forced failing step
+        run: |
+          echo "Output of this action will be localy overwriten to be a failure"
+          echo "::set-output name=set_status::so_it_is_not_neglected"
+          
+      - name: Overwrite status
+        id: overwrites
+        env:
+          steps: ${{ toJson(steps) }}
+          needs: ${{ toJson(needs) }}
+        run: |
+          echo "needs<<EOF" >> $GITHUB_ENV
+          echo $needs | jq '.[].result = "failure"' >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+          echo "steps<<EOF" >> $GITHUB_ENV
+          echo $steps | jq '.[].outcome = "failure"' >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+          
+      - name: Check overwrites
+        env:
+          steps: ${{ env.steps }}
+          needs: ${{ env.needs }}
+        run: |
+          echo "Needs: $needs"
+          echo "Steps: $steps"
+          
       - name: MSTeams Notification
         uses: ./
         if: always()
         with:
           webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
-          needs: ${{ toJson(needs) }}
+          needs: ${{ env.needs }}
           job: ${{ toJson(job) }}
-          steps: ${{ toJson(steps) }}
+          steps: ${{ env.steps }}
           dry_run: ${{ !github.event.action == 'release' }}
 
-      - name: Check if work properly
-        if: failure()
+      - name: Confirm finish
         run: |
           echo 'MSTeams failure notification succeeded'
-          exit 0
 
 
   without_optional_params:
@@ -123,6 +146,7 @@ jobs:
             {
               "@type": "MessageCard",
               "@context": "http://schema.org/extensions",
-              "title": "No ${variables} avaliable in here"
+              "title": "No ${variables} avaliable in here",
+              "text": "Lorem ipssum"
             }
           dry_run: ${{ !github.event.action == 'release' }}
