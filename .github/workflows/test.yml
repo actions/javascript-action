@@ -1,4 +1,4 @@
-name: "units-test"
+name: "ci"
 on:
   pull_request:
   push:
