@@ -14,12 +14,15 @@ Syntax highlighted code block
 
 # OTOMATİK TEKNOLOJİ 
 
-##     
+##  BAŞLANGIÇ
 
-### TEKNOLOJİ GELİŞTİRME ÜNİTELERİMİZ  
+###  TEKNOLOJİ GELİŞTİRME UNİTELERİ 
 
-- Bulleted
-- List
+- **PROJELER**  
+-  _8.PAZAR_ 
+-  _WORLD KAMERA SERVER_  
+-  _SECURİTY KODLAMA_ 
+-  _İSTİKLAL VERİ TAVANI_      
 
 1. StüdyoDonanım  
 2. MicroPlus-Software
