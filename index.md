@@ -12,15 +12,16 @@ Markdown is a lightweight and easy-to-use syntax for styling your writing. It in
 ```markdown
 Syntax highlighted code block
 
-# Header 1  
-## Header 2
-### TEKNOLOJİ GELİŞTİRME ÜNİTELERİMİZ
+# OTOMATİK TEKNOLOJİ 
 
+##     
+
+### TEKNOLOJİ GELİŞTİRME ÜNİTELERİMİZ  
 
 - Bulleted
 - List
 
-1. StüdyoDonanım
+1. StüdyoDonanım  
 2. MicroPlus-Software
 3. Security-Area 
 4. Talking-Digital-School 
