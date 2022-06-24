@@ -28,7 +28,7 @@
     "@actions/core": "^1.2.5"
   },
   "devDependencies": {
-    "@vercel/ncc": "^0.33.4",
+    "@vercel/ncc": "^0.34.0",
     "eslint": "^8.0.0",
     "jest": "^28.1.0"
   }
