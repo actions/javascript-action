@@ -20,16 +20,16 @@ Syntax highlighted code block
 
 - **PROJELER**  
 -  _8.PAZAR_ 
--  _WORLD KAMERA SERVER_  
+-  _WORLD CAMERA SERVER_  
 -  _SECURİTY KODLAMA_ 
 -  _İSTİKLAL VERİ TAVANI_
 -  _MXE  KÜÇÜK DİLİM_
-
-1. StüdyoDonanım  
+  
+1. Studio-Hardware  
 2. MicroPlus-Software
 3. Security-Area 
 4. Talking-Digital-School 
-5. SystemUnits
+5. System-Units  
 6. Galaxy-Life-Machine
 7. Tech-Junk
 8. Elektro-Element
