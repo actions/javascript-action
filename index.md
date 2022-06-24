@@ -22,7 +22,8 @@ Syntax highlighted code block
 -  _8.PAZAR_ 
 -  _WORLD KAMERA SERVER_  
 -  _SECURİTY KODLAMA_ 
--  _İSTİKLAL VERİ TAVANI_      
+-  _İSTİKLAL VERİ TAVANI_
+-  _MXE TÜRKÇE-İNGİLİZCE AYIRMASI_      
 
 1. StüdyoDonanım  
 2. MicroPlus-Software
