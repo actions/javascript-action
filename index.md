@@ -23,7 +23,7 @@ Syntax highlighted code block
 -  _WORLD KAMERA SERVER_  
 -  _SECURİTY KODLAMA_ 
 -  _İSTİKLAL VERİ TAVANI_
--  _MXE DİLİ_      
+-  _MXE      KÜÇÜK DİL_
 
 1. StüdyoDonanım  
 2. MicroPlus-Software
