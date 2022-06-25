@@ -17,7 +17,9 @@ Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://j
        ### İstiklal Bilgi Bankası       
        ### MX Küçük Dilim           
        ### Otomatik Yapı    
-## Studio-Hardware 
+       
+
+## Stutio-Donanım
 ## MicroPlus-Software  
 ## Security-Area  
 ## Talking-Digital-School   
