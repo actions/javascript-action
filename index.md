@@ -1,4 +1,4 @@
-### *StarTeknoloji* HOŞGELDİNİZ...  [5077109]  (  https://user-images.githubusercontent.com/93947784/175498545-c361bba2-cf8e-434a-b422-c1418c918008.png)  
+### *StarTeknoloji* HOŞGELDİNİZ...   
 
 
 You can use the [editor on GitHub](https://github.com/StarTeknolojiSpace/javascript-action/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
@@ -25,7 +25,7 @@ Syntax highlighted code block
 -  _İSTİKLAL VERİ TAVANI_
 -  _MXE  KÜÇÜK DİLİM_
   
-1. Studio-Hardware  
+1. Studio-Hardware    
 2. MicroPlus-Software
 3. Security-Area 
 4. Talking-Digital-School 
@@ -47,12 +47,13 @@ For more details see [Basic writing and formatting syntax](https://docs.github.c
 
 ### Jekyll Themes
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/StarTeknolojiSpace/javascript-action/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/StarTeknolojiSpace/javascript-action/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configu   
+![5077109](https://user-images.githubusercontent.com/93947784/175762579-4205cc00-ecc7-4179-9588-4450ad15688a.png)
 
-### Support or Contact  
+# Destek veya İletişim
 
-# ercetinguler@starteknoloji.space
-# info@starteknoloji.space 
+##  ercetinguler@starteknoloji.space
+##    info@starteknoloji.space  
 ## +90 0288 318 33 40
 
 Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
