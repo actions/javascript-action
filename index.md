@@ -8,15 +8,15 @@ You can use the [editor on GitHub](https://github.com/StarTeknolojiSpace/javascr
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown file 
     
     
-# TEKNOLOJİ GELİŞTİRME ÜNİTELERİ 
-
-## New-İdeas
-   ### 8.Pazar
-   ### World Camera Server
-   ### Security Code
-   ### İstiklal Bilgi Bankası
-   ### MX Küçük Dilim
-   ### Otomatik Yapı
+# TEKNOLOJİ GELİŞTİRME ARAŞTIRMA ÜNİTELERİ
+        
+## New-İdeas    
+       ### 8.Pazar       
+       ### World Camera Server      
+       ### Security Code        
+       ### İstiklal Bilgi Bankası       
+       ### MX Küçük Dilim           
+       ### Otomatik Yapı    
 ## Studio-Hardware 
 ## MicroPlus-Software  
 ## Security-Area  
