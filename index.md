@@ -48,7 +48,9 @@ For more details see [Basic writing and formatting syntax](https://docs.github.c
 ### Jekyll Themes
 
 Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/StarTeknolojiSpace/javascript-action/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configu   
-![5077109](https://user-images.githubusercontent.com/93947784/175762579-4205cc00-ecc7-4179-9588-4450ad15688a.png)
+![5077109](https://user-images.githubusercontent.com/9394![5077109 (5)](https://user-images.githubusercontent.com/93947784/175762680-dec276f4-efc1-48a1-90a4-6f955067d33a.png)
+![5077109_transparent](https://user-images.githubusercontent.com/93947784/175762684-2260195e-d2f9-4848-8887-7772b39783e7.png)
+7784/175762579-4205cc00-ecc7-4179-9588-4450ad15688a.png) 
 
 # Destek veya İletişim
 
