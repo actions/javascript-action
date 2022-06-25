@@ -5,25 +5,23 @@
 
 You can use the [editor on GitHub](https://github.com/StarTeknolojiSpace/javascript-action/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-# OTOMATİK TEKNOLOJİ  
-
-# PROJELER  
-
-### 8.PAZAR
-### WORLD CAMERA SERVER 
-### SECURİTY CODE  
-### İSTİKLAL VERİ TAVANI  
-###  MX KÜÇÜK DİLİM  
+Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown file 
     
-# TEKNOLOJİ GELİŞTİRME ÜNİTELERİ    
+    
+# TEKNOLOJİ GELİŞTİRME ÜNİTELERİ 
 
-## Studio-Hardware    
-## MicroPlus-Software
-## Security-Area
-## Talking-Digital-School 
-## System-Units 
+## New-İdeas
+   ### 8.Pazar
+   ### World Camera Server
+   ### Security Code
+   ### İstiklal Bilgi Bankası
+   ### MX Küçük Dilim
+   ### Otomatik Yapı
+## Studio-Hardware 
+## MicroPlus-Software  
+## Security-Area  
+## Talking-Digital-School   
+## System-Units   
 ## Galaxy-Life-Machine                                                      
 ## Tech-Junk                                        
 ## Elektro-Element                                    
