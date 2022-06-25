@@ -8,8 +8,9 @@ You can use the [editor on GitHub](https://github.com/StarTeknolojiSpace/javascr
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown file 
     
     
-# TEKNOLOJİ GELİŞTİRME ARAŞTIRMA    ALANI YENİ fİKİRLER  
-                "
+# TEKNOLOJİ GELİŞTİRME ARAŞTIRMA    ALANI YENİ fİKİRLER     
+  "TECHNOLOGY DEVELOPMENT RESEARCH FIELD NEW IDEAS"
+                "   
 
 ##  8.pazar  ## İstiklal Bilgi Bankası  ## Code-Security  ## Studio-Donanım  ## MXE Uvula  ## ## MicroPlus-   Software  ## Security-Area  ## Talking-Digital-Schoo  l  ## System-Units  ## Galaxy-Life-Machine  ## Tech-Juck  ## Otomatik-Yapı  ## World Camera Server  ## Elektro-Elements  ## Light-Energy  ## Comet-Strike ## Small-İndursty       
 
