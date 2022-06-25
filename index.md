@@ -12,7 +12,7 @@ Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://j
   "TECHNOLOGY DEVELOPMENT RESEARCH FIELD NEW IDEAS"
                 "   
 
-##  8.pazar  ## İstiklal Bilgi Bankası  ## Code-Security  ## Studio-Donanım  ## MXE Uvula  ## ## MicroPlus-   Software  ## Security-Area  ## Talking-Digital-Schoo  l  ## System-Units  ## Galaxy-Life-Machine  ## Tech-Juck  ## Otomatik-Yapı  ## World Camera Server  ## Elektro-Elements  ## Light-Energy  ## Comet-Strike ## Small-İndursty       
+#  ###  8.pazar  ### İstiklal-Bilgi-Bankası  ### Code-Security  ### Studio-Donanım  ### MXE Uvula ### MicroPlus-Software  ### Security-Area  ### Talking-Digital-School  ### System-Units  ### Galaxy-Life-Machine  ### Tech-Juck  ### Otomatik-Yapı  ### World-Camera-Server  ### Elektro-Elements  ### Light-Energy  ### Comet-Strike ### Small-İndursty             
 
 Markdown is a l     ig h tweight and easy-to-use syntax for styling your writing. It includes conventions for                                             
 
