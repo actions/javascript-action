@@ -1,4 +1,5 @@
-#**StarTeknoloji**HOŞGELDİNİZ![5077109](https://user-images.githubusercontent.com/93947784/175498545-c361bba2-cf8e-434a-b422-c1418c918008.png) 
+### *StarTeknoloji* HOŞGELDİNİZ...  
+[5077109]  (  https://user-images.githubusercontent.com/93947784/175498545-c361bba2-cf8e-434a-b422-c1418c918008.png)  
 
 
 You can use the [editor on GitHub](https://github.com/StarTeknolojiSpace/javascript-action/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
@@ -52,7 +53,7 @@ Your Pages site will use the layout and styles from the Jekyll theme you have se
 ### Support or Contact  
 
 # ercetinguler@starteknoloji.space
-# info@starteknoloji.space  
-# +90 0288 318 33 40
+# info@starteknoloji.space 
+## +90 0288 318 33 40
 
 Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
