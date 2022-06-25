@@ -10,15 +10,7 @@ Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://j
     
 # TEKNOLOJİ GELİŞTİRME ARAŞTIRMA ÜNİTELERİ
         
-## New-İdeas    
-       ### 8.Pazar       
-       ### World Camera Server      
-       ### Security Code        
-       ### İstiklal Bilgi Bankası       
-       ### MX Küçük Dilim           
-       ### Otomatik Yapı    
-       
-
+## New-İdeas       ### 8.Pazar  ### World Camera Server  ### Security Code  ### İstiklal Bilgi Bankası  ### MX Küçük Dilim  ### Otomatik Yapı    
 ## Stutio-Donanım
 ## MicroPlus-Software  
 ## Security-Area  
