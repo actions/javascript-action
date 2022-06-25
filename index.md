@@ -7,9 +7,17 @@ You can use the [editor on GitHub](https://github.com/StarTeknolojiSpace/javascr
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
-# OTOMATİK TEKNOLOJİ 
-  
-# TEKNOLOJİ GELİŞTİRME ÜNİTELERİ  
+# OTOMATİK TEKNOLOJİ  
+
+# PROJELER  
+
+### 8.PAZAR
+### WORLD CAMERA SERVER 
+### SECURİTY CODE  
+### İSTİKLAL VERİ TAVANI  
+###  MX KÜÇÜK DİLİM  
+    
+# TEKNOLOJİ GELİŞTİRME ÜNİTELERİ    
 
 ## Studio-Hardware    
 ## MicroPlus-Software
@@ -28,19 +36,13 @@ Markdown is a l     ig h tweight and easy-to-use syntax for styling your writing
 ```markdown
 Syntax highlighted code block
 
-# OTOMATİK TEKNOLOJİ  
+# 
   
-##  BAŞLANGIÇ
+##    
 
-###  TEKNOLOJİ GELİŞTİRME UNİTELERİ 
+###   
 
-- **PROJELER**  
--  _8.PAZAR_ 
--  _WORLD CAMERA SERVER_  
--  _SECURİTY KODLAMA_ 
--  _İSTİKLAL VERİ TAVANI_
--  _MXE  KÜÇÜK DİLİM_
-  
+- 
 1. 
 
 
