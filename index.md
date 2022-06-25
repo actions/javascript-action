@@ -7,7 +7,20 @@ You can use the [editor on GitHub](https://github.com/StarTeknolojiSpace/javascr
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
-### Markdown
+### OTOMATİK TEKNOLOJİ
+
+### TEKNOLOJİ GELİŞTİRME ÜNİTELERİ
+# Studio-Donanım
+# MicroPlus-Software
+# Security-Area
+# Talking-Digital-School
+# System-Units
+# Galaxy-Life-Machine
+# Tech-Junk
+# Elektro-Element
+# Light-Energy
+# Comet-Strike
+# Small-İndursty
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
@@ -27,17 +40,7 @@ Syntax highlighted code block
 -  _İSTİKLAL VERİ TAVANI_
 -  _MXE  KÜÇÜK DİLİM_
   
-1. Studio-Hardware    
-2. MicroPlus-Software
-3. Security-Area 
-4. Talking-Digital-School 
-5. System-Units  
-6. Galaxy-Life-Machine
-7. Tech-Junk
-8. Elektro-Element
-9. Light-Energy 
-10. Comet-Strike
-11. Small-indursty 
+1. 
 
 
 **Bold** and _Italic_ and `Code` text
