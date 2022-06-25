@@ -8,20 +8,10 @@ You can use the [editor on GitHub](https://github.com/StarTeknolojiSpace/javascr
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown file 
     
     
-# TEKNOLOJİ GELİŞTİRME ARAŞTIRMA ÜNİTELERİ
-        
-## New-İdeas       ### 8.Pazar  ### World Camera Server  ### Security Code  ### İstiklal Bilgi Bankası  ### MX Küçük Dilim  ### Otomatik Yapı    
-## Stutio-Donanım
-## MicroPlus-Software  
-## Security-Area  
-## Talking-Digital-School   
-## System-Units   
-## Galaxy-Life-Machine                                                      
-## Tech-Junk                                        
-## Elektro-Element                                    
-## Light-Energy                               
-## Comet-Strike 
-## Small-İndursty
+# TEKNOLOJİ GELİŞTİRME ARAŞTIRMA YENİ FİKİRLER  
+            
+
+##  8.pazar  ## İstiklal Bilgi Bankası  ## Code-Security  ## Studio-Donanım  ## MXE Uvula  ## ## MicroPlus-   Software  ## Security-Area  ## Talking-Digital-Schoo  l  ## System-Units  ## Galaxy-Life-Machine  ## Tech-Juck  ## Otomatik-Yapı  ## World Camera Server  ## Elektro-Elements  ## Light-Energy  ## Comet-Strike ## Small-İndursty
 
 Markdown is a l     ig h tweight and easy-to-use syntax for styling your writing. It includes conventions for                                             
 
