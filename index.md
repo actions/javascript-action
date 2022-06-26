@@ -1,4 +1,4 @@
-# *StarTeknoloji* HOŞGELDİNİZ...  ![5077109](https://user-images.githubusercontent.com/93947784/175762832-9b6fbe90-d776-452a-bed3-bb281a77056e.png)    
+# STARTEKNOLOJİ HOŞGELDİNİZ....  ![5077109](https://user-images.githubusercontent.com/93947784/175762832-9b6fbe90-d776-452a-bed3-bb281a77056e.png)     
 
     
 
