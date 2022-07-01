@@ -8,6 +8,8 @@ inputs:
 outputs:
   time: # output will be available to future steps
     description: 'The current time after waiting'
-runs:
+runs: 
   using: 'node16'
   main: 'dist/index.js'
+simge: book-open
+renk:  black
