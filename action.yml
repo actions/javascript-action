@@ -1,5 +1,5 @@
-name: 'Waityin'
-description: 'Wait a designated number of milliseconds'
+name: 'StarTeknoloji' 
+description: 'HOŞGELDİNİZ' 
 inputs:
   milliseconds:  # id of input
     description: 'number of milliseconds to wait'
