@@ -1,10 +1,71 @@
 <component name="ProjectCodeStyleConfiguration">
   <code_scheme name="Project" version="173">
-    <option name="ALIGN_MULTILINE_PARAMETERS_IN_CALLS" value="true" />
-    <codeStyleSettings language="JavaScript">
+    <HTMLCodeStyleSettings>
+      <option name="HTML_SPACE_INSIDE_EMPTY_TAG" value="true" />
+      <option name="HTML_QUOTE_STYLE" value="Single" />
+      <option name="HTML_ENFORCE_QUOTES" value="true" />
+    </HTMLCodeStyleSettings>
+    <JSCodeStyleSettings version="0">
+      <option name="FORCE_SEMICOLON_STYLE" value="true" />
+      <option name="SPACE_BEFORE_FUNCTION_LEFT_PARENTH" value="false" />
+      <option name="USE_DOUBLE_QUOTES" value="false" />
+      <option name="FORCE_QUOTE_STYlE" value="true" />
+      <option name="ENFORCE_TRAILING_COMMA" value="Remove" />
+      <option name="SPACES_WITHIN_OBJECT_TYPE_BRACES" value="false" />
+    </JSCodeStyleSettings>
+    <Python>
+      <option name="SPACE_WITHIN_BRACES" value="true" />
+      <option name="NEW_LINE_AFTER_COLON" value="true" />
+      <option name="DICT_NEW_LINE_AFTER_LEFT_BRACE" value="true" />
+      <option name="DICT_NEW_LINE_BEFORE_RIGHT_BRACE" value="true" />
+      <option name="USE_CONTINUATION_INDENT_FOR_ARGUMENTS" value="true" />
+      <option name="FROM_IMPORT_NEW_LINE_AFTER_LEFT_PARENTHESIS" value="true" />
+      <option name="FROM_IMPORT_NEW_LINE_BEFORE_RIGHT_PARENTHESIS" value="true" />
+      <option name="HANG_CLOSING_BRACKETS" value="true" />
+    </Python>
+    <TypeScriptCodeStyleSettings version="0">
+      <option name="FORCE_SEMICOLON_STYLE" value="true" />
+      <option name="SPACE_BEFORE_FUNCTION_LEFT_PARENTH" value="false" />
+      <option name="USE_DOUBLE_QUOTES" value="false" />
+      <option name="FORCE_QUOTE_STYlE" value="true" />
+      <option name="ENFORCE_TRAILING_COMMA" value="Remove" />
+      <option name="SPACES_WITHIN_OBJECT_TYPE_BRACES" value="false" />
+    </TypeScriptCodeStyleSettings>
+    <VueCodeStyleSettings>
+      <option name="INTERPOLATION_NEW_LINE_AFTER_START_DELIMITER" value="false" />
+      <option name="INTERPOLATION_NEW_LINE_BEFORE_END_DELIMITER" value="false" />
+    </VueCodeStyleSettings>
+    <codeStyleSettings language="HTML">
+      <option name="SOFT_MARGINS" value="80" />
       <indentOptions>
-        <option name="USE_TAB_CHARACTER" value="true" />
-        <option name="SMART_TABS" value="true" />
+        <option name="INDENT_SIZE" value="2" />
+        <option name="CONTINUATION_INDENT_SIZE" value="2" />
+        <option name="TAB_SIZE" value="2" />
+      </indentOptions>
+    </codeStyleSettings>
+    <codeStyleSettings language="JavaScript">
+      <option name="SOFT_MARGINS" value="80" />
+      <indentOptions>
+        <option name="INDENT_SIZE" value="2" />
+        <option name="CONTINUATION_INDENT_SIZE" value="2" />
+        <option name="TAB_SIZE" value="2" />
+      </indentOptions>
+    </codeStyleSettings>
+    <codeStyleSettings language="Python">
+      <option name="WRAP_LONG_LINES" value="true" />
+    </codeStyleSettings>
+    <codeStyleSettings language="TypeScript">
+      <option name="SOFT_MARGINS" value="80" />
+      <indentOptions>
+        <option name="INDENT_SIZE" value="2" />
+        <option name="CONTINUATION_INDENT_SIZE" value="2" />
+        <option name="TAB_SIZE" value="2" />
+      </indentOptions>
+    </codeStyleSettings>
+    <codeStyleSettings language="Vue">
+      <option name="SOFT_MARGINS" value="80" />
+      <indentOptions>
+        <option name="CONTINUATION_INDENT_SIZE" value="2" />
       </indentOptions>
     </codeStyleSettings>
   </code_scheme>
