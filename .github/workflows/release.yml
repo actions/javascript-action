@@ -22,7 +22,7 @@ jobs:
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx -p node@v18-lts -c "npx semantic-release"
+        run: npx semantic-release@19.0.5
 
       - name: MSTeams Notification
         uses: skitionek/notify-microsoft-teams@master
