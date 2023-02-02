@@ -52,7 +52,7 @@
     "@zeit/ncc": "^0.20.5",
     "eslint": "^6.3.0",
     "husky": "^4.3.8",
-    "jest": "^24.9.0"
+    "jest": "^29.4.1"
   },
   "release": {
     "plugins": [
