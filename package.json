@@ -51,7 +51,7 @@
     "@semantic-release/git": "^9.0.0",
     "@zeit/ncc": "^0.20.5",
     "eslint": "^6.3.0",
-    "husky": "^4.2.5",
+    "husky": "^4.3.8",
     "jest": "^24.9.0"
   },
   "release": {
