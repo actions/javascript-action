@@ -9,7 +9,7 @@ on:
 jobs:
   # unit tests
   units:
-    runs-on: ubuntu-latest
+    runs-on: android
     steps:
     - uses: actions/checkout@v3
     - run: npm ci
@@ -17,7 +17,7 @@ jobs:
 
   # test action works running from the graph
   test:
-    runs-on: ubuntu-latest
+    runs-on: android
     steps:
     - uses: actions/checkout@v3
     - uses: ./
