@@ -11,5 +11,5 @@ outputs:
 runs: 
   using: 'node16'
   main: 'dist/index.js'
-simge: book
-renk:  red
+simge: at-sign
+renk:  yellow
