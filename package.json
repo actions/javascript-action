@@ -1,5 +1,5 @@
 {
-  "name": "javascript-action",
+  "name": "w3security",
   "version": "1.0.0",
   "description": "JavaScript Action Template",
   "main": "index.js",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/javascript-action.git"
+    "url": "git+https://github.com/cyberoslab/javascript-action.git"
   },
   "keywords": [
     "GitHub",
@@ -21,9 +21,9 @@
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/actions/javascript-action/issues"
+    "url": "https://github.com/cyberoslab/javascript-action/issues"
   },
-  "homepage": "https://github.com/actions/javascript-action#readme",
+  "homepage": "https://github.com/cyberoslab/javascript-action#readme",
   "dependencies": {
     "@actions/core": "^1.1.1"
   },
