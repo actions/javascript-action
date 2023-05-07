@@ -22,7 +22,8 @@
   "license": "MIT",
   "homepage": "https://github.com/neeraj2021/pull-request-action.git",
   "dependencies": {
-    "@actions/core": "^1.10.0"
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^5.1.1"
   },
   "devDependencies": {
     "@vercel/ncc": "^0.36.1",
