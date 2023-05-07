@@ -1,13 +1,18 @@
-name: 'Wait'
-description: 'Wait a designated number of milliseconds'
+name: 'PR comment'
+description: 'Adds PR changes as comment'
 inputs:
-  milliseconds:  # id of input
-    description: 'number of milliseconds to wait'
+  owner: 
+    description: 'The owner of the repository'
     required: true
-    default: '1000'
-outputs:
-  time: # output will be available to future steps
-    description: 'The current time after waiting'
+  repo:
+    description: "The repository name"
+    required: true
+  pr_number:
+    description: "The number of the pull request"
+    required: true
+  token:
+    description: "The token to use to access the Github API"
+    required: true
 runs:
   using: 'node16'
   main: 'dist/index.js'
