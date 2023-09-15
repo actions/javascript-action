@@ -1,7 +1,7 @@
-require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
+/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 351:
+/***/ 241:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -135,7 +135,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getIDToken = exports.getState = exports.saveState = exports.group = exports.endGroup = exports.startGroup = exports.info = exports.notice = exports.warning = exports.error = exports.debug = exports.isDebug = exports.setFailed = exports.setCommandEcho = exports.setOutput = exports.getBooleanInput = exports.getMultilineInput = exports.getInput = exports.addPath = exports.setSecret = exports.exportVariable = exports.ExitCode = void 0;
-const command_1 = __nccwpck_require__(351);
+const command_1 = __nccwpck_require__(241);
 const file_command_1 = __nccwpck_require__(717);
 const utils_1 = __nccwpck_require__(278);
 const os = __importStar(__nccwpck_require__(37));
@@ -558,7 +558,7 @@ class OidcClient {
                 .catch(error => {
                 throw new Error(`Failed to get ID Token. \n 
         Error Code : ${error.statusCode}\n 
-        Error Message: ${error.result.message}`);
+        Error Message: ${error.message}`);
             });
             const id_token = (_a = res.result) === null || _a === void 0 ? void 0 : _a.value;
             if (!id_token) {
@@ -1211,6 +1211,19 @@ class HttpClientResponse {
             }));
         });
     }
+    readBodyBuffer() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve) => __awaiter(this, void 0, void 0, function* () {
+                const chunks = [];
+                this.message.on('data', (chunk) => {
+                    chunks.push(chunk);
+                });
+                this.message.on('end', () => {
+                    resolve(Buffer.concat(chunks));
+                });
+            }));
+        });
+    }
 }
 exports.HttpClientResponse = HttpClientResponse;
 function isHttps(requestUrl) {
@@ -1715,7 +1728,13 @@ function getProxyUrl(reqUrl) {
         }
     })();
     if (proxyVar) {
-        return new URL(proxyVar);
+        try {
+            return new URL(proxyVar);
+        }
+        catch (_a) {
+            if (!proxyVar.startsWith('http://') && !proxyVar.startsWith('https://'))
+                return new URL(`http://${proxyVar}`);
+        }
     }
     else {
         return undefined;
@@ -1725,6 +1744,10 @@ exports.getProxyUrl = getProxyUrl;
 function checkBypass(reqUrl) {
     if (!reqUrl.hostname) {
         return false;
+    }
+    const reqHost = reqUrl.hostname;
+    if (isLoopbackAddress(reqHost)) {
+        return true;
     }
     const noProxy = process.env['no_proxy'] || process.env['NO_PROXY'] || '';
     if (!noProxy) {
@@ -1751,13 +1774,24 @@ function checkBypass(reqUrl) {
         .split(',')
         .map(x => x.trim().toUpperCase())
         .filter(x => x)) {
-        if (upperReqHosts.some(x => x === upperNoProxyItem)) {
+        if (upperNoProxyItem === '*' ||
+            upperReqHosts.some(x => x === upperNoProxyItem ||
+                x.endsWith(`.${upperNoProxyItem}`) ||
+                (upperNoProxyItem.startsWith('.') &&
+                    x.endsWith(`${upperNoProxyItem}`)))) {
             return true;
         }
     }
     return false;
 }
 exports.checkBypass = checkBypass;
+function isLoopbackAddress(host) {
+    const hostLower = host.toLowerCase();
+    return (hostLower === 'localhost' ||
+        hostLower.startsWith('127.') ||
+        hostLower.startsWith('[::1]') ||
+        hostLower.startsWith('[0:0:0:0:0:0:0:1]'));
+}
 //# sourceMappingURL=proxy.js.map
 
 /***/ }),
@@ -2688,19 +2722,63 @@ exports["default"] = _default;
 
 /***/ }),
 
-/***/ 258:
+/***/ 713:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+const core = __nccwpck_require__(186)
+const { wait } = __nccwpck_require__(312)
+
+/**
+ * The main function for the action.
+ * @returns {Promise<void>} Resolves when the action is complete.
+ */
+async function run() {
+  try {
+    const ms = core.getInput('milliseconds', { required: true })
+
+    // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
+    core.debug(`Waiting ${ms} milliseconds ...`)
+
+    // Log the current timestamp, wait, then log the new timestamp
+    core.debug(new Date().toTimeString())
+    await wait(parseInt(ms, 10))
+    core.debug(new Date().toTimeString())
+
+    // Set outputs for other workflow steps to use
+    core.setOutput('time', new Date().toTimeString())
+  } catch (error) {
+    // Fail the workflow run if an error occurs
+    core.setFailed(error.message)
+  }
+}
+
+module.exports = {
+  run
+}
+
+
+/***/ }),
+
+/***/ 312:
 /***/ ((module) => {
 
-let wait = function (milliseconds) {
-  return new Promise((resolve) => {
-    if (typeof milliseconds !== 'number') {
-      throw new Error('milliseconds not a number');
+/**
+ * Wait for a number of milliseconds.
+ *
+ * @param {number} milliseconds The number of milliseconds to wait.
+ * @returns {Promise<string>} Resolves with 'done!' after the wait is over.
+ */
+async function wait(milliseconds) {
+  return new Promise(resolve => {
+    if (isNaN(milliseconds)) {
+      throw new Error('milliseconds not a number')
     }
-    setTimeout(() => resolve("done!"), milliseconds)
-  });
-};
 
-module.exports = wait;
+    setTimeout(() => resolve('done!'), milliseconds)
+  })
+}
+
+module.exports = { wait }
 
 
 /***/ }),
@@ -2834,31 +2912,15 @@ module.exports = require("util");
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
-const core = __nccwpck_require__(186);
-const wait = __nccwpck_require__(258);
+/**
+ * The entrypoint for the action.
+ */
+const { run } = __nccwpck_require__(713)
 
-
-// most @actions toolkit packages have async methods
-async function run() {
-  try {
-    const ms = core.getInput('milliseconds');
-    core.info(`Waiting ${ms} milliseconds ...`);
-
-    core.debug((new Date()).toTimeString()); // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
-    await wait(parseInt(ms));
-    core.info((new Date()).toTimeString());
-
-    core.setOutput('time', new Date().toTimeString());
-  } catch (error) {
-    core.setFailed(error.message);
-  }
-}
-
-run();
+run()
 
 })();
 
 module.exports = __webpack_exports__;
 /******/ })()
 ;
-//# sourceMappingURL=index.js.map
