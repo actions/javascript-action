@@ -195,5 +195,5 @@ steps:
 
   - name: Print Output
     id: output
-    run: echo "${{ steps.test-action.outputs.time }}"
+    run: echo "${{ steps.run-action.outputs.time }}"
 ```
