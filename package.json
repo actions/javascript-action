@@ -66,7 +66,7 @@
     "@actions/core": "^1.10.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.0",
+    "@babel/core": "^7.23.2",
     "@babel/eslint-parser": "^7.22.15",
     "@babel/preset-env": "^7.22.20",
     "@vercel/ncc": "^0.38.0",
