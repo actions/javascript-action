@@ -1,22 +1,20 @@
-name: Lint Code Base
+name: Lint Codebase
 
 on:
   pull_request:
+  push:
     branches:
       - main
-  push:
-    branches-ignore:
-      - main
+
+permissions:
+  contents: read
+  packages: read
+  statuses: write
 
 jobs:
   lint:
-    name: Lint Code Base
+    name: Lint Codebase
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      packages: read
-      statuses: write
 
     steps:
       - name: Checkout
@@ -27,18 +25,20 @@ jobs:
         id: setup-node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: .node-version
           cache: npm
 
       - name: Install Dependencies
         id: install
         run: npm ci
 
-      - name: Lint Code Base
+      - name: Lint Codebase
         id: super-linter
         uses: super-linter/super-linter/slim@v5
         env:
           DEFAULT_BRANCH: main
+          FILTER_REGEX_EXCLUDE: dist/**/*
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JAVASCRIPT_DEFAULT_STYLE: prettier
+          VALIDATE_ALL_CODEBASE: true
           VALIDATE_JSCPD: false
