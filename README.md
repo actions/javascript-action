@@ -1,7 +1,7 @@
 # Create a JavaScript Action
-
-[![GitHub Super-Linter](https://github.com/actions/javascript-action/actions/workflows/linter.yml/badge.svg)](https://github.com/super-linter/super-linter)
-![CI](https://github.com/actions/javascript-action/actions/workflows/ci.yml/badge.svg)
+![coverage](https://raw.githubusercontent.com/cjlapao/setup-flutter/main/badges/coverage.svg)
+[![Lint Codebase](https://github.com/cjlapao/setup-flutter/actions/workflows/linter.yml/badge.svg)](https://github.com/cjlapao/setup-flutter/actions/workflows/linter.yml)
+[![CI](https://github.com/cjlapao/setup-flutter/actions/workflows/ci.yml/badge.svg)](https://github.com/cjlapao/setup-flutter/actions/workflows/ci.yml)
 
 Use this template to bootstrap the creation of a JavaScript action. :rocket:
 
