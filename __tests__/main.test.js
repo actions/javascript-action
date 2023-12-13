@@ -94,3 +94,133 @@ describe('action', () => {
     )
   })
 })
+
+describe('getLatestVersion', () => {
+  beforeEach(() => {
+    process.env['RUNNER_OS'] = 'macos'
+    jest.clearAllMocks()
+  })
+
+  const getLatestVersionMock = jest.spyOn(main, 'getLatestVersion')
+
+  it('wrong os', async () => {
+    process.env['RUNNER_OS'] = 'test'
+    await main.getLatestVersion('dev', 'x64', '3.16.3')
+    expect(getLatestVersionMock).toHaveReturned()
+    expect(setFailedMock).toHaveBeenNthCalledWith(
+      1,
+      'Failed to get the latest version'
+    )
+  })
+
+  it('convert darwin to macos', async () => {
+    process.env['RUNNER_OS'] = 'darwin'
+    await main.getLatestVersion('stable')
+    expect(getLatestVersionMock).toHaveReturned()
+    expect(setOutputMock).toHaveBeenNthCalledWith(
+      1,
+      'version',
+      expect.any(String)
+    )
+  })
+
+  it('gets the latest stable version', async () => {
+    await main.getLatestVersion('stable')
+    expect(getLatestVersionMock).toHaveReturned()
+    expect(setOutputMock).toHaveBeenNthCalledWith(
+      1,
+      'version',
+      expect.any(String)
+    )
+  })
+
+  it('gets the latest beta version', async () => {
+    await main.getLatestVersion('beta')
+    expect(getLatestVersionMock).toHaveReturned()
+    expect(setOutputMock).toHaveBeenNthCalledWith(
+      1,
+      'version',
+      expect.any(String)
+    )
+  })
+
+  it('gets the latest dev version', async () => {
+    await main.getLatestVersion('dev')
+    expect(getLatestVersionMock).toHaveReturned()
+    expect(setOutputMock).toHaveBeenNthCalledWith(
+      1,
+      'version',
+      expect.any(String)
+    )
+  })
+
+  it('gets a specific version', async () => {
+    await main.getLatestVersion('stable', '', '3.16.3')
+    expect(getLatestVersionMock).toHaveReturned()
+    expect(setOutputMock).toHaveBeenNthCalledWith(
+      1,
+      'version',
+      expect.any(String)
+    )
+  })
+
+  it('gets a specific arch', async () => {
+    await main.getLatestVersion('stable', 'arm64', '')
+    expect(getLatestVersionMock).toHaveReturned()
+    expect(setOutputMock).toHaveBeenNthCalledWith(
+      1,
+      'version',
+      expect.any(String)
+    )
+  })
+
+  it('gets a specific arch and version', async () => {
+    await main.getLatestVersion('stable', 'arm64', '3.16.3')
+    expect(getLatestVersionMock).toHaveReturned()
+    expect(setOutputMock).toHaveBeenNthCalledWith(
+      1,
+      'version',
+      expect.any(String)
+    )
+  })
+
+  it('gets the x64 as amd64 version', async () => {
+    await main.getLatestVersion('stable', 'amd64', '')
+    expect(getLatestVersionMock).toHaveReturned()
+    expect(setOutputMock).toHaveBeenNthCalledWith(
+      1,
+      'version',
+      expect.any(String)
+    )
+  })
+
+  it('no version found', async () => {
+    await main.getLatestVersion('mock')
+    expect(getLatestVersionMock).toHaveReturned()
+    expect(setFailedMock).toHaveBeenNthCalledWith(1, 'Channel mock not found')
+  })
+
+  it('no version found for version', async () => {
+    await main.getLatestVersion('dev', '', '3.16.3')
+    expect(getLatestVersionMock).toHaveReturned()
+    expect(setFailedMock).toHaveBeenNthCalledWith(1, 'Version 3.16.3 not found')
+  })
+
+  it('no version found for arch', async () => {
+    await main.getLatestVersion('dev', 'x641', '')
+    expect(getLatestVersionMock).toHaveReturned()
+    expect(setFailedMock).toHaveBeenNthCalledWith(
+      1,
+      'Architecture x641 not found'
+    )
+  })
+
+  it('no version found for version and arch', async () => {
+    await main.getLatestVersion('dev', 'x64', '3.16.3')
+    expect(getLatestVersionMock).toHaveReturned()
+    expect(setFailedMock).toHaveBeenNthCalledWith(
+      1,
+      'Version 3.16.3 with architecture x64 not found'
+    )
+  })
+})

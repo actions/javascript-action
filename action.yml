@@ -1,6 +1,6 @@
-name: 'The name of your action here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Setup Flutter'
+description: 'Setup Flutter SDK on GitHub Actions'
+author: 'Carlos Lapao'
 
 # Define your inputs here.
 inputs:

@@ -1,7 +1,7 @@
 {
-  "name": "javascript-action",
-  "description": "GitHub Actions JavaScript Template",
-  "version": "0.0.0",
+  "name": "setup-flutter",
+  "description": "Setup your GitHub Actions workflow with Flutter SDK",
+  "version": "0.0.1",
   "author": "",
   "private": true,
   "homepage": "https://github.com/actions/javascript-action#readme",
@@ -63,7 +63,8 @@
     ]
   },
   "dependencies": {
-    "@actions/core": "^1.10.1"
+    "@actions/core": "^1.10.1",
+    "axios": "^1.6.2"
   },
   "devDependencies": {
     "@babel/core": "^7.23.5",
