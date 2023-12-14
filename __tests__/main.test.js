@@ -2,13 +2,22 @@
  * Unit tests for the action's main functionality, src/main.js
  */
 const core = require('@actions/core')
+const tc = require('@actions/tool-cache')
 const main = require('../src/main')
+const fs = require('fs')
+const { t } = require('tar')
 
 // Mock the GitHub Actions core library
 const debugMock = jest.spyOn(core, 'debug').mockImplementation()
 const getInputMock = jest.spyOn(core, 'getInput').mockImplementation()
+const getBooleanInput = jest.spyOn(core, 'getBooleanInput').mockImplementation()
+const addPathMock = jest.spyOn(core, 'addPath').mockImplementation()
+const exportVariableMock = jest
+  .spyOn(core, 'exportVariable')
+  .mockImplementation()
 const setFailedMock = jest.spyOn(core, 'setFailed').mockImplementation()
 const setOutputMock = jest.spyOn(core, 'setOutput').mockImplementation()
+const tcFindMock = jest.spyOn(tc, 'find').mockImplementation()
 
 // Mock the action's main function
 const runMock = jest.spyOn(main, 'run')
@@ -16,211 +25,141 @@ const runMock = jest.spyOn(main, 'run')
 // Other utilities
 const timeRegex = /^\d{2}:\d{2}:\d{2}/
 
-describe('action', () => {
+describe('run', () => {
+  const tempDir = '/tmp/setup-flutter/temp'
+  const tempCache = '/tmp/setup-flutter/cache'
+
+  beforeAll(() => {
+    if (!fs.existsSync(tempDir)) {
+      fs.mkdirSync(tempDir, { recursive: true })
+    }
+    if (!fs.existsSync(tempCache)) {
+      fs.mkdirSync(tempCache, { recursive: true })
+    }
+  })
+
   beforeEach(() => {
+    process.env['RUNNER_OS'] = process.platform
+    process.env['RUNNER_ARCH'] = process.arch
+    process.env['RUNNER_TEMP'] = tempDir
+    process.env['RUNNER_TOOL_CACHE'] = tempCache
     jest.clearAllMocks()
   })
 
-  it('sets the time output', async () => {
-    // Set the action's inputs as return values from core.getInput()
-    getInputMock.mockImplementation(name => {
+  afterAll(() => {
+    fs.rm(tempDir, { recursive: true }, () => {
+      core.info('tempDir removed')
+    })
+    fs.rm(tempCache, { recursive: true }, () => {
+      core.info('tempCache removed')
+    })
+  })
+
+  const setupMock = jest.spyOn(main, 'run')
+
+  it('[1] query only', async () => {
+    getBooleanInput.mockImplementation(name => {
       switch (name) {
-        case 'milliseconds':
-          return '500'
+        case 'query-only':
+          return true
         default:
           return ''
       }
     })
 
     await main.run()
-    expect(runMock).toHaveReturned()
+    expect(setupMock).toHaveReturned()
+    expect(setOutputMock).toHaveBeenCalledWith('channel', 'stable')
+    expect(setOutputMock).toHaveBeenCalledWith('version', expect.any(String))
+    expect(setOutputMock).toHaveBeenCalledWith('architecture', process.arch)
+    expect(setOutputMock).toHaveBeenCalledWith('cache-path', expect.any(String))
+    expect(setOutputMock).toHaveBeenCalledWith('cache-key', expect.any(String))
+  }, 300000)
 
-    // Verify that all of the core library functions were called correctly
-    expect(debugMock).toHaveBeenNthCalledWith(1, 'Waiting 500 milliseconds ...')
-    expect(debugMock).toHaveBeenNthCalledWith(
+  it('[2] run without cache', async () => {
+    getBooleanInput.mockImplementation(name => {
+      switch (name) {
+        case 'query-only':
+          return false
+        case 'cache':
+          return false
+        default:
+          return ''
+      }
+    })
+
+    await main.run()
+    expect(setupMock).toHaveReturned()
+    expect(setOutputMock).toHaveBeenCalledWith('channel', 'stable')
+    expect(setOutputMock).toHaveBeenCalledWith('version', expect.any(String))
+    expect(setOutputMock).toHaveBeenCalledWith('architecture', process.arch)
+    expect(setOutputMock).toHaveBeenCalledWith('cache-path', expect.any(String))
+    expect(setOutputMock).toHaveBeenCalledWith('cache-key', expect.any(String))
+
+    expect(setOutputMock).toHaveBeenCalledWith(
+      'doctor-output',
+      expect.any(String)
+    )
+    expect(setOutputMock).toHaveBeenCalledWith(
+      'version-output',
+      expect.any(String)
+    )
+    expect(setOutputMock).toHaveBeenCalledWith(
+      'precache-output',
+      expect.any(String)
+    )
+
+    expect(addPathMock).toHaveBeenNthCalledWith(1, expect.any(String))
+    expect(addPathMock).toHaveBeenNthCalledWith(2, expect.any(String))
+    expect(addPathMock).toHaveBeenNthCalledWith(3, expect.any(String))
+    expect(exportVariableMock).toHaveBeenNthCalledWith(
+      1,
+      'FLUTTER_HOME',
+      expect.any(String)
+    )
+    expect(exportVariableMock).toHaveBeenNthCalledWith(
       2,
-      expect.stringMatching(timeRegex)
+      'PUB_CACHE',
+      expect.any(String)
     )
-    expect(debugMock).toHaveBeenNthCalledWith(
-      3,
-      expect.stringMatching(timeRegex)
-    )
-    expect(setOutputMock).toHaveBeenNthCalledWith(
-      1,
-      'time',
-      expect.stringMatching(timeRegex)
-    )
-  })
+  }, 300000)
 
-  it('sets a failed status', async () => {
-    // Set the action's inputs as return values from core.getInput()
-    getInputMock.mockImplementation(name => {
+  it('[3] run with cache', async () => {
+    getBooleanInput.mockImplementation(name => {
       switch (name) {
-        case 'milliseconds':
-          return 'this is not a number'
+        case 'query-only':
+          return false
+        case 'cache':
+          return true
         default:
           return ''
       }
     })
 
-    await main.run()
-    expect(runMock).toHaveReturned()
-
-    // Verify that all of the core library functions were called correctly
-    expect(setFailedMock).toHaveBeenNthCalledWith(
-      1,
-      'milliseconds not a number'
-    )
-  })
-
-  it('fails if no input is provided', async () => {
-    // Set the action's inputs as return values from core.getInput()
-    getInputMock.mockImplementation(name => {
-      switch (name) {
-        case 'milliseconds':
-          throw new Error('Input required and not supplied: milliseconds')
-        default:
-          return ''
-      }
+    tcFindMock.mockImplementation(() => {
+      return tempCache
     })
 
     await main.run()
-    expect(runMock).toHaveReturned()
-
-    // Verify that all of the core library functions were called correctly
-    expect(setFailedMock).toHaveBeenNthCalledWith(
+    expect(setupMock).toHaveReturned()
+    expect(setOutputMock).toHaveBeenCalledWith('used-cached', 'true')
+    expect(setOutputMock).toHaveBeenCalledWith('channel', 'stable')
+    expect(setOutputMock).toHaveBeenCalledWith('version', expect.any(String))
+    expect(setOutputMock).toHaveBeenCalledWith('architecture', process.arch)
+    expect(setOutputMock).toHaveBeenCalledWith('cache-path', expect.any(String))
+    expect(setOutputMock).toHaveBeenCalledWith('cache-key', expect.any(String))
+    expect(addPathMock).toHaveBeenNthCalledWith(1, expect.any(String))
+    expect(addPathMock).toHaveBeenNthCalledWith(2, expect.any(String))
+    expect(addPathMock).toHaveBeenNthCalledWith(3, expect.any(String))
+    expect(exportVariableMock).toHaveBeenNthCalledWith(
       1,
-      'Input required and not supplied: milliseconds'
-    )
-  })
-})
-
-describe('getLatestVersion', () => {
-  beforeEach(() => {
-    process.env['RUNNER_OS'] = 'macos'
-    jest.clearAllMocks()
-  })
-
-  const getLatestVersionMock = jest.spyOn(main, 'getLatestVersion')
-
-  it('wrong os', async () => {
-    process.env['RUNNER_OS'] = 'test'
-    await main.getLatestVersion('dev', 'x64', '3.16.3')
-    expect(getLatestVersionMock).toHaveReturned()
-    expect(setFailedMock).toHaveBeenNthCalledWith(
-      1,
-      'Failed to get the latest version'
-    )
-  })
-
-  it('convert darwin to macos', async () => {
-    process.env['RUNNER_OS'] = 'darwin'
-    await main.getLatestVersion('stable')
-    expect(getLatestVersionMock).toHaveReturned()
-    expect(setOutputMock).toHaveBeenNthCalledWith(
-      1,
-      'version',
+      'FLUTTER_HOME',
       expect.any(String)
     )
-  })
-
-  it('gets the latest stable version', async () => {
-    await main.getLatestVersion('stable')
-    expect(getLatestVersionMock).toHaveReturned()
-    expect(setOutputMock).toHaveBeenNthCalledWith(
-      1,
-      'version',
+    expect(exportVariableMock).toHaveBeenNthCalledWith(
+      2,
+      'PUB_CACHE',
       expect.any(String)
     )
-  })
-
-  it('gets the latest beta version', async () => {
-    await main.getLatestVersion('beta')
-    expect(getLatestVersionMock).toHaveReturned()
-    expect(setOutputMock).toHaveBeenNthCalledWith(
-      1,
-      'version',
-      expect.any(String)
-    )
-  })
-
-  it('gets the latest dev version', async () => {
-    await main.getLatestVersion('dev')
-    expect(getLatestVersionMock).toHaveReturned()
-    expect(setOutputMock).toHaveBeenNthCalledWith(
-      1,
-      'version',
-      expect.any(String)
-    )
-  })
-
-  it('gets a specific version', async () => {
-    await main.getLatestVersion('stable', '', '3.16.3')
-    expect(getLatestVersionMock).toHaveReturned()
-    expect(setOutputMock).toHaveBeenNthCalledWith(
-      1,
-      'version',
-      expect.any(String)
-    )
-  })
-
-  it('gets a specific arch', async () => {
-    await main.getLatestVersion('stable', 'arm64', '')
-    expect(getLatestVersionMock).toHaveReturned()
-    expect(setOutputMock).toHaveBeenNthCalledWith(
-      1,
-      'version',
-      expect.any(String)
-    )
-  })
-
-  it('gets a specific arch and version', async () => {
-    await main.getLatestVersion('stable', 'arm64', '3.16.3')
-    expect(getLatestVersionMock).toHaveReturned()
-    expect(setOutputMock).toHaveBeenNthCalledWith(
-      1,
-      'version',
-      expect.any(String)
-    )
-  })
-
-  it('gets the x64 as amd64 version', async () => {
-    await main.getLatestVersion('stable', 'amd64', '')
-    expect(getLatestVersionMock).toHaveReturned()
-    expect(setOutputMock).toHaveBeenNthCalledWith(
-      1,
-      'version',
-      expect.any(String)
-    )
-  })
-
-  it('no version found', async () => {
-    await main.getLatestVersion('mock')
-    expect(getLatestVersionMock).toHaveReturned()
-    expect(setFailedMock).toHaveBeenNthCalledWith(1, 'Channel mock not found')
-  })
-
-  it('no version found for version', async () => {
-    await main.getLatestVersion('dev', '', '3.16.3')
-    expect(getLatestVersionMock).toHaveReturned()
-    expect(setFailedMock).toHaveBeenNthCalledWith(1, 'Version 3.16.3 not found')
-  })
-
-  it('no version found for arch', async () => {
-    await main.getLatestVersion('dev', 'x641', '')
-    expect(getLatestVersionMock).toHaveReturned()
-    expect(setFailedMock).toHaveBeenNthCalledWith(
-      1,
-      'Architecture x641 not found'
-    )
-  })
-
-  it('no version found for version and arch', async () => {
-    await main.getLatestVersion('dev', 'x64', '3.16.3')
-    expect(getLatestVersionMock).toHaveReturned()
-    expect(setFailedMock).toHaveBeenNthCalledWith(
-      1,
-      'Version 3.16.3 with architecture x64 not found'
-    )
-  })
+  }, 300000)
 })

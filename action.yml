@@ -1,18 +1,51 @@
 name: 'Setup Flutter'
 description: 'Setup Flutter SDK on GitHub Actions'
 author: 'Carlos Lapao'
+branding:
+  icon: 'maximize'
+  color: 'blue'
 
-# Define your inputs here.
+
 inputs:
-  milliseconds:
-    description: 'Your input description here'
-    required: true
-    default: '1000'
+  flutter-version:
+    description: 'The Flutter version to make available on the path'
+    required: false
+    default: 'any'
+  channel:
+    description: 'The Flutter build release channel'
+    required: false
+    default: 'stable'
+  query-only:
+    description: 'Query the Flutter SDK version without installing it'
+    required: false
+    default: 'false'
+  cache:
+    description: 'Cache the Flutter SDK'
+    required: false
+    default: 'true'
+  cache-key:
+    description: 'Identifier for the Flutter SDK cache'
+    required: false
+  cache-path:
+    description: 'Flutter SDK cache path'
+    required: false
+  architecture:
+    description: 'The architecture of Flutter SDK executable (x64 or arm64)'
+    required: false
+    default: '${{ runner.arch }}'
 
 # Define your outputs here.
 outputs:
-  time:
-    description: 'Your output description here'
+  cache-patch:
+    description: 'Flutter SDK cache path'
+  cache-key:
+    description: 'Flutter SDK cache key'
+  channel:
+    description: 'The Flutter build release channel'
+  version:
+    description: 'The Flutter version to make available on the path'
+  architecture:
+    description: 'The architecture of Flutter SDK executable (x64 or arm64)'
 
 runs:
   using: node20
