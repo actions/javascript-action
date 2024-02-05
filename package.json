@@ -67,7 +67,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.23.9",
-    "@babel/eslint-parser": "^7.23.9",
+    "@babel/eslint-parser": "^7.23.10",
     "@babel/preset-env": "^7.23.9",
     "@vercel/ncc": "^0.38.1",
     "babel-preset-jest": "^29.6.3",
@@ -76,6 +76,6 @@
     "eslint-plugin-jest": "^27.6.3",
     "jest": "^29.7.0",
     "make-coverage-badge": "^1.2.0",
-    "prettier": "^3.2.4"
+    "prettier": "^3.2.5"
   }
 }
