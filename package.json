@@ -25,14 +25,15 @@
   },
   "scripts": {
     "bundle": "npm run format:write && npm run package",
-    "ci-test": "jest",
-    "format:write": "prettier --write **/*.js",
-    "format:check": "prettier --check **/*.js",
+    "ci-test": "npx jest",
+    "coverage": "npx make-coverage-badge --output-path ./badges/coverage.svg",
+    "format:write": "npx prettier --write .",
+    "format:check": "npx prettier --check .",
     "lint": "npx eslint . -c ./.github/linters/.eslintrc.yml",
-    "package": "ncc build src/index.js --license licenses.txt",
+    "package": "npx ncc build src/index.js -o dist --source-map --license licenses.txt",
     "package:watch": "npm run package -- --watch",
-    "test": "(jest && make-coverage-badge --output-path ./badges/coverage.svg) || make-coverage-badge --output-path ./badges/coverage.svg",
-    "all": "npm run format:write && npm run lint && npm run test && npm run package"
+    "test": "npx jest",
+    "all": "npm run format:write && npm run lint && npm run test && npm run coverage && npm run package"
   },
   "license": "MIT",
   "eslintConfig": {
