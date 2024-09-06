@@ -22,21 +22,23 @@ Generated from [actions/javascript-template](https://github.com/actions/javascri
 - Logs relevant jobs and steps along with their output in case of failure
 - Provides flexible interface to overwrite any part of the message
 - Allows sending raw json-formatted messages directly from action definition
+- Allows tagging msteams member
 
 # Usage
 First of all, you need to set GitHub secrets for MSTEAMS_WEBHOOK that is Incoming Webhook URL.
 
 You can customize the following parameters:
 
-|with parameter|required/optional|default|description|
-|:--:|:--:|:--|:--|
-|webhook_url|optional|$MSTEAMS_WEBHOOK|Microsoft Teams Incoming Webhooks URL<br>Please specify this key or MSTEAMS_WEBHOOK environment variable|
-|job|optional|{}}|JSON parsed job context|
-|steps|optional|{}|JSON parsed steps context|
-|needs|optional|{}|JSON parsed needs context|
-|dry_run|optional|False|Do not actually send the message|
-|raw|optional|''|JSON object to send to Microsoft Teams|
-|overwrite|optional|''|JSON like object to overwrite default message (executed with eval)|
+| with parameter |required/optional|default| description                                                                                              |
+|:--------------:|:--:|:--|:---------------------------------------------------------------------------------------------------------|
+|  webhook_url   |optional|$MSTEAMS_WEBHOOK| Microsoft Teams Incoming Webhooks URL<br>Please specify this key or MSTEAMS_WEBHOOK environment variable |
+|      job       |optional|{}}| JSON parsed job context                                                                                  |
+|     steps      |optional|{}| JSON parsed steps context                                                                                |
+|     needs      |optional|{}| JSON parsed needs context                                                                                |
+|    dry_run     |optional|False| Do not actually send the message                                                                         |
+|      raw       |optional|''| JSON object to send to Microsoft Teams                                                                   |
+|     title      |optional|''| Overwrite default title                                                                                  |
+| msteams_emails |optional|''| Microsoft teams email ids in CSV to tag in the message                                                   |
 
 Please refer [action.yml](./action.yml) for more details.
 
@@ -52,7 +54,7 @@ on:
 jobs:
   success:
     name: One with everything
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
       - name: Microsoft Teams Notification
@@ -64,11 +66,28 @@ jobs:
           job: ${{ toJson(job) }}
           steps: ${{ toJson(steps) }}
           dry_run: True
+          
+          
+  with_emails:
+    name: One with emails
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: MSTeams Notification
+        uses: ./
+        if: always()
+        with:
+          webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
+          title: "`Overwrote title in ${workflow_link}`"
+          msteams_emails: "mm@mm.mm, yy@yy.yy, rr@rr.rr"
+          job: ${{ toJson(job) }}
+          steps: ${{ toJson(steps) }}
+          dry_run: ${{ !github.event.action == 'release' }}
 
 
   without_optional_params:
     name: One with little info
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
       - name: Microsoft Teams Notification
@@ -79,7 +98,7 @@ jobs:
 
   with_overwrite:
     name: One with overwrite
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
       - name: Microsoft Teams Notification
@@ -87,11 +106,11 @@ jobs:
         if: always()
         with:
           webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
-          overwrite: "{title: `Overwrote title in ${workflow_link}`}"
+          title: "`Overwrote title in ${workflow_link}`"
 
   with_raw:
     name: One with raw data
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
       - name: Microsoft Teams Notification
@@ -101,14 +120,29 @@ jobs:
           webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
           raw: >-
             {
-              "@type": "MessageCard",
-              "@context": "http://schema.org/extensions",
-              "title": "No ${variables} avaliable in here"
+                "type": "message",
+                "attachments":
+                [
+                    {
+                        "contentType": "application/vnd.microsoft.card.adaptive",
+                        "content":
+                        {
+                            "type": "AdaptiveCard",
+                            "body":
+                            [
+                                {
+                                    "type": "TextBlock",
+                                    "text": "Test title text"
+                                }
+                            ]
+                        }
+                    }
+                ]
             }
 
   if_failure:
     name: Only if failure
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
       - name: Microsoft Teams Notification

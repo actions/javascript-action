@@ -21,12 +21,12 @@ async function run() {
 			);
 		}
 
-
 		let job = access_context('job');
 		let steps = access_context('steps');
 		let needs = access_context('needs');
 
-		let overwrite = core.getInput('overwrite');
+		let title = core.getInput('title');
+		let msteams_emails= core.getInput('msteams_emails');
 		let raw = core.getInput('raw');
 		let dry_run = core.getInput('dry_run');
 
@@ -36,7 +36,8 @@ async function run() {
 			steps,
 			needs,
 			raw,
-			overwrite,
+			title,
+			msteams_emails,
 			dry_run
 		})}`);
 
@@ -48,7 +49,8 @@ async function run() {
 					job,
 					steps,
 					needs,
-					overwrite
+					title,
+					msteams_emails
 				}
 			);
 		} else {

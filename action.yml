@@ -8,8 +8,11 @@ inputs:
   raw:
     description: 'JSON object to send to Microsoft Teams'
     required: false
-  overwrite:
-    description: 'JSON like object to overwrite default message (executed with eval)'
+  title:
+    description: 'Text to show as message title'
+    required: false
+  msteams_emails:
+    description: 'Microsoft teams emails in CSV to tag in the message'
     required: false
   job:
     description: 'JSON parsed job context'

@@ -1,13 +1,13 @@
 name: Check notification
 
 on:
-  push: {}
-  release: {}
+  push: { }
+  release: { }
 
 jobs:
   success:
     name: One with everything
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
       - name: MSTeams Notification
@@ -23,7 +23,7 @@ jobs:
   needy_one:
     name: One with needs
     needs: success
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
       - name: MSTeams Notification
@@ -39,7 +39,7 @@ jobs:
   steps_one:
     name: One with steps
     needs: success
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout from version control
         uses: actions/checkout@master
@@ -59,16 +59,16 @@ jobs:
 
   failure:
     name: One failure
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      
+
       - id: Forced_failure
         name: Forced failing step
         run: |
           echo "Output of this action will be localy overwriten to be a failure"
           echo "::set-output name=set_status::so_it_is_not_neglected"
-          
+
       - name: Overwrite status
         id: overwrites
         env:
@@ -81,7 +81,7 @@ jobs:
           echo "steps<<EOF" >> $GITHUB_ENV
           echo $steps | jq '.[].outcome = "failure"' >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
-          
+
       - name: Check overwrites
         env:
           steps: ${{ env.steps }}
@@ -89,7 +89,7 @@ jobs:
         run: |
           echo "Needs: $needs"
           echo "Steps: $steps"
-          
+
       - name: MSTeams Notification
         uses: ./
         if: always()
@@ -107,7 +107,7 @@ jobs:
 
   without_optional_params:
     name: One with little info
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
       - name: MSTeams Notification
@@ -117,9 +117,9 @@ jobs:
           webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
           dry_run: ${{ !github.event.action == 'release' }}
 
-  with_overwrite:
-    name: One with overwrite
-    runs-on: ubuntu-18.04
+  without_emails:
+    name: One without emails
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
       - name: MSTeams Notification
@@ -127,14 +127,45 @@ jobs:
         if: always()
         with:
           webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
-          overwrite: "{title: `Overwrote title in ${workflow_link}`}"
+          title: "`Overwrote title in ${workflow_link}`"
+          job: ${{ toJson(job) }}
+          steps: ${{ toJson(steps) }}
+          dry_run: ${{ !github.event.action == 'release' }}
+
+  with_emails:
+    name: One with emails
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: MSTeams Notification
+        uses: ./
+        if: always()
+        with:
+          webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
+          title: "`Overwrote title in ${workflow_link}`"
+          msteams_emails: "mm@mm.mm, yy@yy.yy, rr@rr.rr"
+          job: ${{ toJson(job) }}
+          steps: ${{ toJson(steps) }}
+          dry_run: ${{ !github.event.action == 'release' }}
+
+  with_overwrite:
+    name: One with overwrite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: MSTeams Notification
+        uses: ./
+        if: always()
+        with:
+          webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
+          title: "`Overwrote title in ${workflow_link}`"
           job: ${{ toJson(job) }}
           steps: ${{ toJson(steps) }}
           dry_run: ${{ !github.event.action == 'release' }}
 
   with_raw:
     name: One with raw data
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
       - name: MSTeams Notification
@@ -144,9 +175,25 @@ jobs:
           webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
           raw: >-
             {
-              "@type": "MessageCard",
-              "@context": "http://schema.org/extensions",
-              "title": "No ${variables} avaliable in here",
-              "text": "Lorem ipssum"
+                "type": "message",
+                "attachments":
+                [
+                    {
+                        "contentType": "application/vnd.microsoft.card.adaptive",
+                        "content":
+                        {
+                            "type": "AdaptiveCard",
+                            "body":
+                            [
+                                {
+                                    "type": "TextBlock",
+                                    "size": "Medium",
+                                    "weight": "Bolder",
+                                    "text": "Test title text"
+                                }
+                            ]
+                        }
+                    }
+                ]
             }
           dry_run: ${{ !github.event.action == 'release' }}

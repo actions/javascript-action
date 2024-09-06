@@ -12,7 +12,9 @@ jobs:
   eslint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: hallee/eslint-action@master
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          repo-token: ${{secrets.GITHUB_TOKEN}}
+          node-version: 18
+      - run: npm ci
+      - run: npm run lint
