@@ -119,30 +119,30 @@ So, what are you waiting for? Go ahead and start customizing your action!
    npm run all
    ```
 
-   > [!WARNING]
-   >
-   > This step is important! It will run [`ncc`](https://github.com/vercel/ncc)
-   > to build the final JavaScript action code with all dependencies included.
-   > If you do not run this step, your action will not work correctly when it is
-   > used in a workflow. This step also includes the `--license` option for
-   > `ncc`, which will create a license file for all of the production node
-   > modules used in your project.
+> [!WARNING]
+>
+> This step is important! It will run [`ncc`](https://github.com/vercel/ncc) to
+> build the final JavaScript action code with all dependencies included. If you
+> do not run this step, your action will not work correctly when it is used in a
+> workflow. This step also includes the `--license` option for `ncc`, which will
+> create a license file for all of the production node modules used in your
+> project.
 
-1. Commit your changes
+5. Commit your changes
 
    ```bash
    git add .
    git commit -m "My first action is ready!"
    ```
 
-1. Push them to your repository
+6. Push them to your repository
 
    ```bash
    git push -u origin releases/v1
    ```
 
-1. Create a pull request and get feedback on your action
-1. Merge the pull request into the `main` branch
+7. Create a pull request and get feedback on your action
+8. Merge the pull request into the `main` branch
 
 Your action is now published! :rocket:
 
