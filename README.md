@@ -229,3 +229,28 @@ steps:
     id: output
     run: echo "${{ steps.run-action.outputs.time }}"
 ```
+
+## Publishing a New Release
+
+This project includes two workflow files, `continuous-integration.yml` and
+`continuous-delivery.yml` that are used to build, test, and publish new releases
+of the action.
+
+The `continuous-integration.yml` workflow is triggered on every push to a pull
+request branch. It will run unit tests and add a comment to the pull request
+with the test results.
+
+The `continuous-delivery.yml` workflow is triggered when a pull request is
+merged to the `main` branch. It will create a new release of the action based on
+the version specified in the `version` property of the `package.json` file.
+
+The steps to publish a new version are as follows:
+
+1. Create a feature branch
+1. Make changes to the action code
+1. Add tests for the changes
+1. Update the `version` property in the `package.json` file
+1. Commit and push the changes to the feature branch
+1. Open a pull request to merge the changes to the `main` branch
+
+After the pull request is merged, a new release will be created automatically.
