@@ -2,7 +2,7 @@ name: JavaScript Action ' StarTeknolog '
 description: 'HOŞGELDİNİZ' 
 inputs:
   milliseconds:  # id of input
-    description: 'number of milliseconds to wait'
+    description: 'number of milliseconds to wait' 
     required: true
     default: '1000'
 outputs:
@@ -11,5 +11,5 @@ outputs:
 runs: 
   using: 'node16'
   main: 'dist/index.js'
-simge: at-sign
-renk:  yellow
+simge: book-open
+renk:  red
