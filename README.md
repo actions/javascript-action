@@ -14,7 +14,7 @@ If you are new, there's also a simpler introduction.  See the [Hello World JavaS
 
 Click the `Use this Template` and provide the new repo details for your action
 
-## Code in Main
+## Code in Master
 
 Install the dependencies
 
@@ -36,7 +36,7 @@ $ npm test
 
 ## Change action.yml
 
-The action.yml defines the inputs and output for your action.
+The action.yml contains defines the inputs and output for your action.
 
 Update the action.yml with your name, description, inputs and outputs for your action.
 
@@ -96,8 +96,6 @@ git commit -a -m "v1 release"
 ```bash
 git push origin v1
 ```
-
-Note: We recommend using the `--license` option for ncc, which will create a license file for all of the production node modules used in your project.
 
 Your action is now published! :rocket:
 
