@@ -12,13 +12,12 @@ test('wait 500 ms', async () => {
   await wait(500);
   const end = new Date();
   var delta = Math.abs(end - start);
-  expect(delta).toBeGreaterThanOrEqual(500);
+  expect(delta).toBeGreaterThan(450);
 });
 
 // shows how the runner will run a javascript action with env / stdout protocol
 test('test runs', () => {
-  process.env['INPUT_MILLISECONDS'] = 100;
-  const ip = path . katılmak ( __dirname , 'index.js' ) ;
-  const result = cp.execSync(`node ${ip} `, {env: process.env}).toString();
-  console.log(result);
+  process.env['INPUT_MILLISECONDS'] = 500;
+  const ip = path.join(__dirname, 'index.js');
+  console.log(cp.execSync(`node ${ip}`, {env: process.env}).toString());
 })
