@@ -1,3 +1,8 @@
+# This workflow will lint the entire codebase using the
+# `super-linter/super-linter` action.
+#
+# For more information, see the super-linter repository:
+#     https://github.com/super-linter/super-linter
 name: Lint Codebase
 
 on:
@@ -19,12 +24,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout the repository.
       - name: Checkout
         id: checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
+      # Setup Node.js using the version specified in `.node-version`.
       - name: Setup Node.js
         id: setup-node
         uses: actions/setup-node@v4
@@ -32,10 +39,12 @@ jobs:
           node-version-file: .node-version
           cache: npm
 
+      # Install dependencies using `npm ci`.
       - name: Install Dependencies
         id: install
         run: npm ci
 
+      # Lint the codebase using the `super-linter/super-linter` action.
       - name: Lint Codebase
         id: super-linter
         uses: super-linter/super-linter/slim@v7
@@ -43,6 +52,9 @@ jobs:
           DEFAULT_BRANCH: main
           FILTER_REGEX_EXCLUDE: dist/**/*
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VALIDATE_JAVASCRIPT_STANDARD: false
+          LINTER_RULES_PATH: ${{ github.workspace }}
           VALIDATE_ALL_CODEBASE: true
+          VALIDATE_JAVASCRIPT_ES: false
+          VALIDATE_JAVASCRIPT_STANDARD: false
           VALIDATE_JSCPD: false
+          VALIDATE_JSON: false
