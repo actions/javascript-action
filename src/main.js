@@ -1,13 +1,14 @@
-const core = require('@actions/core')
-const { wait } = require('./wait')
+import * as core from '@actions/core'
+import { wait } from './wait.js'
 
 /**
  * The main function for the action.
+ *
  * @returns {Promise<void>} Resolves when the action is complete.
  */
-async function run() {
+export async function run() {
   try {
-    const ms = core.getInput('milliseconds', { required: true })
+    const ms = core.getInput('milliseconds')
 
     // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
     core.debug(`Waiting ${ms} milliseconds ...`)
@@ -21,10 +22,6 @@ async function run() {
     core.setOutput('time', new Date().toTimeString())
   } catch (error) {
     // Fail the workflow run if an error occurs
-    core.setFailed(error.message)
+    if (error instanceof Error) core.setFailed(error.message)
   }
-}
-
-module.exports = {
-  run
 }
