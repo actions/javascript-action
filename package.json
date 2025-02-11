@@ -54,7 +54,8 @@
     "make-coverage-badge": "^1.2.0",
     "prettier": "^3.5.0",
     "prettier-eslint": "^16.3.0",
-    "rollup": "^4.34.6"
+    "rollup": "^4.34.6",
+    "rollup-plugin-license": "^3.5.3"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "*"
