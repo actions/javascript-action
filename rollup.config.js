@@ -11,7 +11,7 @@ const config = {
     format: 'es',
     sourcemap: true
   },
-  plugins: [commonjs(), nodeResolve()]
+  plugins: [commonjs(), nodeResolve({ preferBuiltins: true })]
 }
 
 export default config
