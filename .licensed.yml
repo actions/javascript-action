@@ -11,5 +11,3 @@ allowed:
   - mit
   - cc0-1.0
   - other
-  npm:
-    # Used by Rollup.js when building in GitHub 
