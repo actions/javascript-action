@@ -1,14 +1,12 @@
 # See: https://yamllint.readthedocs.io/en/stable/
 
 rules:
-  document-end: disable
+  document-end: enable
   document-start:
     level: warning
-    present: false
+    present: true
   line-length:
     level: warning
     max: 80
-    allow-non-breakable-words: true
-    allow-non-breakable-inline-mappings: true
-ignore:
-  - .licenses/
+    allow-non-breakable-words: false
+    allow-non-breakable-inline-mappings: false
