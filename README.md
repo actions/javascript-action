@@ -1,7 +1,10 @@
-# Create a JavaScript Action
+# Create a GitHub Action Using JavaScript
 
 [![GitHub Super-Linter](https://github.com/actions/javascript-action/actions/workflows/linter.yml/badge.svg)](https://github.com/super-linter/super-linter)
 ![CI](https://github.com/actions/javascript-action/actions/workflows/ci.yml/badge.svg)
+[![Check dist/](https://github.com/actions/javascript-action/actions/workflows/check-dist.yml/badge.svg)](https://github.com/actions/javascript-action/actions/workflows/check-dist.yml)
+[![CodeQL](https://github.com/actions/javascript-action/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/actions/javascript-action/actions/workflows/codeql-analysis.yml)
+[![Coverage](./badges/coverage.svg)](./badges/coverage.svg)
 
 Use this template to bootstrap the creation of a JavaScript action. :rocket:
 
@@ -36,11 +39,13 @@ need to perform some initial setup steps before you can develop your action.
 > [!NOTE]
 >
 > You'll need to have a reasonably modern version of
-> [Node.js](https://nodejs.org) handy. If you are using a version manager like
-> [`nodenv`](https://github.com/nodenv/nodenv) or
-> [`nvm`](https://github.com/nvm-sh/nvm), you can run `nodenv install` in the
-> root of your repository to install the version specified in
-> [`package.json`](./package.json). Otherwise, 20.x or later should work!
+> [Node.js](https://nodejs.org) handy (20.x or later should work!). If you are
+> using a version manager like [`nodenv`](https://github.com/nodenv/nodenv) or
+> [`fnm`](https://github.com/Schniz/fnm), this template has a `.node-version`
+> file at the root of the repository that can be used to automatically switch to
+> the correct version when you `cd` into the repository. Additionally, this
+> `.node-version` file is used by GitHub Actions in any `actions/setup-node`
+> actions.
 
 1. :hammer_and_wrench: Install the dependencies
 
@@ -119,12 +124,10 @@ So, what are you waiting for? Go ahead and start customizing your action!
    npm run all
    ```
 
-   > This step is important! It will run [`ncc`](https://github.com/vercel/ncc)
-   > to build the final JavaScript action code with all dependencies included.
-   > If you do not run this step, your action will not work correctly when it is
-   > used in a workflow. This step also includes the `--license` option for
-   > `ncc`, which will create a license file for all of the production node
-   > modules used in your project.
+   > This step is important! It will run [`rollup`](https://rollupjs.org/) to
+   > build the final JavaScript action code with all dependencies included. If
+   > you do not run this step, your action will not work correctly when it is
+   > used in a workflow.
 
 1. (Optional) Test your action locally
 
@@ -218,15 +221,15 @@ steps:
     id: checkout
     uses: actions/checkout@v4
 
-  - name: Run my Action
-    id: run-action
+  - name: Test Local Action
+    id: test-action
     uses: actions/javascript-action@v1 # Commit with the `v1` tag
     with:
       milliseconds: 1000
 
   - name: Print Output
     id: output
-    run: echo "${{ steps.run-action.outputs.time }}"
+    run: echo "${{ steps.test-action.outputs.time }}"
 ```
 
 ## Dependency License Management
