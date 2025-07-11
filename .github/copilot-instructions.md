@@ -18,8 +18,8 @@ code it is generated from.
 | `.devcontainer/`     | Development Container Configuration                      |
 | `.github/`           | GitHub Configuration                                     |
 | `.licenses/`         | License Information                                      |
-| `.vscode/`           | VSCode Configuration                                     |
-| `badges/`            | Badges for README                                        |
+| `.vscode/`           | Visual Studio Code Configuration                         |
+| `badges/`            | Badges for readme                                        |
 | `dist/`              | Generated JavaScript Code                                |
 | `src/`               | JavaScript Source Code                                   |
 | `.env.example`       | Environment Variables Example for `@github/local-action` |
