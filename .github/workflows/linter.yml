@@ -24,14 +24,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repository.
       - name: Checkout
         id: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
-      # Setup Node.js using the version specified in `.node-version`.
       - name: Setup Node.js
         id: setup-node
         uses: actions/setup-node@v4
@@ -39,22 +37,21 @@ jobs:
           node-version-file: .node-version
           cache: npm
 
-      # Install dependencies using `npm ci`.
       - name: Install Dependencies
         id: install
         run: npm ci
 
-      # Lint the codebase using the `super-linter/super-linter` action.
       - name: Lint Codebase
         id: super-linter
-        uses: super-linter/super-linter/slim@v7
+        uses: super-linter/super-linter/slim@v8
         env:
           DEFAULT_BRANCH: main
           FILTER_REGEX_EXCLUDE: dist/**/*
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LINTER_RULES_PATH: ${{ github.workspace }}
+          LINTER_RULES_PATH: .
           VALIDATE_ALL_CODEBASE: true
+          VALIDATE_GITHUB_ACTIONS_ZIZMOR: false
           VALIDATE_JAVASCRIPT_ES: false
-          VALIDATE_JAVASCRIPT_STANDARD: false
           VALIDATE_JSCPD: false
+          VALIDATE_TYPESCRIPT_ES: false
           VALIDATE_JSON: false
