@@ -43,7 +43,7 @@
     "@eslint/compat": "^1.4.0",
     "@github/local-action": "^6.0.2",
     "@jest/globals": "^30.2.0",
-    "@rollup/plugin-commonjs": "^28.0.9",
+    "@rollup/plugin-commonjs": "^29.0.0",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "eslint": "^9.38.0",
     "eslint-config-prettier": "^10.1.8",
