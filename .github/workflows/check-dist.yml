@@ -28,7 +28,7 @@ jobs:
     steps:
       - name: Checkout
         id: checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
         id: setup-node
@@ -36,6 +36,10 @@ jobs:
         with:
           node-version-file: .node-version
           cache: npm
+
+      - name: Remove dist/ Directory
+        id: remove-dist
+        run: npx rimraf ./dist
 
       - name: Install Dependencies
         id: install
