@@ -52,7 +52,7 @@
     "eslint-plugin-prettier": "^5.5.4",
     "jest": "^30.2.0",
     "make-coverage-badge": "^1.2.0",
-    "prettier": "^3.7.3",
+    "prettier": "^3.7.4",
     "prettier-eslint": "^16.4.2",
     "rollup": "^4.53.3"
   },
