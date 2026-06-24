@@ -19,11 +19,11 @@ jobs:
     steps:
       - name: Checkout
         id: checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
         id: setup-node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version-file: .node-version
           cache: npm
@@ -51,7 +51,7 @@ jobs:
     steps:
       - name: Checkout
         id: checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Test Local Action
         id: test-action

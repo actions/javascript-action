@@ -28,14 +28,18 @@ jobs:
     steps:
       - name: Checkout
         id: checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
         id: setup-node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version-file: .node-version
           cache: npm
+
+      - name: Remove dist/ Directory
+        id: remove-dist
+        run: npx rimraf ./dist
 
       - name: Install Dependencies
         id: install
@@ -66,7 +70,7 @@ jobs:
       - if: ${{ failure() && steps.diff.outcome == 'failure' }}
         name: Upload Artifact
         id: upload
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: dist
           path: dist/
