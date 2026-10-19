@@ -22,9 +22,9 @@ jobs:
 
     # Job-level permissions: least privilege
     permissions:
-      contents: write
+      contents: read
       packages: read
-      statuses: write
+      statuses: read
       
 
     steps:
