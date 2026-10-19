@@ -9,15 +9,13 @@ on:
       - main
   workflow_dispatch:
 
-permissions:
-  contents: read
-permissions:
-  contents: read
-
 jobs:
   test-javascript:
     name: JavaScript Tests
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
 
     steps:
       - name: Checkout
