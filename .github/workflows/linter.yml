@@ -16,7 +16,7 @@ on:
 permissions:
   contents: read
   packages: read
-  statuses: write
+  # statuses: write
 
 jobs:
   lint:
