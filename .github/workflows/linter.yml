@@ -15,7 +15,7 @@ on:
 
 permissions:
   contents: read
-  packages: read
+  packages: write
   statuses: write
 
 jobs:
