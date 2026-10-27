@@ -8,13 +8,16 @@ on:
     branches:
       - main
 
-permissions:
-  contents: read
+# permissions:
+#   contents: read
+#   packages: write
 
 jobs:
   test-javascript:
     name: JavaScript Tests
     runs-on: ubuntu-latest
+    permissions:
+        contents: read
 
     steps:
       - name: Checkout
@@ -47,6 +50,8 @@ jobs:
   test-action:
     name: GitHub Actions Test
     runs-on: ubuntu-latest
+    permissions:
+        contents: read
 
     steps:
       - name: Checkout
